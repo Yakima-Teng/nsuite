@@ -52,6 +52,7 @@ import { generateSummary } from 'nsuite/UtilsText.mjs'
 const summary = generateSummary({
     apiKey: '',
     baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    model: "qwen-turbo",
     language: 'English',
     maxWords: 200,
     content: ''

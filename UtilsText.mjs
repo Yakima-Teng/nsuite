@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-export const generateSummary = async ({ apiKey, baseUrl, language, maxWords, content }) => {
+export const generateSummary = async ({ apiKey, baseUrl, model, language, maxWords, content }) => {
   try {
     const openai = new OpenAI({
       apiKey,
@@ -15,7 +15,7 @@ export const generateSummary = async ({ apiKey, baseUrl, language, maxWords, con
         },
         { role: "user", content },
       ],
-      model: "qwen-turbo",
+      model,
       /**
        * 采样温度，控制模型生成文本的多样性。
        * temperature越高，生成的文本更多样，反之，生成的文本更确定。
