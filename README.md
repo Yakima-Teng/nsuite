@@ -18,6 +18,20 @@ const { text, data } = await generateSvgCaptcha({
 })
 ```
 
+## Env
+
+### parseEnvFiles
+
+```js
+import { parseEnvFiles } from 'nsuite/UtilsEnv.mjs'
+
+// note: the first value set for a varialble will win
+parseEnvFiles([
+    path.resolve(process.cwd(), '.env.local'),
+    path.resolve(process.cwd(), '.env')
+])
+```
+
 ## Promise
 
 ### withTimeout

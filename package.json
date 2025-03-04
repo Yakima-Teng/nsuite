@@ -1,6 +1,6 @@
 {
   "name": "nsuite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "lint": "npx prettier . --write && eslint --fix ./"
@@ -13,6 +13,7 @@
     "prettier": "3.5.3"
   },
   "dependencies": {
+    "dotenv": "16.4.7",
     "svg-captcha": "1.4.0"
   }
 }
