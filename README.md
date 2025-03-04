@@ -6,18 +6,6 @@ If you develop with Node.js, you will find that there are **many many many** fun
 nsuite will make you feel more comfortable.
 After install with `npm i -S nsuite`, you will have all the following abilities at your hand.
 
-## Captcha
-
-### generateSvgCaptcha
-
-```js
-import { generateSvgCaptcha } from 'nsuite/UtilsCaptcha.mjs'
-const { text, data } = await generateSvgCaptcha({
-    width: 148,
-    height: 48,
-})
-```
-
 ## Env
 
 ### parseEnvFiles
@@ -40,6 +28,36 @@ parseEnvFiles([
 import { withTimeout } from 'nsuite/UtilsPromise.mjs'
 const newPromise = withTimeout(promise)
 ```
+
+## Captcha
+
+### generateSvgCaptcha
+
+```js
+import { generateSvgCaptcha } from 'nsuite/UtilsCaptcha.mjs'
+const { text, data } = await generateSvgCaptcha({
+    width: 148,
+    height: 48,
+})
+```
+
+## Text
+
+### generateSummary
+
+Generate a summary of given text.
+
+```js
+import { generateSummary } from 'nsuite/UtilsText.mjs'
+const summary = generateSummary({
+    apiKey: '',
+    baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    language: 'English',
+    maxWords: 200,
+    content: ''
+})
+```
+
 
 ## License
 
