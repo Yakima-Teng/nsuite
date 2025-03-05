@@ -2,6 +2,14 @@
   "name": "nsuite",
   "version": "0.0.6",
   "type": "module",
+  "keywords": ["logger", "captcha", "summary"],
+  "license": "MIT",
+  "homepage": "https://www.orzzone.com",
+  "author": {
+    "name": "Yakima",
+    "email": "yakima.public@gmail.com",
+    "url": "https://www.orzzone.com"
+  },
   "scripts": {
     "lint": "npx prettier . --write && eslint --fix ./"
   },
