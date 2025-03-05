@@ -1,7 +1,7 @@
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 
-export const parseEnvFiles  = (pathArr) => {
-    dotenv.config({
-        path: pathArr
-    })
-}
+export const parseEnvFiles = (pathArr) => {
+  dotenv.config({
+    path: pathArr,
+  });
+};

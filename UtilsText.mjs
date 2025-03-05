@@ -1,6 +1,13 @@
 import OpenAI from "openai";
 
-export const generateSummary = async ({ apiKey, baseUrl, model, language, maxWords, content }) => {
+export const generateSummary = async ({
+  apiKey,
+  baseUrl,
+  model,
+  language,
+  maxWords,
+  content,
+}) => {
   try {
     const openai = new OpenAI({
       apiKey,
@@ -10,8 +17,7 @@ export const generateSummary = async ({ apiKey, baseUrl, model, language, maxWor
       messages: [
         {
           role: "system",
-          content:
-            `You are a professional writer, you can write a summary of the article. The summary should be in ${language} and should be less than ${maxWords} words (each English letter, number, and symbol is considered as one word).`,
+          content: `You are a professional writer, you can write a summary of the article. The summary should be in ${language} and should be less than ${maxWords} words (each English letter, number, and symbol is considered as one word).`,
         },
         { role: "user", content },
       ],

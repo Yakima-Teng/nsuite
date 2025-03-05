@@ -11,13 +11,13 @@ After install with `npm i -S nsuite`, you will have all the following abilities 
 ### parseEnvFiles
 
 ```js
-import { parseEnvFiles } from 'nsuite/UtilsEnv.mjs'
+import { parseEnvFiles } from "nsuite/UtilsEnv.mjs";
 
 // note: the first value set for a varialble will win
 parseEnvFiles([
-    path.resolve(process.cwd(), '.env.local'),
-    path.resolve(process.cwd(), '.env')
-])
+  path.resolve(process.cwd(), ".env.local"),
+  path.resolve(process.cwd(), ".env"),
+]);
 ```
 
 ## Promise
@@ -25,8 +25,32 @@ parseEnvFiles([
 ### withTimeout
 
 ```js
-import { withTimeout } from 'nsuite/UtilsPromise.mjs'
-const newPromise = withTimeout(promise)
+import { withTimeout } from "nsuite/UtilsPromise.mjs";
+const newPromise = withTimeout(promise);
+```
+
+## Log
+
+### createLogger
+
+```js
+import { createLogger } from "nsuite/UtilsLog.mjs";
+export const logger = createLogger({
+  filename: "./logs/application-%DATE%.log",
+  zippedArchive: false,
+  enableConsole: process.env.NODE_ENV !== "production",
+});
+```
+
+## File
+
+### getSafeFileName
+
+Get a safe file name which you can use it in url after encodeURI handling.
+
+```js
+import { getSafeFileName } from "nsuite/UtilsFile.mjs";
+const safeFileName = getSafeFileName("测试有空格 和特殊符号 &.pdf");
 ```
 
 ## Captcha
@@ -34,11 +58,11 @@ const newPromise = withTimeout(promise)
 ### generateSvgCaptcha
 
 ```js
-import { generateSvgCaptcha } from 'nsuite/UtilsCaptcha.mjs'
+import { generateSvgCaptcha } from "nsuite/UtilsCaptcha.mjs";
 const { text, data } = await generateSvgCaptcha({
-    width: 148,
-    height: 48,
-})
+  width: 148,
+  height: 48,
+});
 ```
 
 ## Text
@@ -48,17 +72,16 @@ const { text, data } = await generateSvgCaptcha({
 Generate a summary of given text.
 
 ```js
-import { generateSummary } from 'nsuite/UtilsText.mjs'
+import { generateSummary } from "nsuite/UtilsText.mjs";
 const summary = generateSummary({
-    apiKey: '',
-    baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-    model: "qwen-turbo",
-    language: 'English',
-    maxWords: 200,
-    content: ''
-})
+  apiKey: "",
+  baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+  model: "qwen-turbo",
+  language: "English",
+  maxWords: 200,
+  content: "",
+});
 ```
-
 
 ## License
 
