@@ -1,7 +1,6 @@
 import svgCaptcha from "svg-captcha";
 
 export const generateSvgCaptcha = ({ width = 150, height = 50 }) => {
-  console.log(svgCaptcha);
   const captcha = svgCaptcha.createMathExpr({
     mathMin: 1,
     mathMax: 9,
