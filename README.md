@@ -23,9 +23,11 @@ parseEnvFiles([
 ## Path
 
 ```js
-import { getDirname } from "nsuite/UtilsPath.mjs";
+import { getDirname, joinPath } from "nsuite/UtilsPath.mjs";
 
 const __dirname = getDirname(import.meta.url);
+
+const targetPath = joinPath(__dirname, '../', 'package.json')
 ```
 
 ## Promise
