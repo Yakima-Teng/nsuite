@@ -27,7 +27,7 @@ import { getDirname, joinPath } from "nsuite/UtilsPath.mjs";
 
 const __dirname = getDirname(import.meta.url);
 
-const targetPath = joinPath(__dirname, '../', 'package.json')
+const targetPath = joinPath(__dirname, "../", "package.json");
 ```
 
 ## Promise

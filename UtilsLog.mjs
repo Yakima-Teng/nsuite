@@ -44,4 +44,6 @@ export const createLogger = ({
       }),
     );
   }
+
+  return logger;
 };
