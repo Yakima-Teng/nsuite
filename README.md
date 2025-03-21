@@ -20,6 +20,14 @@ parseEnvFiles([
 ]);
 ```
 
+## Path
+
+```js
+import { getDirname } from "nsuite/UtilsPath.mjs";
+
+const __dirname = getDirname(import.meta.url);
+```
+
 ## Promise
 
 ### withTimeout
