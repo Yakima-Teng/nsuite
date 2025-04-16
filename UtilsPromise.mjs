@@ -1,4 +1,4 @@
-export function withTimeout(promise, timeoutMs) {
+export function withTimeout(promise, timeoutMs = 3000) {
   return new Promise((resolve, reject) => {
     // 创建一个超时的 Promise
     const timeout = new Promise((_, reject) => {

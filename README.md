@@ -36,7 +36,7 @@ const targetPath = joinPath(__dirname, "../", "package.json");
 
 ```js
 import { withTimeout } from "nsuite/UtilsPromise.mjs";
-const newPromise = withTimeout(promise);
+const newPromise = withTimeout(promise, 3000);
 ```
 
 ## Log
