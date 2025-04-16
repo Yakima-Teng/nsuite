@@ -1,6 +1,15 @@
 import * as winston from "winston";
 import "winston-daily-rotate-file";
 
+/**
+ * Creates a Winston logger with a daily rotating file transport and optional console transport.
+ *
+ * @param {Object} options - Configuration options for the logger.
+ * @param {string} [options.filename="./logs/application-%DATE%.log"] - The filename pattern for the log files.
+ * @param {boolean} [options.zippedArchive=false] - Whether to zip old log files.
+ * @param {boolean} [options.enableConsole=false] - Whether to enable console logging.
+ * @returns {winston.Logger} - The configured Winston logger instance.
+ */
 export const createLogger = ({
   filename = "./logs/application-%DATE%.log",
   zippedArchive = false,
