@@ -23,11 +23,22 @@ parseEnvFiles([
 ## Path
 
 ```js
-import { getDirname, joinPath } from "nsuite/UtilsPath.mjs";
+import {
+  getFilePath,
+  getDirname,
+  joinPath,
+  isPathExists,
+  globMatchPaths,
+} from "nsuite/UtilsPath.mjs";
 
+const __filename = getFilePath(import.meta.url);
 const __dirname = getDirname(import.meta.url);
 
 const targetPath = joinPath(__dirname, "../", "package.json");
+const isExists = await isPathExists(targetPath);
+const excelFileList = await globMatchPaths(
+  joinPath(__dirname, "materials/*.xlsx"),
+);
 ```
 
 ## Promise
