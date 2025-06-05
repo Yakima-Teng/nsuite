@@ -11,7 +11,7 @@ After install with `npm i -S nsuite`, you will have all the following abilities 
 ### parseEnvFiles
 
 ```js
-import { parseEnvFiles } from "nsuite/UtilsEnv.mjs";
+import { parseEnvFiles } from "nsuite";
 
 // note: the first value set for a varialble will win
 parseEnvFiles([
@@ -29,7 +29,7 @@ import {
   joinPath,
   isPathExists,
   globMatchPaths,
-} from "nsuite/UtilsPath.mjs";
+} from "nsuite";
 
 const __filename = getFilePath(import.meta.url);
 const __dirname = getDirname(import.meta.url);
@@ -46,7 +46,7 @@ const excelFileList = await globMatchPaths(
 ### withTimeout
 
 ```js
-import { withTimeout } from "nsuite/UtilsPromise.mjs";
+import { withTimeout } from "nsuite";
 const newPromise = withTimeout(promise, 3000);
 ```
 
@@ -55,7 +55,7 @@ const newPromise = withTimeout(promise, 3000);
 ### createLogger
 
 ```js
-import { createLogger } from "nsuite/UtilsLog.mjs";
+import { createLogger } from "nsuite";
 export const logger = createLogger({
   filename: "./logs/application-%DATE%.log",
   zippedArchive: false,
@@ -70,7 +70,7 @@ export const logger = createLogger({
 Get a safe file name which you can use it in url after encodeURI handling.
 
 ```js
-import { getSafeFileName } from "nsuite/UtilsFile.mjs";
+import { getSafeFileName } from "nsuite";
 const safeFileName = getSafeFileName("测试有空格 和特殊符号 &.pdf");
 ```
 
@@ -79,7 +79,7 @@ const safeFileName = getSafeFileName("测试有空格 和特殊符号 &.pdf");
 ### generateSvgCaptcha
 
 ```js
-import { generateSvgCaptcha } from "nsuite/UtilsCaptcha.mjs";
+import { generateSvgCaptcha } from "nsuite";
 const { text, data } = await generateSvgCaptcha({
   width: 148,
   height: 48,
@@ -93,7 +93,7 @@ const { text, data } = await generateSvgCaptcha({
 Generate a summary of given text.
 
 ```js
-import { generateSummary } from "nsuite/UtilsText.mjs";
+import { generateSummary } from "nsuite";
 const summary = generateSummary({
   apiKey: "",
   baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",

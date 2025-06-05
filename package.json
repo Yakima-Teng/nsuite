@@ -7,6 +7,13 @@
     "captcha",
     "summary"
   ],
+  "main": "src/index.mjs",
+  "types": "dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": "./src/index.mjs"
+    }
+  },
   "license": "MIT",
   "homepage": "https://www.orzzone.com",
   "author": {
@@ -15,14 +22,16 @@
     "url": "https://www.orzzone.com"
   },
   "scripts": {
-    "lint": "npx prettier . --write && eslint --fix ./"
+    "lint": "npx prettier . --write && eslint --fix ./",
+    "tsc": "npx tsc"
   },
   "devDependencies": {
     "@eslint/js": "9.21.0",
     "eslint": "9.21.0",
     "eslint-config-prettier": "10.0.2",
     "globals": "16.0.0",
-    "prettier": "3.5.3"
+    "prettier": "3.5.3",
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "dotenv": "16.4.7",
