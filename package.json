@@ -36,6 +36,7 @@
   "dependencies": {
     "dotenv": "16.4.7",
     "glob": "11.0.2",
+    "object-inspect": "1.13.4",
     "openai": "4.86.1",
     "svg-captcha": "1.4.0",
     "winston": "3.17.0",

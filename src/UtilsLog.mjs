@@ -1,16 +1,19 @@
 import * as winston from "winston";
 import "winston-daily-rotate-file";
+import inspect from "object-inspect";
 
 /**
  * Creates a Winston logger with a daily rotating file transport and optional console transport.
  *
  * @param {Object} options - Configuration options for the logger.
+ * @param {string} [options.serverName="nsuite"] - The name of the server.
  * @param {string} [options.filename="./logs/application-%DATE%.log"] - The filename pattern for the log files.
  * @param {boolean} [options.zippedArchive=false] - Whether to zip old log files.
  * @param {boolean} [options.enableConsole=false] - Whether to enable console logging.
  * @returns {winston.Logger} - The configured Winston logger instance.
  */
 export const createLogger = ({
+  serverName = "nsuite",
   filename = "./logs/application-%DATE%.log",
   zippedArchive = false,
   enableConsole = false,
@@ -37,19 +40,24 @@ export const createLogger = ({
   const logger = winston.createLogger({
     level: "info",
     format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.prettyPrint(),
+      winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+      winston.format.printf(({ timestamp, level, message, ...args }) => {
+        return `${timestamp} ${level}: ${message}, ${inspect(args)}`;
+      }),
       // 确保错误堆栈信息被捕获
       winston.format.errors({ stack: true }),
     ),
-    defaultMeta: { service: "multi-image-viewer" },
+    defaultMeta: {
+      service: serverName,
+      NODE_ENV: String(process.env.NODE_ENV),
+    },
     transports: [transport],
   });
 
   if (enableConsole) {
     logger.add(
       new winston.transports.Console({
-        format: winston.format.simple(),
+        // format: winston.format.simple(),
       }),
     );
   }

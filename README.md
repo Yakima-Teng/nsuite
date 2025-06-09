@@ -6,6 +6,8 @@ If you develop with Node.js, you will find that there are **many many many** fun
 nsuite will make you feel more comfortable.
 After install with `npm i -S nsuite`, you will have all the following abilities at your hand.
 
+**TypeScript is supported.**
+
 ## Env
 
 ### parseEnvFiles
@@ -57,6 +59,7 @@ const newPromise = withTimeout(promise, 3000);
 ```js
 import { createLogger } from "nsuite";
 export const logger = createLogger({
+  serverName: "your-server-name",
   filename: "./logs/application-%DATE%.log",
   zippedArchive: false,
   enableConsole: process.env.NODE_ENV !== "production",
