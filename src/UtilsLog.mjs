@@ -6,6 +6,7 @@ import inspect from "object-inspect";
  * Creates a Winston logger with a daily rotating file transport and optional console transport.
  *
  * @param {Object} options - Configuration options for the logger.
+ * @param {string} [options.level="info"] - The log level.
  * @param {string} [options.serverName="nsuite"] - The name of the server.
  * @param {string} [options.filename="./logs/application-%DATE%.log"] - The filename pattern for the log files.
  * @param {boolean} [options.zippedArchive=false] - Whether to zip old log files.
@@ -13,6 +14,7 @@ import inspect from "object-inspect";
  * @returns {winston.Logger} - The configured Winston logger instance.
  */
 export const createLogger = ({
+  level = "info",
   serverName = "nsuite",
   filename = "./logs/application-%DATE%.log",
   zippedArchive = false,
@@ -38,7 +40,7 @@ export const createLogger = ({
   });
 
   const logger = winston.createLogger({
-    level: "info",
+    level,
     format: winston.format.combine(
       winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
       winston.format.printf(({ timestamp, level, message, ...args }) => {

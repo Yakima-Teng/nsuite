@@ -59,6 +59,7 @@ const newPromise = withTimeout(promise, 3000);
 ```js
 import { createLogger } from "nsuite";
 export const logger = createLogger({
+  level: 'info',
   serverName: "your-server-name",
   filename: "./logs/application-%DATE%.log",
   zippedArchive: false,
