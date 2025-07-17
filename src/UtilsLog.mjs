@@ -2,12 +2,27 @@ import * as winston from "winston";
 import "winston-daily-rotate-file";
 import inspect from "object-inspect";
 
+function convertSymbolKeys(obj) {
+  const result = { ...obj };
+  const symbols = Object.getOwnPropertySymbols(obj);
+
+  symbols.forEach((sym) => {
+    const keyDescription = sym.description;
+    if (keyDescription) {
+      result[keyDescription] = obj[sym];
+      delete result[sym];
+    }
+  });
+
+  return result;
+}
+
 /**
  * Creates a Winston logger with a daily rotating file transport and optional console transport.
  *
  * @param {Object} options - Configuration options for the logger.
  * @param {string} [options.level="info"] - The log level.
- * @param {string} [options.serverName="nsuite"] - The name of the server.
+ * @param {Record<string, string>} [options.meta={}] - The name of the server.
  * @param {string} [options.filename="./logs/application-%DATE%.log"] - The filename pattern for the log files.
  * @param {boolean} [options.zippedArchive=false] - Whether to zip old log files.
  * @param {boolean} [options.enableConsole=false] - Whether to enable console logging.
@@ -15,7 +30,7 @@ import inspect from "object-inspect";
  */
 export const createLogger = ({
   level = "info",
-  serverName = "nsuite",
+  meta = {},
   filename = "./logs/application-%DATE%.log",
   zippedArchive = false,
   enableConsole = false,
@@ -44,15 +59,12 @@ export const createLogger = ({
     format: winston.format.combine(
       winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
       winston.format.printf(({ timestamp, level, message, ...args }) => {
-        return `${timestamp} ${level}: ${message}, ${inspect(args)}`;
+        return `${timestamp} ${level}: ${message}, ${inspect(convertSymbolKeys(args))}`;
       }),
       // 确保错误堆栈信息被捕获
       winston.format.errors({ stack: true }),
     ),
-    defaultMeta: {
-      service: serverName,
-      NODE_ENV: String(process.env.NODE_ENV),
-    },
+    defaultMeta: meta,
     transports: [transport],
   });
 

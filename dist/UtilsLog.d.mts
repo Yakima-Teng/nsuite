@@ -1,6 +1,6 @@
-export function createLogger({ level, serverName, filename, zippedArchive, enableConsole, }: {
+export function createLogger({ level, meta, filename, zippedArchive, enableConsole, }: {
     level?: string;
-    serverName?: string;
+    meta?: Record<string, string>;
     filename?: string;
     zippedArchive?: boolean;
     enableConsole?: boolean;

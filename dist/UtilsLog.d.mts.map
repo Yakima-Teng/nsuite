@@ -1,1 +1,1 @@
-{"version":3,"file":"UtilsLog.d.mts","sourceRoot":"","sources":["../src/UtilsLog.mjs"],"names":[],"mappings":"AAeO,6FAPJ;IAAyB,KAAK,GAAtB,MAAM;IACW,UAAU,GAA3B,MAAM;IACW,QAAQ,GAAzB,MAAM;IACY,aAAa,GAA/B,OAAO;IACW,aAAa,GAA/B,OAAO;CACf,GAAU,OAAO,CAAC,MAAM,CAsD1B;yBAnEwB,SAAS"}
+{"version":3,"file":"UtilsLog.d.mts","sourceRoot":"","sources":["../src/UtilsLog.mjs"],"names":[],"mappings":"AA8BO,uFAPJ;IAAyB,KAAK,GAAtB,MAAM;IAC2B,IAAI,GAArC,MAAM,CAAC,MAAM,EAAE,MAAM,CAAC;IACL,QAAQ,GAAzB,MAAM;IACY,aAAa,GAA/B,OAAO;IACW,aAAa,GAA/B,OAAO;CACf,GAAU,OAAO,CAAC,MAAM,CAmD1B;yBA/EwB,SAAS"}

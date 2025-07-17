@@ -59,8 +59,12 @@ const newPromise = withTimeout(promise, 3000);
 ```js
 import { createLogger } from "nsuite";
 export const logger = createLogger({
-  level: 'info',
-  serverName: "your-server-name",
+  level: "info",
+  meta: {
+    serverName: "your-server-name",
+    NODE_ENV: process.env.NODE_ENV,
+    MODE: process.env.MODE,
+  },
   filename: "./logs/application-%DATE%.log",
   zippedArchive: false,
   enableConsole: process.env.NODE_ENV !== "production",
