@@ -1,6 +1,6 @@
 # nsuite
 
-> Your missing **n**odejs development **suite**!
+> Your missing nodejs development suite!
 
 If you develop with Node.js, you will find that there are **many many many** functions/packages you need to write/install across **many** projects.
 nsuite will make you feel more comfortable.

@@ -1,6 +1,7 @@
 {
   "name": "nsuite",
   "version": "0.0.22",
+  "description": "Your missing nodejs development suite!",
   "type": "module",
   "keywords": [
     "logger",
