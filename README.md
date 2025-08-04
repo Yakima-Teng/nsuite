@@ -65,6 +65,7 @@ export const logger = createLogger({
     NODE_ENV: process.env.NODE_ENV,
     MODE: process.env.MODE,
   },
+  maxLength: 1000,
   filename: "./logs/application-%DATE%.log",
   zippedArchive: false,
   enableConsole: process.env.NODE_ENV !== "production",

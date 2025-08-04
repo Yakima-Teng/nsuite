@@ -24,6 +24,7 @@ function convertSymbolKeys(obj) {
  * @param {string} [options.level="info"] - The log level.
  * @param {Record<string, string>} [options.meta={}] - The name of the server.
  * @param {string} [options.filename="./logs/application-%DATE%.log"] - The filename pattern for the log files.
+ * @param {number} [options.maxLength=1000] - The maximum length of the log message.
  * @param {boolean} [options.zippedArchive=false] - Whether to zip old log files.
  * @param {boolean} [options.enableConsole=false] - Whether to enable console logging.
  * @returns {winston.Logger} - The configured Winston logger instance.
@@ -32,6 +33,7 @@ export const createLogger = ({
   level = "info",
   meta = {},
   filename = "./logs/application-%DATE%.log",
+  maxLength = 1000,
   zippedArchive = false,
   enableConsole = false,
 }) => {
@@ -59,7 +61,11 @@ export const createLogger = ({
     format: winston.format.combine(
       winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
       winston.format.printf(({ timestamp, level, message, ...args }) => {
-        return `${timestamp} ${level}: ${message}, ${inspect(convertSymbolKeys(args))}`;
+        const msg = `${timestamp} ${level}: ${message}, ${inspect(convertSymbolKeys(args))}`;
+        if (msg.length <= maxLength) {
+          return msg;
+        }
+        return `${msg.substring(0, maxLength)}...`;
       }),
       // 确保错误堆栈信息被捕获
       winston.format.errors({ stack: true }),
