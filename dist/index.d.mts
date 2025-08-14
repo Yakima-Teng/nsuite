@@ -5,4 +5,5 @@ export * from "./UtilsLog.mjs";
 export * from "./UtilsPath.mjs";
 export * from "./UtilsPromise.mjs";
 export * from "./UtilsText.mjs";
+export * from "./UtilsSSH.mjs";
 //# sourceMappingURL=index.d.mts.map

@@ -6,8 +6,5 @@
  * @param {number} [timeoutMs=3000] - The timeout duration in milliseconds.
  * @returns {Promise} - A new promise that either resolves with the original promise's value or rejects with a timeout error if the timeout duration is exceeded.
  */
-export function withTimeout(
-  promise: Promise<any>,
-  timeoutMs?: number,
-): Promise<any>;
+export function withTimeout(promise: Promise<any>, timeoutMs?: number): Promise<any>;
 //# sourceMappingURL=UtilsPromise.d.mts.map
