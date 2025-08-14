@@ -27,8 +27,33 @@ let config: Config;
 let bucketManager: BucketManager;
 let _opts: IOptions;
 
-export const getBucketManagerFromQiniuOSS = (payload) => {
+/**
+ * @typedef {keyof typeof import('qiniu').zone} QiniuZoneName
+ * @typedef {import('qiniu').config.Config} QiniuConfig
+ * @typedef {import('qiniu').rs.BucketManager} QiniuBucketManager
+ * @typedef {import('qiniu').auth.digest.Mac} QiniuMac
+ * @typedef {import('qiniu').auth.digest.MacOptions} QiniuMacOptions
+ * @typedef {import('qiniu').rs.PutPolicyOptions} QiniuPutPolicyOptions
+ */
 
+/**
+ * Get mac from qiniu
+ * @param {QiniuConfig} payload
+ */
+export const getMacFromQiniu = (payload) => {
+  const { accessKey, secretKey } = payload
+  return new qiniu.auth.digest.Mac(accessKey, secretKey);
+}
+
+export const getBucketManagerFromQiniuOSS = (payload) => {
+  const { accessKey, secretKey, zoneName } = payload
+  mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+  config = new qiniu.conf.Config();
+
+  // 空间对应的机房
+  config.zone = qiniu.zone[zoneName];
+
+  bucketManager = new qiniu.rs.BucketManager(mac, config);
 }
 
 export const initConfig = (options: IOptions): void => {
