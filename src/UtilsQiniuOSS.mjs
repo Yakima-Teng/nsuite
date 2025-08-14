@@ -3,101 +3,112 @@
  */
 import path from 'path';
 import { glob } from 'glob';
-import chalk from 'chalk';
 import qiniu, { auth, conf, rs } from 'qiniu';
-import Config = conf.Config;
-import Mac = auth.digest.Mac;
-import BucketManager = rs.BucketManager;
-import PutPolicyOptions = rs.PutPolicyOptions;
-import { ListedObjectEntry } from 'qiniu/StorageResponseInterface';
-
-interface IOptions {
-  accessKey: string;
-  secretKey: string;
-  bucketName: string;
-  zoneName: keyof typeof qiniu.zone;
-  // CDN加速域名，以http(s)开头
-  publicBucketDomain: string;
-  // 最开头不要带/，末尾要带/，如果是根路径的话就传`/`，其他的话就类似`prefix/`
-  uploadRemotePrefix: string;
-}
-
-let mac: Mac;
-let config: Config;
-let bucketManager: BucketManager;
-let _opts: IOptions;
 
 /**
  * @typedef {keyof typeof import('qiniu').zone} QiniuZoneName
- * @typedef {import('qiniu').config.Config} QiniuConfig
+ * @typedef {import('qiniu').conf.Config} QiniuConfig
  * @typedef {import('qiniu').rs.BucketManager} QiniuBucketManager
  * @typedef {import('qiniu').auth.digest.Mac} QiniuMac
  * @typedef {import('qiniu').auth.digest.MacOptions} QiniuMacOptions
  * @typedef {import('qiniu').rs.PutPolicyOptions} QiniuPutPolicyOptions
+ * @typedef {import('qiniu/StorageResponseInterface').ListedObjectEntry} QiniuListedObjectEntry
+ * @typedef {import('qiniu').rs.ListPrefixOptions} QiniuListPrefixOptions
+ * @typedef {import('qiniu').httpc.ResponseWrapper} QiniuHttpcResponseWrapper
+ * @typedef {import('qiniu/StorageResponseInterface').OperationResponse} QiniuOperationResponse
+ */
+
+/**
+ * @typedef {Object} ParamsQiniuGetMac
+ * @property {string} accessKey
+ * @property {string} secretKey
+ * @property {QiniuMacOptions} [options]
  */
 
 /**
  * Get mac from qiniu
- * @param {QiniuConfig} payload
+ * @param {ParamsQiniuGetMac} payload
+ * @returns {QiniuMac}
  */
 export const getMacFromQiniu = (payload) => {
-  const { accessKey, secretKey } = payload
-  return new qiniu.auth.digest.Mac(accessKey, secretKey);
+  const { accessKey, secretKey, options } = payload
+  return new qiniu.auth.digest.Mac(accessKey, secretKey, options);
 }
 
+/**
+ * Get
+ * @returns {QiniuConfig}
+ */
+export const getConfigFromQiniu = () => {
+  return new qiniu.conf.Config();
+}
+
+/**
+ * @typedef {Object} ParamsQiniuGetBucketManager
+ * @property {QiniuMac} mac
+ * @property {QiniuConfig} config
+ */
+
+/**
+ * Get bucket manager from qiniu
+ * @param {ParamsQiniuGetBucketManager} payload
+ * @returns {QiniuBucketManager}
+ */
 export const getBucketManagerFromQiniuOSS = (payload) => {
-  const { accessKey, secretKey, zoneName } = payload
-  mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-  config = new qiniu.conf.Config();
-
-  // 空间对应的机房
-  config.zone = qiniu.zone[zoneName];
-
-  bucketManager = new qiniu.rs.BucketManager(mac, config);
+  const { mac, config } = payload
+  return new qiniu.rs.BucketManager(mac, config);
 }
 
-export const initConfig = (options: IOptions): void => {
-  _opts = options;
-  const { accessKey, secretKey, zoneName } = _opts;
+/**
+ * @typedef {Object} ParamsQiniuGetPublicDownloadUrl
+ * @property {QiniuBucketManager} bucketManager
+ * @property {string} key
+ * @property {string} [baseUrl]
+ */
 
-  mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-  config = new qiniu.conf.Config();
-
-  // 空间对应的机房
-  config.zone = qiniu.zone[zoneName];
-
-  bucketManager = new qiniu.rs.BucketManager(mac, config);
-};
-export type TInitConfig = typeof initConfig;
-
-// 获取公开空间访问链接
-const getPublicDownloadUrl = (keys: string[]): string[] => {
-  if (keys.length === 0) {
-    return [];
-  }
-  return keys.map((key) => {
-    return bucketManager.publicDownloadUrl(_opts.publicBucketDomain, key);
-  });
+/**
+ * Get public download url
+ * @param {ParamsQiniuGetPublicDownloadUrl} payload
+ * @returns {string}
+ */
+export const getPublicDownloadUrlFromQiniuOSS = (payload) => {
+  const { bucketManager, key, baseUrl } = payload
+  return bucketManager.publicDownloadUrl(baseUrl, key);
 };
 
-// 刷新链接，单次请求链接不可以超过100个，如果超过，请分批发送请求
-export const refreshCDN = async (
-  urlsToRefresh: string[]
-): Promise<string[]> => {
-  if (urlsToRefresh.length === 0) {
-    console.log(chalk.blue('没有需要刷新的链接'));
+/**
+ * @typedef {Object} ParamsRefreshUrlsFromQiniuOSS
+ * @property {string[]} urls
+ * @property {QiniuMac} mac
+ */
+
+/**
+ * Refresh cdn urls
+ * @param {ParamsRefreshUrlsFromQiniuOSS} payload
+ * @returns {Promise<string[]>}
+ */
+export const refreshUrlsFromQiniuOSS = async (payload) => {
+  const { urls, mac } = payload
+  if (urls.length === 0) {
     return [];
   }
   const cdnManager = new qiniu.cdn.CdnManager(mac);
-  // URL 列表
-  return new Promise((resolve, reject) => {
-    cdnManager.refreshUrls(
-      urlsToRefresh,
-      (
-        err,
-        respBody: { taskIds: Record<string, any> },
-        respInfo: { statusCode: number; [key: string]: any }
-      ) => {
+
+  /**
+   * Promise function
+   * @param {string[]} someUrls
+   * @returns {Promise<string[]>}
+   */
+  const promiseFunc = (someUrls) => {
+    /** @type {Promise<string[]>} */
+    return new Promise((resolve, reject) => {
+      /**
+       * Callback function
+       * @param {Error | undefined} err
+       * @param {{ taskIds: Record<string, unknown> }} respBody
+       * @param {{ statusCode: number; [key: string]: unknown; }} respInfo
+       */
+      const refreshCallback = (err, respBody, respInfo) => {
         if (err) {
           reject(err);
           return;
@@ -109,80 +120,142 @@ export const refreshCDN = async (
         try {
           resolve(Object.keys(respBody.taskIds));
         } catch (e) {
-          console.log(respBody);
           resolve([]);
         }
       }
-    );
-  });
-};
-export type TRefreshCDN = typeof refreshCDN;
 
+      cdnManager.refreshUrls(someUrls, refreshCallback);
+    });
+  }
+
+  /** @type {string[][]} */
+  const groups = []
+  const groupSize = 100
+  for (let i = 0; i < urls.length; i += groupSize) {
+    groups.push(urls.slice(i, i + groupSize))
+  }
+  // 未避免并发太大，此处串行处理
+  /** @type {string[]} */
+  let returnUrls = []
+  for (const group of groups) {
+    const tempUrls = await promiseFunc(group);
+    returnUrls = returnUrls.concat(tempUrls)
+  }
+  return returnUrls
+};
+
+/**
+ * @typedef {Object} ParamsQiniuListFiles
+ * @property {QiniuBucketManager} bucketManager
+ * @property {string} bucket
+ * @property {QiniuListPrefixOptions} options
+ */
+
+/***
+ * List all files under a remote directory
+ * @param {ParamsQiniuListFiles} payload
+ * @return {Promise<QiniuListedObjectEntry[]>}
+ */
 // 查询某个远程目录下的文件列表
-const listFiles = async (prefix: string): Promise<ListedObjectEntry[]> => {
-  const res = await bucketManager.listPrefix(_opts.bucketName, {
-    prefix,
-    limit: 1000,
-  });
-  return res.data.items || [];
+const listFilesFromQiniuOSS = async (payload) => {
+  const { bucketManager, bucket, options } = payload
+  const { limit = 1000 } = options
+
+  /** @type {QiniuListedObjectEntry[]} */
+  let returnItems = []
+  /** @type {string | null} */
+  let nextMarker = null
+  do {
+    const res = await bucketManager.listPrefix(bucket, {
+      ...options,
+      limit: limit || 1000,
+      marker: nextMarker,
+    });
+    nextMarker = res.data.marker
+    returnItems = returnItems.concat(res.data.items || [])
+  } while (nextMarker && !limit)
+  return returnItems
 };
 
-export const deleteRemotePathList = async (
-  remotePathList: string[]
-): Promise<{ successItems: string[]; failItems: string[] }> => {
-  const successItems: string[] = [];
-  const failItems: string[] = [];
+/**
+ * @typedef {Object} ParamsQiniuDeleteRemotePathList
+ * @property {QiniuBucketManager} bucketManager
+ * @property {string[]} remotePathList
+ * @property {string} bucket
+ */
+
+/**
+ * @typedef {Object} ReturnQiniuDeleteRemotePathList
+ * @property {string[]} successItems
+ * @property {string[]} failItems
+ */
+
+/**
+ * Delete files
+ * @param {ParamsQiniuDeleteRemotePathList} payload
+ * @returns {Promise<ReturnQiniuDeleteRemotePathList>}
+ */
+export const deleteRemotePathListFromQiniuOSS = async (payload) => {
+  const { bucketManager, remotePathList, bucket } = payload
+  /** @type {string[]} */
+  const successItems = [];
+  /** @type {string[]} */
+  const failItems = [];
+
   if (remotePathList.length === 0) {
     return {
       successItems: [],
       failItems: [],
     };
   }
+
+  /** @type {string[]} */
+  let allKeysToDelete = []
+
   // 有目录需要清空的话，清空对应目录下的文件
   for (const prefix of remotePathList) {
-    const fileList = await listFiles(prefix);
-    const deleteKeys = fileList.map((item) => item.key);
-    if (deleteKeys.length > 0) {
-      const res = await bucketManager.batch(
-        deleteKeys.map((key) => qiniu.rs.deleteOp(_opts.bucketName, key))
-      );
-      const listRes = res.data || [];
-      listRes.forEach((item, idx) => {
-        if (item.code === 200) {
-          successItems.push(deleteKeys[idx]);
-        } else {
-          failItems.push(deleteKeys[idx]);
-        }
-      });
-    }
+    const fileList = await listFilesFromQiniuOSS({
+      bucketManager,
+      bucket,
+      options: {
+        prefix,
+        limit: 0
+      },
+    });
+    const keysToDelete = fileList.map((item) => item.key);
+    allKeysToDelete = allKeysToDelete.concat(keysToDelete)
   }
 
-  if (successItems.length > 0) {
-    console.log(
-      chalk.yellow(
-        `Number of remote files deleted (${successItems.length} in total):`
-      )
-    );
-    console.log(chalk.blue(successItems.join('\n')));
-    console.log();
+  /** @type {string[][]} */
+  const deleteKeysGroups = []
+  const maxOperationSize = 1000
+  for (let i = 0; i < allKeysToDelete.length; i += maxOperationSize) {
+    deleteKeysGroups.push(allKeysToDelete.slice(i, i + maxOperationSize))
   }
 
-  if (failItems.length > 0) {
-    console.log(
-      chalk.red(
-        `Number of remote files failed to delete (${failItems.length} in total):`
-      )
+  // 避免并发过高，此处串行执行
+  for (const deleteKeysGroup of deleteKeysGroups) {
+    const res = await bucketManager.batch(
+      deleteKeysGroup.map((key) => {
+        return qiniu.rs.deleteOp(bucket, key)
+      })
     );
-    console.log(chalk.blue(failItems.join('\n')));
-    console.log();
+    /** @type {QiniuOperationResponse[]} */
+    const listRes = res.data || [];
+    listRes.forEach((item, idx) => {
+      if (item.code === 200) {
+        successItems.push(deleteKeysGroup[idx]);
+      } else {
+        failItems.push(deleteKeysGroup[idx]);
+      }
+    });
   }
 
   return {
     successItems,
     failItems,
   };
-};
-export type TDeleteRemotePathList = typeof deleteRemotePathList;
+}
 
 // 上传本地文件到七牛云
 interface IPayloadUploadLocalFileToQiNiu {
