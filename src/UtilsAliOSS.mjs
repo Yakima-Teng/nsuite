@@ -1,6 +1,6 @@
-import path from 'path';
-import { glob } from 'glob';
-import OSS from 'ali-oss';
+import path from "path";
+import { glob } from "glob";
+import OSS from "ali-oss";
 
 /**
  * @typedef {import('ali-oss')} AliOSSClient
@@ -20,14 +20,14 @@ import OSS from 'ali-oss';
  * @returns {AliOSSClient}
  */
 export const getClientFromAliOSS = (payload) => {
-  const { accessKeyId, accessKeySecret, bucket, region } = payload
+  const { accessKeyId, accessKeySecret, bucket, region } = payload;
   return new OSS({
     accessKeyId,
     accessKeySecret,
     bucket,
-    region
+    region,
   });
-}
+};
 
 /**
  * @typedef {Object} ParamsAliOSSGetObjectUrl
@@ -42,9 +42,9 @@ export const getClientFromAliOSS = (payload) => {
  * @returns {string}
  */
 export const getObjectUrlFromAliOSS = (payload) => {
-  const { client, key, baseUrl } = payload
-  return client.getObjectUrl(key, baseUrl)
-}
+  const { client, key, baseUrl } = payload;
+  return client.getObjectUrl(key, baseUrl);
+};
 
 /**
  * @typedef {import('ali-oss').RequestOptions} AliRequestOptions
@@ -65,30 +65,30 @@ export const getObjectUrlFromAliOSS = (payload) => {
  * @returns {Promise<AliObjectMeta[]>}
  */
 export const listFilesFromAliOSS = async (payload) => {
-  const { client, prefix, maxKeys = 100, options } = payload
+  const { client, prefix, maxKeys = 100, options } = payload;
   /** @type {AliObjectMeta[]} */
-  let resultObjects = []
+  let resultObjects = [];
   /** @type {string | null} */
-  let continuationToken = null
+  let continuationToken = null;
   do {
     const data = await client.listV2(
       {
         prefix,
-        'max-keys': !maxKeys ? 1000 : maxKeys,
+        "max-keys": !maxKeys ? 1000 : maxKeys,
       },
       {
         timeout: 30000,
-        ...(options || {})
-      }
+        ...(options || {}),
+      },
     );
     if (data.objects) {
-      resultObjects = resultObjects.concat(data.objects)
+      resultObjects = resultObjects.concat(data.objects);
     }
-    continuationToken = data.nextContinuationToken
-  } while (continuationToken && !maxKeys)
+    continuationToken = data.nextContinuationToken;
+  } while (continuationToken && !maxKeys);
 
-  return resultObjects
-}
+  return resultObjects;
+};
 
 /**
  * @typedef {Object} ParamsAliDeleteRemotePathList
@@ -108,7 +108,7 @@ export const listFilesFromAliOSS = async (payload) => {
  * @returns {Promise<ReturnAliDeleteRemotePathList>}
  */
 export const deleteRemotePathListFromAliOSS = async (payload) => {
-  const { client, remotePathList } = payload
+  const { client, remotePathList } = payload;
   /** @type {string[]} */
   const successItems = [];
   /** @type {string[]} */
@@ -125,14 +125,14 @@ export const deleteRemotePathListFromAliOSS = async (payload) => {
     const fileList = await listFilesFromAliOSS({
       client,
       prefix,
-      maxKeys: 0
+      maxKeys: 0,
     });
     const keysToDelete = fileList.map((item) => item.name);
     const result = await client.deleteMulti(remotePathList);
     /** @type {{ key: string; }[]} */
-    const rawDeleted = result.deleted
+    const rawDeleted = result.deleted;
     /** @type {string[]} */
-    const deletedKeys = rawDeleted.map((item) => item.key)
+    const deletedKeys = rawDeleted.map((item) => item.key);
     keysToDelete.forEach((key) => {
       if (deletedKeys.includes(key)) {
         successItems.push(key);
@@ -146,7 +146,7 @@ export const deleteRemotePathListFromAliOSS = async (payload) => {
     successItems,
     failItems,
   };
-}
+};
 
 /**
  * @typedef {Object} ParamsUploadLocalFile
@@ -170,21 +170,21 @@ export const deleteRemotePathListFromAliOSS = async (payload) => {
  * @returns {Promise<ReturnUploadLocalFile>}
  */
 export const uploadLocalFileToAliOSS = async (payload) => {
-  const { client, localPath, remotePath, baseUrl, config = {} } = payload
+  const { client, localPath, remotePath, baseUrl, config = {} } = payload;
   // 自定义请求头
   const headers = {
     // 指定Object的存储类型。
-    'x-oss-storage-class': 'Standard',
+    "x-oss-storage-class": "Standard",
     // 指定Object的访问权限。
-    'x-oss-object-acl': 'public-read',
+    "x-oss-object-acl": "public-read",
     // 通过文件URL访问文件时，指定以附件形式下载文件，下载后的文件名称定义为example.txt。
     // 'Content-Disposition': `attachment; filename="${filePathAndName.split('/').reverse()[0]}"`,
     // 不以附件形式下载，直接访问
-    'Content-Disposition': 'inline',
+    "Content-Disposition": "inline",
     // 设置Object的标签，可同时设置多个标签。
-    'x-oss-tagging': 'Tag1=1&Tag2=2',
+    "x-oss-tagging": "Tag1=1&Tag2=2",
     // 指定PutObject操作时是否覆盖同名目标Object。此处设置为true，表示禁止覆盖同名Object。
-    'x-oss-forbid-overwrite': 'false',
+    "x-oss-forbid-overwrite": "false",
     ...(config?.headers || {}),
   };
   const result = await client.put(
@@ -193,22 +193,22 @@ export const uploadLocalFileToAliOSS = async (payload) => {
     // 自定义headers
     {
       ...config,
-      headers
-    }
+      headers,
+    },
   );
 
   const name = result.name;
   const cdnUrl = getObjectUrlFromAliOSS({
     client,
     key: name,
-    baseUrl
+    baseUrl,
   });
   return {
     name,
     url: result.url,
     cdnUrl,
   };
-}
+};
 
 /**
  * Normalize path
@@ -216,7 +216,7 @@ export const uploadLocalFileToAliOSS = async (payload) => {
  * @returns {string}
  */
 const normalizePath = (filePath) => {
-  return filePath.replace(/\\/g, '/');
+  return filePath.replace(/\\/g, "/");
 };
 
 /**
@@ -233,29 +233,33 @@ const normalizePath = (filePath) => {
  * @returns {Promise<ReturnUploadLocalFile[]>}
  */
 export const uploadDirToAliOSS = async (payload) => {
-  const { client, localPath, ignorePathList, recursive = false } = payload
-  const globPath = recursive ? path.resolve(localPath, '**/*') : path.resolve(localPath, '*')
+  const { client, localPath, ignorePathList, recursive = false } = payload;
+  const globPath = recursive
+    ? path.resolve(localPath, "**/*")
+    : path.resolve(localPath, "*");
   /** @type {import('glob').GlobOptionsWithFileTypesUnset} */
   const globConfig = {
     windowsPathsNoEscape: true,
     // only want the files, not the dirs
     nodir: true,
-    ignore: Array.from(new Set(['node_modules', ...(ignorePathList || [])])),
-  }
+    ignore: Array.from(new Set(["node_modules", ...(ignorePathList || [])])),
+  };
   const allFiles = await glob.glob(globPath, globConfig);
-  const rootPath = `${normalizePath(path.resolve(fromPath))}/`;
+  const rootPath = `${normalizePath(path.resolve(localPath))}/`;
   const allPaths = allFiles.map((filePath) => {
     return {
       localPath: normalizePath(filePath),
-      remotePath: normalizePath(filePath).replace(rootPath, ''),
+      remotePath: normalizePath(filePath).replace(rootPath, ""),
     };
   });
-  const list = await Promise.all(allPaths.map(({ localPath, remotePath }) => {
-    return uploadLocalFileToAliOSS({
-      client,
-      localPath,
-      remotePath
-    })
-  }));
+  const list = await Promise.all(
+    allPaths.map(({ localPath, remotePath }) => {
+      return uploadLocalFileToAliOSS({
+        client,
+        localPath,
+        remotePath,
+      });
+    }),
+  );
   return list;
 };

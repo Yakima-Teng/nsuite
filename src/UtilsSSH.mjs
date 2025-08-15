@@ -35,9 +35,9 @@ export const getSSHClient = () => {
  * @returns {Promise<void>}
  */
 export const sshConnect = async (payload) => {
-  const { ssh, config } = payload
-  await ssh.connect(config)
-}
+  const { ssh, config } = payload;
+  await ssh.connect(config);
+};
 
 /**
  * @typedef {Object} ParamsPutDir
@@ -60,7 +60,7 @@ export const sshConnect = async (payload) => {
  * @returns {Promise<ReturnPutDir>}
  */
 export const sshPutDirectory = async (payload) => {
-  const { ssh, fromPath, toPath, options } = payload
+  const { ssh, fromPath, toPath, options } = payload;
   /** @type {PathPair[]} */
   const failItems = [];
   /** @type {PathPair[]} */
@@ -70,7 +70,7 @@ export const sshPutDirectory = async (payload) => {
     concurrency: 10,
     validate(itemPath) {
       const baseName = path.basename(itemPath);
-      return baseName !== 'node_modules';
+      return baseName !== "node_modules";
     },
     tick(local, remote, error) {
       if (error) {
@@ -87,7 +87,7 @@ export const sshPutDirectory = async (payload) => {
     failItems,
     successItems,
   };
-}
+};
 
 /**
  * @typedef {Object} ParamsPutFiles
@@ -102,9 +102,9 @@ export const sshPutDirectory = async (payload) => {
  * @returns {Promise<void>}
  */
 export const sshPutFiles = async (payload) => {
-  const { ssh, files, options } = payload
-  return ssh.putFiles(files, options)
-}
+  const { ssh, files, options } = payload;
+  return ssh.putFiles(files, options);
+};
 
 /**
  * @typedef {Object} ParamsExecCommand
@@ -121,18 +121,18 @@ export const sshPutFiles = async (payload) => {
  * @returns {Promise<void>}
  */
 export const sshExecCommand = async (payload) => {
-  const { ssh, cwd, command, onStdout, onStderr } = payload
+  const { ssh, cwd, command, onStdout, onStderr } = payload;
   await ssh.execCommand(command, {
     cwd,
     onStdout(chunk) {
-      if (typeof onStdout === 'function') {
-        onStdout(chunk)
+      if (typeof onStdout === "function") {
+        onStdout(chunk);
       }
     },
     onStderr(chunk) {
-      if (typeof onStderr === 'function') {
-        onStderr(chunk)
+      if (typeof onStderr === "function") {
+        onStderr(chunk);
       }
     },
   });
-}
+};

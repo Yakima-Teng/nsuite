@@ -1,9 +1,9 @@
 /**
  * 七牛云接口文档：https://developer.qiniu.com/kodo/1289/nodejs#rs-delete
  */
-import path from 'path';
-import { glob } from 'glob';
-import qiniu, { auth, conf, rs } from 'qiniu';
+import path from "path";
+import { glob } from "glob";
+import qiniu from "qiniu";
 
 /**
  * @typedef {keyof typeof import('qiniu').zone} QiniuZoneName
@@ -19,7 +19,7 @@ import qiniu, { auth, conf, rs } from 'qiniu';
  */
 
 /**
- * @typedef {Object} ParamsQiniuGetMac
+ * @typedef {Object} ParamsQiniuOSSGetMac
  * @property {string} accessKey
  * @property {string} secretKey
  * @property {QiniuMacOptions} [options]
@@ -27,40 +27,41 @@ import qiniu, { auth, conf, rs } from 'qiniu';
 
 /**
  * Get mac from qiniu
- * @param {ParamsQiniuGetMac} payload
+ * @param {ParamsQiniuOSSGetMac} payload
  * @returns {QiniuMac}
  */
-export const getMacFromQiniu = (payload) => {
-  const { accessKey, secretKey, options } = payload
+export const getMacFromQiniuOSS = (payload) => {
+  const { accessKey, secretKey, options } = payload;
   return new qiniu.auth.digest.Mac(accessKey, secretKey, options);
-}
+};
 
 /**
  * Get
+ * @param {import('qiniu').conf.ConfigOptions} options
  * @returns {QiniuConfig}
  */
-export const getConfigFromQiniu = () => {
-  return new qiniu.conf.Config();
-}
+export const getConfigFromQiniuOSS = (options) => {
+  return new qiniu.conf.Config(options);
+};
 
 /**
- * @typedef {Object} ParamsQiniuGetBucketManager
+ * @typedef {Object} ParamsQiniuOSSGetBucketManager
  * @property {QiniuMac} mac
  * @property {QiniuConfig} config
  */
 
 /**
  * Get bucket manager from qiniu
- * @param {ParamsQiniuGetBucketManager} payload
+ * @param {ParamsQiniuOSSGetBucketManager} payload
  * @returns {QiniuBucketManager}
  */
 export const getBucketManagerFromQiniuOSS = (payload) => {
-  const { mac, config } = payload
+  const { mac, config } = payload;
   return new qiniu.rs.BucketManager(mac, config);
-}
+};
 
 /**
- * @typedef {Object} ParamsQiniuGetPublicDownloadUrl
+ * @typedef {Object} ParamsQiniuOSSGetPublicDownloadUrl
  * @property {QiniuBucketManager} bucketManager
  * @property {string} key
  * @property {string} [baseUrl]
@@ -68,27 +69,27 @@ export const getBucketManagerFromQiniuOSS = (payload) => {
 
 /**
  * Get public download url
- * @param {ParamsQiniuGetPublicDownloadUrl} payload
+ * @param {ParamsQiniuOSSGetPublicDownloadUrl} payload
  * @returns {string}
  */
 export const getPublicDownloadUrlFromQiniuOSS = (payload) => {
-  const { bucketManager, key, baseUrl } = payload
+  const { bucketManager, key, baseUrl } = payload;
   return bucketManager.publicDownloadUrl(baseUrl, key);
 };
 
 /**
- * @typedef {Object} ParamsRefreshUrlsFromQiniuOSS
+ * @typedef {Object} ParamsQiniuOSSRefreshUrls
  * @property {string[]} urls
  * @property {QiniuMac} mac
  */
 
 /**
  * Refresh cdn urls
- * @param {ParamsRefreshUrlsFromQiniuOSS} payload
+ * @param {ParamsQiniuOSSRefreshUrls} payload
  * @returns {Promise<string[]>}
  */
 export const refreshUrlsFromQiniuOSS = async (payload) => {
-  const { urls, mac } = payload
+  const { urls, mac } = payload;
   if (urls.length === 0) {
     return [];
   }
@@ -119,33 +120,38 @@ export const refreshUrlsFromQiniuOSS = async (payload) => {
         }
         try {
           resolve(Object.keys(respBody.taskIds));
-        } catch (e) {
+        } catch (err) {
+          console.error(
+            "Failed in Object.keys(respBody.taskIds)",
+            err,
+            respInfo,
+          );
           resolve([]);
         }
-      }
+      };
 
       cdnManager.refreshUrls(someUrls, refreshCallback);
     });
-  }
+  };
 
   /** @type {string[][]} */
-  const groups = []
-  const groupSize = 100
+  const groups = [];
+  const groupSize = 100;
   for (let i = 0; i < urls.length; i += groupSize) {
-    groups.push(urls.slice(i, i + groupSize))
+    groups.push(urls.slice(i, i + groupSize));
   }
   // 未避免并发太大，此处串行处理
   /** @type {string[]} */
-  let returnUrls = []
+  let returnUrls = [];
   for (const group of groups) {
     const tempUrls = await promiseFunc(group);
-    returnUrls = returnUrls.concat(tempUrls)
+    returnUrls = returnUrls.concat(tempUrls);
   }
-  return returnUrls
+  return returnUrls;
 };
 
 /**
- * @typedef {Object} ParamsQiniuListFiles
+ * @typedef {Object} ParamsQiniuOSSListFiles
  * @property {QiniuBucketManager} bucketManager
  * @property {string} bucket
  * @property {QiniuListPrefixOptions} options
@@ -153,50 +159,50 @@ export const refreshUrlsFromQiniuOSS = async (payload) => {
 
 /***
  * List all files under a remote directory
- * @param {ParamsQiniuListFiles} payload
+ * @param {ParamsQiniuOSSListFiles} payload
  * @return {Promise<QiniuListedObjectEntry[]>}
  */
 // 查询某个远程目录下的文件列表
 const listFilesFromQiniuOSS = async (payload) => {
-  const { bucketManager, bucket, options } = payload
-  const { limit = 1000 } = options
+  const { bucketManager, bucket, options } = payload;
+  const { limit = 1000 } = options;
 
   /** @type {QiniuListedObjectEntry[]} */
-  let returnItems = []
+  let returnItems = [];
   /** @type {string | null} */
-  let nextMarker = null
+  let nextMarker = null;
   do {
     const res = await bucketManager.listPrefix(bucket, {
       ...options,
       limit: limit || 1000,
       marker: nextMarker,
     });
-    nextMarker = res.data.marker
-    returnItems = returnItems.concat(res.data.items || [])
-  } while (nextMarker && !limit)
-  return returnItems
+    nextMarker = res.data.marker;
+    returnItems = returnItems.concat(res.data.items || []);
+  } while (nextMarker && !limit);
+  return returnItems;
 };
 
 /**
- * @typedef {Object} ParamsQiniuDeleteRemotePathList
+ * @typedef {Object} ParamsQiniuOSSDeleteRemotePathList
  * @property {QiniuBucketManager} bucketManager
  * @property {string[]} remotePathList
  * @property {string} bucket
  */
 
 /**
- * @typedef {Object} ReturnQiniuDeleteRemotePathList
+ * @typedef {Object} ReturnQiniuOSSDeleteRemotePathList
  * @property {string[]} successItems
  * @property {string[]} failItems
  */
 
 /**
  * Delete files
- * @param {ParamsQiniuDeleteRemotePathList} payload
- * @returns {Promise<ReturnQiniuDeleteRemotePathList>}
+ * @param {ParamsQiniuOSSDeleteRemotePathList} payload
+ * @returns {Promise<ReturnQiniuOSSDeleteRemotePathList>}
  */
 export const deleteRemotePathListFromQiniuOSS = async (payload) => {
-  const { bucketManager, remotePathList, bucket } = payload
+  const { bucketManager, remotePathList, bucket } = payload;
   /** @type {string[]} */
   const successItems = [];
   /** @type {string[]} */
@@ -210,7 +216,7 @@ export const deleteRemotePathListFromQiniuOSS = async (payload) => {
   }
 
   /** @type {string[]} */
-  let allKeysToDelete = []
+  let allKeysToDelete = [];
 
   // 有目录需要清空的话，清空对应目录下的文件
   for (const prefix of remotePathList) {
@@ -219,26 +225,26 @@ export const deleteRemotePathListFromQiniuOSS = async (payload) => {
       bucket,
       options: {
         prefix,
-        limit: 0
+        limit: 0,
       },
     });
     const keysToDelete = fileList.map((item) => item.key);
-    allKeysToDelete = allKeysToDelete.concat(keysToDelete)
+    allKeysToDelete = allKeysToDelete.concat(keysToDelete);
   }
 
   /** @type {string[][]} */
-  const deleteKeysGroups = []
-  const maxOperationSize = 1000
+  const deleteKeysGroups = [];
+  const maxOperationSize = 1000;
   for (let i = 0; i < allKeysToDelete.length; i += maxOperationSize) {
-    deleteKeysGroups.push(allKeysToDelete.slice(i, i + maxOperationSize))
+    deleteKeysGroups.push(allKeysToDelete.slice(i, i + maxOperationSize));
   }
 
   // 避免并发过高，此处串行执行
   for (const deleteKeysGroup of deleteKeysGroups) {
     const res = await bucketManager.batch(
       deleteKeysGroup.map((key) => {
-        return qiniu.rs.deleteOp(bucket, key)
-      })
+        return qiniu.rs.deleteOp(bucket, key);
+      }),
     );
     /** @type {QiniuOperationResponse[]} */
     const listRes = res.data || [];
@@ -255,37 +261,46 @@ export const deleteRemotePathListFromQiniuOSS = async (payload) => {
     successItems,
     failItems,
   };
-}
+};
 
-// 上传本地文件到七牛云
-interface IPayloadUploadLocalFileToQiNiu {
-  // 文件的本地绝对路径
-  localPath: string;
-  // 文件在服务器上相对于 uploadRemotePrefix的相对路径
-  relativePath: string;
-  putPolicyOptions?: PutPolicyOptions;
-}
-interface IReturnUploadLocalFileToQiNiu {
-  key: string;
-  etag: string;
-  fileSize: string;
-  bucket: string;
-  name: string;
-}
-const uploadLocalFile = async ({
-  localPath,
-  relativePath,
-  putPolicyOptions,
-}: IPayloadUploadLocalFileToQiNiu): Promise<IReturnUploadLocalFileToQiNiu> => {
+/**
+ * @typedef {Object} ParamsQiniuOSSUploadLocalFile
+ * @property {QiniuConfig} config
+ * @property {QiniuMac} mac
+ * @property {string} localPath
+ * @property {string} key
+ * @property {string} baseUrl
+ * @property {string} bucket
+ * @property {QiniuPutPolicyOptions} [putPolicyOptions]
+ */
+
+/**
+ * @typedef {Object} ReturnQiniuOSSUploadLocalFile
+ * @property {string} key
+ * @property {string} etag
+ * @property {number} fileSize
+ * @property {string} bucket
+ * @property {string} name
+ * @property {string} url
+ */
+
+/**
+ * Upload local file to Qiniu
+ * @param {ParamsQiniuOSSUploadLocalFile} payload
+ * @returns {Promise<ReturnQiniuOSSUploadLocalFile>}
+ */
+export const uploadLocalFileToQiniuOSS = async (payload) => {
+  const { config, mac, localPath, key, bucket, putPolicyOptions, baseUrl } =
+    payload;
   const formUploader = new qiniu.form_up.FormUploader(config);
   const putExtra = new qiniu.form_up.PutExtra();
-  const key = `${_opts.uploadRemotePrefix}${relativePath}`.replace(/^\//, '');
 
+  /** @type {QiniuPutPolicyOptions} */
   const options = {
     // 指定了key，就可以支持覆盖上传
-    scope: `${_opts.bucketName}:${key}`,
+    scope: `${bucket}:${key}`,
     // .html文件缓存30秒，其他文件缓存10小时
-    expires: key.endsWith('.html') ? 30 : 36000,
+    expires: key.endsWith(".html") ? 30 : 36000,
     ...(putPolicyOptions || {}),
     returnBody:
       '{"key":"$(key)","etag":"$(etag)","fileSize":$(fsize),"bucket":"$(bucket)","name":"$(x:name)"}',
@@ -294,73 +309,180 @@ const uploadLocalFile = async ({
   const uploadToken = putPolicy.uploadToken(mac);
   // 文件上传
   const res = await formUploader.putFile(uploadToken, key, localPath, putExtra);
-  return res.data as IReturnUploadLocalFileToQiNiu;
+  /** @type {ReturnQiniuOSSUploadLocalFile} */
+  if (!res.data || !res.data.key) {
+    console.error("Failed uploadLocalFileToQiniuOSS", res);
+    throw new Error(`Failed to upload ${localPath} to ${bucket}:${key}`);
+  }
+  const returnData = res.data;
+  return {
+    ...returnData,
+    url: `${baseUrl}/${returnData.key}`,
+  };
 };
 
-// 上传目录下的文件到七牛云
-interface IPayloadUploadDir {
-  fromPath: string;
-  ignore?: string[];
-  refresh: boolean;
-  recursive?: boolean;
-}
-export const uploadDir = async ({
-  fromPath,
-  ignore,
-  refresh = false,
-  recursive = true,
-}: IPayloadUploadDir): Promise<IReturnUploadLocalFileToQiNiu[]> => {
-  const allFiles = await glob(
-    path.resolve(recursive ? `${fromPath}/**/*` : `${fromPath}/*`),
-    {
-      windowsPathsNoEscape: true,
-      // only want the files, not the dirs
-      nodir: true,
-      ignore: Array.from(new Set(['node_modules', ...(ignore || [])])),
-    }
+/**
+ * Normalize path
+ * @param {string} filePath
+ * @returns {string}
+ */
+const normalizePath = (filePath) => {
+  return filePath.replace(/\\/g, "/");
+};
+
+/**
+ * @callback QiniuOSSUploadFileCallback
+ * @param {number} curIdx - current index, starting from 0, ranging from 0 to (total - 1)
+ * @param {number} total - total count
+ * @param {ReturnQiniuOSSUploadLocalFile} file - file info
+ */
+
+/**
+ * @typedef {Object} ParamsQiniuOSSUploadDir
+ * @property {QiniuConfig} config
+ * @property {QiniuMac} mac
+ * @property {string} bucket
+ * @property {string} [baseUrl] - needed if refresh is set true
+ * @property {string} [keyPrefix = '']
+ * @property {QiniuPutPolicyOptions} [putPolicyOptions = {}]
+ * @property {string} localPath
+ * @property {string[]} [ignorePathList = []]
+ * @property {boolean} [refresh = false]
+ * @property {boolean} [recursive = false]
+ * @property {boolean} [dryRun = false] - set to true if you want to check which files will be deployed before real deployment
+ * @property {QiniuOSSUploadFileCallback} [uploadCallback] - callback function for upload progress
+ */
+
+/**
+ * @typedef {Object} ReturnQiniuOSSUploadDir
+ * @property {ReturnQiniuOSSUploadLocalFile[]} uploadedList
+ * @property {string[]} refreshedUrlList
+ * @property {{ localPath: string; key: string }[]} allPaths
+ */
+/**
+ * Upload directory to Qiniu OSS
+ * @param {ParamsQiniuOSSUploadDir} payload
+ * @returns{Promise<ReturnQiniuOSSUploadDir>}
+ */
+export const uploadDirToQiniuOSS = async (payload) => {
+  const {
+    config,
+    mac,
+    bucket,
+    baseUrl,
+    keyPrefix = "",
+    putPolicyOptions = {},
+    localPath,
+    ignorePathList = [],
+    refresh = false,
+    recursive = false,
+    dryRun = false,
+    uploadCallback,
+  } = payload;
+  const globPath = recursive
+    ? path.resolve(localPath, "**/*")
+    : path.resolve(localPath, "*");
+  const finalIgnorePathList = Array.from(
+    new Set([
+      "node_modules/**",
+      ...(ignorePathList || []).map((tempPath) => tempPath.replace(/\\/g, "/")),
+    ]),
   );
-  const normalizePath = (filePath: string): string => {
-    return filePath.replace(/\\/g, '/');
+  console.log(`IgnorePathList: ${finalIgnorePathList.join(", ")}.`);
+  /** @type {import('glob').GlobOptionsWithFileTypesUnset} */
+  const globConfig = {
+    windowsPathsNoEscape: true,
+    // only want the files, not the dirs
+    nodir: true,
+    ignore: finalIgnorePathList,
   };
-  const rootPath = `${normalizePath(path.resolve(fromPath))}/`;
+  const allFiles = await glob(globPath, globConfig);
+  const rootPath = `${normalizePath(path.resolve(localPath))}/`;
   const allPaths = allFiles.map((filePath) => {
     return {
       localPath: normalizePath(filePath),
-      relativePath: normalizePath(filePath).replace(rootPath, ''),
+      key: normalizePath(
+        path.join(keyPrefix, normalizePath(filePath).replace(rootPath, "")),
+      ),
     };
   });
-  const list = await Promise.all(allPaths.map(uploadLocalFile));
-  console.log(
-    chalk.yellow(
-      `Number of files uploaded to remote (${list.length} in total):`
-    )
-  );
-  console.log(chalk.blue(list.map((item) => item.key).join('\n')));
-  console.log();
-
-  if (refresh) {
-    const keys = list.map((item) => item.key);
-    const downloadUrlList = getPublicDownloadUrl(keys);
-    let refreshedUrlList: string[] = [];
-    if (downloadUrlList.length > 0) {
-      const numGroups = Math.ceil(downloadUrlList.length / 100);
-      for (let i = 0; i < numGroups; i++) {
-        const tempRefreshedUrlList = await refreshCDN(
-          downloadUrlList.slice(i * 100, (i + 1) * 100)
-        );
-        refreshedUrlList = [...refreshedUrlList, ...tempRefreshedUrlList];
-      }
-    }
-    if (refreshedUrlList.length > 0) {
-      console.log(
-        chalk.yellow(
-          `Number of urls refreshed (${refreshedUrlList.length} in total):`
-        )
-      );
-      console.log(chalk.blue(refreshedUrlList.join('\n')));
-      console.log();
-    }
+  if (dryRun) {
+    return {
+      allPaths,
+      uploadedList: [],
+      refreshedUrlList: [],
+    };
   }
-  return list;
+
+  // 未避免并发数量过大，这里限制并发数量
+  const groups = [];
+  const maxGroupSize = 500;
+  for (let i = 0; i < allPaths.length; i += maxGroupSize) {
+    groups.push(allPaths.slice(i, i + maxGroupSize));
+  }
+  /** @type {ReturnQiniuOSSUploadLocalFile[]} */
+  const uploadedList = [];
+  const totalCount = allPaths.length;
+  let curIdx = 0;
+  for (const group of groups) {
+    const list = await Promise.all(
+      group.map(({ localPath, key }) => {
+        let tryTimes = 0;
+        const maxTryTimes = 3;
+        const funcPromise = () => {
+          return uploadLocalFileToQiniuOSS({
+            config,
+            mac,
+            localPath,
+            key,
+            baseUrl,
+            bucket,
+            putPolicyOptions,
+          })
+            .then((fileInfo) => {
+              if (typeof uploadCallback === "function") {
+                uploadCallback(curIdx, totalCount, fileInfo);
+              }
+              curIdx++;
+              return fileInfo;
+            })
+            .catch((err) => {
+              tryTimes++;
+              if (tryTimes < maxTryTimes) {
+                return funcPromise();
+              }
+              throw err;
+            });
+        };
+        return funcPromise();
+      }),
+    );
+    uploadedList.push(...list);
+  }
+
+  /** @type {string[]} */
+  let refreshedUrlList = [];
+  if (refresh) {
+    const bucketManager = getBucketManagerFromQiniuOSS({
+      config,
+      mac,
+    });
+    /** @type {string[]} */
+    const downloadUrlList = uploadedList.map((item) => {
+      return getPublicDownloadUrlFromQiniuOSS({
+        bucketManager,
+        key: item.key,
+        baseUrl,
+      });
+    });
+    refreshedUrlList = await refreshUrlsFromQiniuOSS({
+      mac,
+      urls: downloadUrlList,
+    });
+  }
+  return {
+    allPaths,
+    uploadedList,
+    refreshedUrlList,
+  };
 };
-export type TUploadDir = typeof uploadDir;

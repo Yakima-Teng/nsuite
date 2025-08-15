@@ -1,41 +1,59 @@
-export function initConfig(options: IOptions): void;
-type TInitConfig = (options: IOptions) => void;
-export function deleteRemotePathList(remotePathList: string[]): Promise<{
+export function getClientFromAliOSS(payload: ParamsAliOSSConstructor): AliOSSClient;
+export function getObjectUrlFromAliOSS(payload: ParamsAliOSSGetObjectUrl): string;
+export function listFilesFromAliOSS(payload: ParamsAliOSSListFiles): Promise<AliObjectMeta[]>;
+export function deleteRemotePathListFromAliOSS(payload: ParamsAliDeleteRemotePathList): Promise<ReturnAliDeleteRemotePathList>;
+export function uploadLocalFileToAliOSS(payload: ParamsUploadLocalFile): Promise<ReturnUploadLocalFile>;
+export function uploadDirToAliOSS(payload: any): Promise<ReturnUploadLocalFile[]>;
+export type AliOSSClient = import("ali-oss");
+export type ParamsAliOSSConstructor = {
+    accessKeyId: string;
+    accessKeySecret: string;
+    bucket: string;
+    region: string;
+};
+export type ParamsAliOSSGetObjectUrl = {
+    client: AliOSSClient;
+    key: string;
+    /**
+     * 一般为CDN加速域名，以http(s)开头
+     */
+    baseUrl?: string;
+};
+export type AliRequestOptions = import("ali-oss").RequestOptions;
+export type AliObjectMeta = import("ali-oss").ObjectMeta;
+export type ParamsAliOSSListFiles = {
+    client: AliOSSClient;
+    prefix: string;
+    /**
+     * max objects, default is 100, limit to 1000, set it to 0 or ignore it if you want to list all files
+     */
+    maxKeys?: number;
+    options?: AliRequestOptions;
+};
+export type ParamsAliDeleteRemotePathList = {
+    client: AliOSSClient;
+    remotePathList: string[];
+};
+export type ReturnAliDeleteRemotePathList = {
     successItems: string[];
     failItems: string[];
-}>;
-type TDeleteRemotePathList = (remotePathList: string[]) => Promise<{
-    successItems: string[];
-    failItems: string[];
-}>;
-export function uploadLocalFile({ localPath, relativePath, config, }: IPayloadUploadLocalFile): Promise<IReturnUploadLocalFile>;
-type TUploadLocalFile = ({ localPath, relativePath, config, }: IPayloadUploadLocalFile) => Promise<IReturnUploadLocalFile>;
-export function uploadDir({ fromPath, ignore, recursive, }: IPayloadUploadDir): Promise<IReturnUploadLocalFile[]>;
-type TUploadDir = ({ fromPath, ignore, recursive, }: IPayloadUploadDir) => Promise<IReturnUploadLocalFile[]>;
-interface IOptions {
-    accessKey: string;
-    secretKey: string;
-    bucketName: string;
-    zoneName: string;
-    publicBucketDomain: string;
-    uploadRemotePath: string;
-}
-interface IPayloadUploadLocalFile {
+};
+export type ParamsUploadLocalFile = {
+    client: AliOSSClient;
     localPath: string;
-    relativePath: string;
-    config?: {
-        headers?: Record<string, unknown>;
-    };
-}
-interface IReturnUploadLocalFile {
+    remotePath: string;
+    baseUrl?: string;
+    config?: import("ali-oss").PutObjectOptions;
+};
+export type ReturnUploadLocalFile = {
     name: string;
     url: string;
     cdnUrl: string;
-}
-interface IPayloadUploadDir {
-    fromPath: string;
-    ignore?: string[];
+};
+export type ParamsUploadDirToAliOSS = {
+    client: AliOSSClient;
+    localPath: string;
+    ignorePathList: string[];
     recursive?: boolean;
-}
-export {};
+};
 //# sourceMappingURL=UtilsAliOSS.d.mts.map
