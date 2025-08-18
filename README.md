@@ -113,6 +113,57 @@ const summary = generateSummary({
 });
 ```
 
+## Qiniu OSS
+
+```typescript
+import {
+  getConfigFromQiniuOSS,
+  getMacFromQiniuOSS,
+  joinPath,
+  refreshUrlsFromQiniuOSS,
+  uploadDirToQiniuOSS,
+} from "nsuite";
+
+const mac = getMacFromQiniuOSS({
+  accessKey: QINIU_ACCESS_KEY,
+  secretKey: QINIU_SECRET_KEY,
+});
+const config = getConfigFromQiniuOSS({});
+const { uploadedList } = await uploadDirToQiniuOSS({
+  config,
+  mac,
+  bucket: QINIU_BUCKET_NAME,
+  baseUrl: QINIU_PUBLIC_BUCKET_DOMAIN,
+  keyPrefix: CDN_PATH_PREFIX,
+  putPolicyOptions: {
+    scope: QINIU_BUCKET_NAME,
+    expires: 7200,
+  },
+  localPath: PATH_PUBLIC,
+  ignorePathList: ["node_modules/**"],
+  refresh: false,
+  recursive: true,
+  dryRun: false,
+  uploadCallback: (curIdx, totalCount, fileInfo) => {
+    logger.info(`Uploaded ${curIdx + 1}/${totalCount} ${fileInfo.key}`);
+  },
+});
+
+const urlsToRefresh = uploadedList
+  .filter((item) => {
+    return item.key.endsWith(".css") || item.key.endsWith(".js");
+  })
+  .map((item) => item.url);
+
+logger.info(`Start refreshing CDN: ${urlsToRefresh.join(", ")}.`);
+const refreshedUrls = await refreshUrlsFromQiniuOSS({
+  urls: urlsToRefresh,
+  mac,
+});
+
+logger.info(`Refreshed urls: ${refreshedUrls.join(", ")}.`);
+```
+
 ## License
 
 This project is published under MIT license, which means you can use it in business projects for free. However, it would be better if you give this repo a star!
