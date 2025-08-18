@@ -173,8 +173,8 @@ import {
   listFilesFromAliOSS,
   deleteRemotePathListFromAliOSS,
   uploadLocalFileToAliOSS,
-  uploadDirToAliOSS
-} from 'nsuite'
+  uploadDirToAliOSS,
+} from "nsuite";
 ```
 
 ## SSH
@@ -185,8 +185,8 @@ import {
   sshConnect,
   sshPutDirectory,
   sshPutFiles,
-  sshExecCommand
-} from 'nsuite'
+  sshExecCommand,
+} from "nsuite";
 ```
 
 ## License

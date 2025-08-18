@@ -10,6 +10,10 @@
   ],
   "main": "src/index.mjs",
   "types": "dist/index.d.mts",
+  "imports": {
+    "#src/*": "./src/*.mjs",
+    "#test/*": "./test/*.mts"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -30,9 +34,10 @@
     "url": "https://www.orzzone.com"
   },
   "scripts": {
-    "lint": "npx prettier . --write && eslint --fix ./",
+    "lint": "npx prettier . --write && eslint --fix ./ && npm run test",
     "tsc": "npx tsc",
-    "lintAndTsc": "npm run lint && npm run tsc"
+    "lintAndTsc": "npm run lint && npm run tsc",
+    "test": "node test/index.mts"
   },
   "devDependencies": {
     "@eslint/js": "9.21.0",

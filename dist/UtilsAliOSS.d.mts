@@ -3,7 +3,7 @@ export function getObjectUrlFromAliOSS(payload: ParamsAliOSSGetObjectUrl): strin
 export function listFilesFromAliOSS(payload: ParamsAliOSSListFiles): Promise<AliObjectMeta[]>;
 export function deleteRemotePathListFromAliOSS(payload: ParamsAliDeleteRemotePathList): Promise<ReturnAliDeleteRemotePathList>;
 export function uploadLocalFileToAliOSS(payload: ParamsUploadLocalFile): Promise<ReturnUploadLocalFile>;
-export function uploadDirToAliOSS(payload: any): Promise<ReturnUploadLocalFile[]>;
+export function uploadDirToAliOSS(payload: ParamsUploadDirToAliOSS): Promise<ReturnUploadLocalFile[]>;
 export type AliOSSClient = import("ali-oss");
 export type ParamsAliOSSConstructor = {
     accessKeyId: string;
