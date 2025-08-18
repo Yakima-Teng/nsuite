@@ -11,6 +11,7 @@ import {
   uploadLocalFileToQiniuOSS,
   getBucketManagerFromQiniuOSS,
   getPublicDownloadUrlFromQiniuOSS,
+  deleteRemotePathListFromQiniuOSS,
 } from "#src/index";
 
 const __dirname = getDirname(import.meta.url);
@@ -73,4 +74,13 @@ test("Upload current file", async () => {
     baseUrl,
   });
   assert.strictEqual(downloadUrl, finalUrl);
+
+  const { successItems, failItems } = await deleteRemotePathListFromQiniuOSS({
+    bucketManager,
+    bucket: QINIU_BUCKET_NAME,
+    remotePathList: [`${baseUrl}/${KEY_PREFIX}`],
+  });
+  console.log("successItems:", successItems);
+  console.log("failItems:", failItems);
+  assert.strictEqual(Array.isArray(successItems), true);
 });
