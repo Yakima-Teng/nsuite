@@ -164,6 +164,31 @@ const refreshedUrls = await refreshUrlsFromQiniuOSS({
 logger.info(`Refreshed urls: ${refreshedUrls.join(", ")}.`);
 ```
 
+## Aliyun OSS
+
+```typescript
+import {
+  getClientFromAliOSS,
+  getObjectUrlFromAliOSS,
+  listFilesFromAliOSS,
+  deleteRemotePathListFromAliOSS,
+  uploadLocalFileToAliOSS,
+  uploadDirToAliOSS
+} from 'nsuite'
+```
+
+## SSH
+
+```typescript
+import {
+  getSSHClient,
+  sshConnect,
+  sshPutDirectory,
+  sshPutFiles,
+  sshExecCommand
+} from 'nsuite'
+```
+
 ## License
 
 This project is published under MIT license, which means you can use it in business projects for free. However, it would be better if you give this repo a star!

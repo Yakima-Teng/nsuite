@@ -229,7 +229,7 @@ const normalizePath = (filePath) => {
 
 /**
  * Upload directory to aliyun oss
- * @param {ParamsUploadDirToAliOSS} params
+ * @param {ParamsUploadDirToAliOSS} payload
  * @returns {Promise<ReturnUploadLocalFile[]>}
  */
 export const uploadDirToAliOSS = async (payload) => {
