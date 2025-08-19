@@ -167,6 +167,20 @@ const listFilesFromQiniuOSS = async (payload) => {
   const { bucketManager, bucket, options } = payload;
   const { limit = 1000 } = options;
 
+  const prefix = options.prefix || "";
+  if (prefix) {
+    if (prefix.startsWith("http")) {
+      throw new Error(
+        `prefix should not start with http, your invalid prefix is ${prefix}`,
+      );
+    }
+    if (prefix.startsWith("/")) {
+      throw new Error(
+        `prefix should not start with /, your invalid prefix is ${prefix}`,
+      );
+    }
+  }
+
   /** @type {QiniuListedObjectEntry[]} */
   let returnItems = [];
   /** @type {string | null} */
@@ -303,7 +317,7 @@ export const uploadLocalFileToQiniuOSS = async (payload) => {
     expires: key.endsWith(".html") ? 30 : 36000,
     ...(putPolicyOptions || {}),
     returnBody:
-      '{"key":"$(key)","etag":"$(etag)","fileSize":$(fsize),"bucket":"$(bucket)","name":"$(x:name)"}',
+      '{"key":"$(key)","etag":"$(etag)","fileSize":$(fsize),"bucket":"$(bucket)","name":"$(fname)"}',
   };
   const putPolicy = new qiniu.rs.PutPolicy(options);
   const uploadToken = putPolicy.uploadToken(mac);
@@ -388,7 +402,6 @@ export const uploadDirToQiniuOSS = async (payload) => {
       ...(ignorePathList || []).map((tempPath) => tempPath.replace(/\\/g, "/")),
     ]),
   );
-  console.log(`IgnorePathList: ${finalIgnorePathList.join(", ")}.`);
   /** @type {import('glob').GlobOptionsWithFileTypesUnset} */
   const globConfig = {
     windowsPathsNoEscape: true,
