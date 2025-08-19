@@ -1,6 +1,6 @@
 {
   // Change this to match your project
-  "include": ["./src/**/*.mjs"],
+  "include": ["./src/**/*.mjs", "./test/**/*.mts"],
   "compilerOptions": {
     "target": "ES2015",
     "module": "NodeNext",
@@ -19,6 +19,7 @@
     "outDir": "dist",
     // go to js file when using IDE functions like
     // "Go to Definition" in VSCode
+    "rootDir": "./",
     "declarationMap": true,
     "allowImportingTsExtensions": true, // Import .ts files directly
     "rewriteRelativeImportExtensions": true, // Convert .ts imports to .js in output
