@@ -5,7 +5,7 @@ import {
   withTimeout,
   TIMEOUT_ERROR_MESSAGE,
   DEFAULT_PROMISE_TIME_OUT,
-} from "#src/index";
+} from "#lib/index";
 
 test("withTimeout in case of timeout with specified timeout", async () => {
   const rawPromise = new Promise((resolve) => {

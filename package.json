@@ -8,21 +8,22 @@
     "captcha",
     "summary"
   ],
-  "main": "./src/index.mjs",
-  "types": "./types/src/index.d.mts",
+  "main": "./lib/index.mjs",
+  "types": "./types/lib/index.d.mts",
   "imports": {
-    "#src/*": "./src/*.mjs",
+    "#lib/*": "./lib/*.mjs",
     "#test/*": "./test/*.mts"
   },
   "exports": {
     ".": {
-      "types": "./types/src/index.d.mts",
-      "import": "./src/index.mjs"
+      "types": "./types/lib/index.d.mts",
+      "import": "./lib/index.mjs"
     }
   },
   "files": [
-    "dist",
-    "src",
+    "types",
+    "test",
+    "lib",
     "package.json",
     "README.md"
   ],

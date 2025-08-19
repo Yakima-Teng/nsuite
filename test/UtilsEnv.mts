@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { parseEnvFiles, getDirname, joinPath } from "#src/index";
+import { parseEnvFiles, getDirname, joinPath } from "#lib/index";
 
 const __dirname = getDirname(import.meta.url);
 

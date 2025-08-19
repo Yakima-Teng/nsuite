@@ -7,7 +7,7 @@ import {
   joinPath,
   isPathExists,
   globMatchPaths,
-} from "#src/index";
+} from "#lib/index";
 
 test("Directory path should exists", async () => {
   assert.deepEqual(await isPathExists(getDirname(import.meta.url)), true);

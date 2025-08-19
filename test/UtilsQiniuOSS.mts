@@ -14,7 +14,7 @@ import {
   getBucketManagerFromQiniuOSS,
   getPublicDownloadUrlFromQiniuOSS,
   deleteRemotePathListFromQiniuOSS,
-} from "#src/index";
+} from "#lib/index";
 
 const __dirname = getDirname(import.meta.url);
 
