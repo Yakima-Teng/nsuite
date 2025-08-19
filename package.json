@@ -8,15 +8,15 @@
     "captcha",
     "summary"
   ],
-  "main": "src/index.mjs",
-  "types": "dist/index.d.mts",
+  "main": "./src/index.mjs",
+  "types": "./types/src/index.d.mts",
   "imports": {
     "#src/*": "./src/*.mjs",
     "#test/*": "./test/*.mts"
   },
   "exports": {
     ".": {
-      "types": "./dist/src/index.d.mts",
+      "types": "./types/src/index.d.mts",
       "import": "./src/index.mjs"
     }
   },

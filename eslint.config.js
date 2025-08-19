@@ -8,6 +8,6 @@ export default [
   pluginJs.configs.recommended,
   eslintConfigPrettier,
   {
-    ignores: ["dist/"],
+    ignores: ["types/"],
   },
 ];
