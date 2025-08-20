@@ -18,7 +18,7 @@ import {
 
 const __dirname = getDirname(import.meta.url);
 
-parseEnvFiles([joinPath(__dirname, "../.env.local")]);
+parseEnvFiles([joinPath(__dirname, "../../aimian/.env")]);
 
 const {
   QINIU_ACCESS_KEY,
@@ -56,6 +56,11 @@ test("Qiniu environment variables should be defined for testing", () => {
   assert.strictEqual(typeof QINIU_BUCKET_NAME, "string");
   assert.strictEqual(typeof QINIU_ZONE_NAME, "string");
   assert.strictEqual(typeof QINIU_PUBLIC_BUCKET_DOMAIN, "string");
+  assert.ok(QINIU_ACCESS_KEY.length > 0);
+  assert.ok(QINIU_SECRET_KEY.length > 0);
+  assert.ok(QINIU_BUCKET_NAME.length > 0);
+  assert.ok(QINIU_ZONE_NAME.length > 0);
+  assert.ok(QINIU_PUBLIC_BUCKET_DOMAIN.length > 0);
 });
 
 test("Upload current file and then delete it successfully", async () => {

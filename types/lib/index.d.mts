@@ -8,4 +8,5 @@ export * from "./UtilsText.mjs";
 export * from "./UtilsSSH.mjs";
 export * from "./UtilsAliOSS.mjs";
 export * from "./UtilsQiniuOSS.mjs";
+export * from "./UtilsType.mjs";
 //# sourceMappingURL=index.d.mts.map
