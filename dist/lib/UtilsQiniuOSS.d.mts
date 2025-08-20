@@ -12,10 +12,10 @@ export type QiniuBucketManager = import("qiniu").rs.BucketManager;
 export type QiniuMac = import("qiniu").auth.digest.Mac;
 export type QiniuMacOptions = import("qiniu").auth.digest.MacOptions;
 export type QiniuPutPolicyOptions = import("qiniu").rs.PutPolicyOptions;
-export type QiniuListedObjectEntry = any;
+export type QiniuListedObjectEntry = import("qiniu/StorageResponseInterface.d.ts").ListedObjectEntry;
 export type QiniuListPrefixOptions = import("qiniu").rs.ListPrefixOptions;
 export type QiniuHttpcResponseWrapper = import("qiniu").httpc.ResponseWrapper;
-export type QiniuOperationResponse = any;
+export type QiniuOperationResponse = import("qiniu/StorageResponseInterface.d.ts").OperationResponse;
 export type ParamsQiniuOSSGetMac = {
     accessKey: string;
     secretKey: string;

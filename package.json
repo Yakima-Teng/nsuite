@@ -34,6 +34,7 @@
     "url": "https://www.orzzone.com"
   },
   "scripts": {
+    "postinstall": "patch-package",
     "lint": "npx prettier . --write && eslint --fix ./",
     "test": "node test/index.mts",
     "ts:check:watch": "npx tsc --noEmit --watch",
@@ -48,7 +49,6 @@
     "eslint": "9.21.0",
     "eslint-config-prettier": "10.0.2",
     "globals": "16.0.0",
-    "patch-package": "8.0.0",
     "prettier": "3.5.3",
     "rimraf": "6.0.1",
     "typescript": "5.8.3"
@@ -60,6 +60,7 @@
     "node-ssh": "13.2.1",
     "object-inspect": "1.13.4",
     "openai": "4.86.1",
+    "patch-package": "8.0.0",
     "qiniu": "7.14.0",
     "svg-captcha": "1.4.0",
     "winston": "3.17.0",

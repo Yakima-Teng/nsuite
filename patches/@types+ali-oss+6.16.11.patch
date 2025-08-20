@@ -1,0 +1,21 @@
+diff --git a/node_modules/@types/ali-oss/index.d.ts b/node_modules/@types/ali-oss/index.d.ts
+index 125ce47..6246fe9 100644
+--- a/node_modules/@types/ali-oss/index.d.ts
++++ b/node_modules/@types/ali-oss/index.d.ts
+@@ -312,6 +312,7 @@ declare namespace OSS {
+         prefixes: string[];
+         isTruncated: boolean;
+         nextMarker: string;
++        nextContinuationToken?: string;
+         res: NormalSuccessResponse;
+     }
+ 
+@@ -426,7 +427,7 @@ declare namespace OSS {
+ 
+     interface DeleteMultiResult {
+         /** deleted object names list */
+-        deleted?: string[] | undefined;
++        deleted?: { key: string; versionId: string; deleteMarker: string; DeleteMarkerVersionId: string; }[] | undefined;
+         res: NormalSuccessResponse;
+     }
+ 
