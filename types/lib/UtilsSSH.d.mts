@@ -11,6 +11,7 @@ export type PathPair = {
     remote: string;
 };
 export type ParamsConnect = {
+    ssh: SSH;
     host: string;
     port: number;
     username: string;
