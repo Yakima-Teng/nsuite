@@ -1,6 +1,9 @@
 export function getSSHClient(): SSH;
 export function sshConnect(payload: ParamsConnect): Promise<void>;
 export function sshPutDirectory(payload: ParamsPutDir): Promise<ReturnPutDir>;
+export function sshGetDirectory(payload: ParamsSSHGetDir): Promise<boolean>;
+export function sshGetFile(payload: ParamsSSHGetFile): Promise<void>;
+export function sshPutFile(payload: ParamsSSHGetFile): Promise<void>;
 export function sshPutFiles(payload: ParamsPutFiles): Promise<void>;
 export function sshExecCommand(payload: ParamsExecCommand): Promise<void>;
 export type SSH = import("node-ssh").NodeSSH;
@@ -27,6 +30,19 @@ export type ReturnPutDir = {
     success: boolean;
     failItems: PathPair[];
     successItems: PathPair[];
+};
+export type ParamsSSHGetDir = {
+    ssh: SSH;
+    localDirectory: string;
+    remoteDirectory: string;
+    options?: import("node-ssh").SSHGetPutDirectoryOptions | undefined;
+};
+export type ParamsSSHGetFile = {
+    ssh: SSH;
+    localFile: string;
+    remoteFile: string;
+    givenSftp?: import("ssh2").SFTPWrapper | null | undefined;
+    transferOptions?: import("ssh2").TransferOptions | undefined;
 };
 export type ParamsPutFiles = {
     ssh: SSH;
