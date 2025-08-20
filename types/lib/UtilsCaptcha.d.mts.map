@@ -1,1 +1,1 @@
-{"version":3,"file":"UtilsCaptcha.d.mts","sourceRoot":"","sources":["../../lib/UtilsCaptcha.mjs"],"names":[],"mappings":"AAYO,sDANJ;IAAyB,KAAK,GAAtB,MAAM;IACW,MAAM,GAAvB,MAAM;CACd,OAmBF"}
+{"version":3,"file":"UtilsCaptcha.d.mts","sourceRoot":"","sources":["../../lib/UtilsCaptcha.mjs"],"names":[],"mappings":"AAgBO,sDAJJ;IAAyB,KAAK;IACL,MAAM;CAC/B,GAAU,wBAAwB,CAiBpC;;;;;UA3Ba,MAAM;;;;UACN,MAAM"}

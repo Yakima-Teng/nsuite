@@ -17,7 +17,7 @@ export type ParamsAliOSSGetObjectUrl = {
     /**
      * 一般为CDN加速域名，以http(s)开头
      */
-    baseUrl?: string;
+    baseUrl?: string | undefined;
 };
 export type AliRequestOptions = import("ali-oss").RequestOptions;
 export type AliObjectMeta = import("ali-oss").ObjectMeta;
@@ -27,8 +27,8 @@ export type ParamsAliOSSListFiles = {
     /**
      * max objects, default is 100, limit to 1000, set it to 0 or ignore it if you want to list all files
      */
-    maxKeys?: number;
-    options?: AliRequestOptions;
+    maxKeys?: number | undefined;
+    options?: OSS.RequestOptions | undefined;
 };
 export type ParamsAliDeleteRemotePathList = {
     client: AliOSSClient;
@@ -42,8 +42,8 @@ export type ParamsUploadLocalFile = {
     client: AliOSSClient;
     localPath: string;
     remotePath: string;
-    baseUrl?: string;
-    config?: import("ali-oss").PutObjectOptions;
+    baseUrl?: string | undefined;
+    config?: OSS.PutObjectOptions | undefined;
 };
 export type ReturnUploadLocalFile = {
     name: string;
@@ -54,6 +54,7 @@ export type ParamsUploadDirToAliOSS = {
     client: AliOSSClient;
     localPath: string;
     ignorePathList: string[];
-    recursive?: boolean;
+    recursive?: boolean | undefined;
 };
+import OSS from "ali-oss";
 //# sourceMappingURL=UtilsAliOSS.d.mts.map

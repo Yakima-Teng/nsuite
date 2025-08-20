@@ -21,11 +21,11 @@ const __dirname = getDirname(import.meta.url);
 parseEnvFiles([joinPath(__dirname, "../../aimian/.env")]);
 
 const {
-  QINIU_ACCESS_KEY,
-  QINIU_SECRET_KEY,
-  QINIU_BUCKET_NAME,
-  QINIU_ZONE_NAME,
-  QINIU_PUBLIC_BUCKET_DOMAIN,
+  QINIU_ACCESS_KEY = "",
+  QINIU_SECRET_KEY = "",
+  QINIU_BUCKET_NAME = "",
+  QINIU_ZONE_NAME = "",
+  QINIU_PUBLIC_BUCKET_DOMAIN = "",
 } = process.env;
 
 const KEY_PREFIX = "nsuite";
@@ -121,14 +121,11 @@ test("Upload current file and then delete it successfully", async () => {
       });
     },
     (err: Error) => {
-      if (err instanceof Error) {
-        assert.strictEqual(
-          err.message.startsWith("prefix should not start with /"),
-          true,
-        );
-        return true;
-      }
-      return false;
+      assert.strictEqual(
+        err.message.startsWith("prefix should not start with /"),
+        true,
+      );
+      return true;
     },
   );
 

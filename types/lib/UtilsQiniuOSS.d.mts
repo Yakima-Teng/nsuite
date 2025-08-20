@@ -19,7 +19,7 @@ export type QiniuOperationResponse = any;
 export type ParamsQiniuOSSGetMac = {
     accessKey: string;
     secretKey: string;
-    options?: QiniuMacOptions;
+    options?: qiniu.auth.digest.MacOptions | undefined;
 };
 export type ParamsQiniuOSSGetBucketManager = {
     mac: QiniuMac;
@@ -28,7 +28,7 @@ export type ParamsQiniuOSSGetBucketManager = {
 export type ParamsQiniuOSSGetPublicDownloadUrl = {
     bucketManager: QiniuBucketManager;
     key: string;
-    baseUrl?: string;
+    baseUrl?: string | undefined;
 };
 export type ParamsQiniuOSSRefreshUrls = {
     urls: string[];
@@ -55,7 +55,7 @@ export type ParamsQiniuOSSUploadLocalFile = {
     key: string;
     baseUrl: string;
     bucket: string;
-    putPolicyOptions?: QiniuPutPolicyOptions;
+    putPolicyOptions?: qiniu.rs.PutPolicyOptions | undefined;
 };
 export type ReturnQiniuOSSUploadLocalFile = {
     key: string;
@@ -73,21 +73,21 @@ export type ParamsQiniuOSSUploadDir = {
     /**
      * - needed if refresh is set true
      */
-    baseUrl?: string;
-    keyPrefix?: string;
-    putPolicyOptions?: QiniuPutPolicyOptions;
+    baseUrl?: string | undefined;
+    keyPrefix?: string | undefined;
+    putPolicyOptions?: qiniu.rs.PutPolicyOptions | undefined;
     localPath: string;
-    ignorePathList?: string[];
-    refresh?: boolean;
-    recursive?: boolean;
+    ignorePathList?: string[] | undefined;
+    refresh?: boolean | undefined;
+    recursive?: boolean | undefined;
     /**
      * - set to true if you want to check which files will be deployed before real deployment
      */
-    dryRun?: boolean;
+    dryRun?: boolean | undefined;
     /**
      * - callback function for upload progress
      */
-    uploadCallback?: QiniuOSSUploadFileCallback;
+    uploadCallback?: QiniuOSSUploadFileCallback | undefined;
 };
 export type ReturnQiniuOSSUploadDir = {
     uploadedList: ReturnQiniuOSSUploadLocalFile[];
@@ -97,4 +97,5 @@ export type ReturnQiniuOSSUploadDir = {
         key: string;
     }[];
 };
+import qiniu from "qiniu";
 //# sourceMappingURL=UtilsQiniuOSS.d.mts.map

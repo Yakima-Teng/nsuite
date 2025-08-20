@@ -5,9 +5,18 @@
     "target": "ES2015",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "strictNullChecks": true, // 严格的 null 检查
+    "strictFunctionTypes": true, // 严格的函数类型检查
+    "strictBindCallApply": true, // 严格的 bind/call/apply 检查
+    "strictPropertyInitialization": true, // 严格的属性初始化检查
+    "noImplicitThis": true, // 禁止隐式的 this
+    "alwaysStrict": true, // 总是使用严格模式
+    "strict": true,
+    "noImplicitAny": true,
     // Tells TypeScript to read JS files, as
     // normally they are ignored as source files
     "allowJs": true,
+    "checkJs": true,
     // Generate d.ts files
     "declaration": true,
     // This compiler run should

@@ -21,7 +21,7 @@ export type ParamsPutDir = {
     ssh: SSH;
     fromPath: string;
     toPath: string;
-    options?: GetPutDirectoryOptions;
+    options?: import("node-ssh").SSHGetPutDirectoryOptions | undefined;
 };
 export type ReturnPutDir = {
     success: boolean;
@@ -31,13 +31,13 @@ export type ReturnPutDir = {
 export type ParamsPutFiles = {
     ssh: SSH;
     files: PathPair[];
-    options?: PutFilesOptions;
+    options?: import("node-ssh").SSHPutFilesOptions | undefined;
 };
 export type ParamsExecCommand = {
     ssh: SSH;
     cwd: string;
     command: string;
-    onStdout?: (chunk: Buffer) => void;
-    onStderr?: (chunk: Buffer) => void;
+    onStdout?: ((chunk: Buffer) => void) | undefined;
+    onStderr?: ((chunk: Buffer) => void) | undefined;
 };
 //# sourceMappingURL=UtilsSSH.d.mts.map
