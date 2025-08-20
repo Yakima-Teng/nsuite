@@ -9,20 +9,19 @@
     "summary"
   ],
   "main": "./lib/index.mjs",
-  "types": "./types/lib/index.d.mts",
+  "types": "./dist/lib/index.d.mts",
   "imports": {
     "#lib/*": "./lib/*.mjs",
     "#test/*": "./test/*.mts"
   },
   "exports": {
     ".": {
-      "types": "./types/lib/index.d.mts",
+      "types": "./dist/lib/index.d.mts",
       "import": "./lib/index.mjs"
     }
   },
   "files": [
-    "types",
-    "test",
+    "dist/lib",
     "lib",
     "package.json",
     "README.md"
@@ -38,7 +37,7 @@
     "lint": "npx prettier . --write && eslint --fix ./",
     "test": "node test/index.mts",
     "ts:check:watch": "npx tsc --noEmit --watch",
-    "build": "npx tsc",
+    "build": "npx rimraf dist && npx tsc && npx rimraf dist/test",
     "lintTestAndBuild": "npm run lint && npm run test && npm run build"
   },
   "devDependencies": {
@@ -49,7 +48,9 @@
     "eslint": "9.21.0",
     "eslint-config-prettier": "10.0.2",
     "globals": "16.0.0",
+    "patch-package": "8.0.0",
     "prettier": "3.5.3",
+    "rimraf": "6.0.1",
     "typescript": "5.8.3"
   },
   "dependencies": {
