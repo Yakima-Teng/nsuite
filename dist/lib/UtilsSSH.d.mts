@@ -20,11 +20,16 @@ export type ParamsConnect = {
     username: string;
     password: string;
 };
+export type SSHUploadFileCallback = (local: string, remote: string, error: Error | null) => any;
 export type ParamsPutDir = {
     ssh: SSH;
     fromPath: string;
     toPath: string;
     options?: import("node-ssh").SSHGetPutDirectoryOptions | undefined;
+    /**
+     * - callback function for upload progress
+     */
+    uploadCallback?: SSHUploadFileCallback | undefined;
 };
 export type ReturnPutDir = {
     success: boolean;
