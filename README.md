@@ -107,6 +107,19 @@ await zipFolder({
 });
 ```
 
+### unzipFile
+
+Unzips a file and returns a promise that resolves when the unzip operation is complete.
+
+```typescript
+import { unzipFile } from "nsuite";
+
+await unzipFile({
+  pathFile: pathDistZip,
+  pathOutput: pathOutputDirectory,
+});
+```
+
 ### getFileMd5
 
 Calculates the MD5 hash of a file and returns a promise that resolves with the hash.
@@ -234,7 +247,7 @@ const pathDistZip = joinPath(pathDist, "../dist.zip");
 await zipFolder({
   pathFolder: pathDist,
   pathOutputFile: pathDistZip,
-})
+});
 
 const pathRemote = "/www/sites/www.orzzone.com/public";
 const pathRemoteZip = `${pathRemote}/dist.zip`;
@@ -243,20 +256,19 @@ await sshPutFile({
   localFile: pathDistZip,
   remoteFile: pathRemoteZip,
 });
-await sshExecCommand({
-  ssh: sshClient,
-  cwd: pathRemote,
-  command: "unzip -o dist.zip",
-  onStdout: (chunk) => {
-    // eslint-disable-next-line no-console
-    console.log(chunk.toString().substring(0, 200));
-  },
-  onStderr: (chunk) => {
-    console.error(chunk.toString().substring(0, 200));
-  },
-})
 
-process.exit(0)
+const execCommand = async (command: string): Promise<void> => {
+  await sshExecCommand({
+    ssh: sshClient,
+    cwd: pathRemote,
+    command,
+  });
+};
+await execCommand("rm dist");
+await execCommand("unzip -o dist.zip");
+await execCommand("rm dist.zip");
+
+process.exit(0);
 ```
 
 ## License

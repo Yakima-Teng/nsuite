@@ -10,4 +10,8 @@ export function zipFolder({ pathFolder, pathOutputFile }: {
 export function getFileMd5({ pathFile }: {
     pathFile: string;
 }): Promise<string>;
+export function unzipFile({ pathFile, pathOutput }: {
+    pathFile: string;
+    pathOutput: string;
+}): Promise<void>;
 //# sourceMappingURL=UtilsFile.d.mts.map
