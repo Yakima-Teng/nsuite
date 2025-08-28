@@ -12,7 +12,7 @@ After install with `npm i -S nsuite`, you will have all the following abilities 
 
 ### parseEnvFiles
 
-```js
+```typescript
 import { parseEnvFiles } from "nsuite";
 
 // note: the first value set for a varialble will win
@@ -24,7 +24,7 @@ parseEnvFiles([
 
 ## Path
 
-```js
+```typescript
 import {
   getFilePath,
   getDirname,
@@ -47,7 +47,7 @@ const excelFileList = await globMatchPaths(
 
 ### withTimeout
 
-```js
+```typescript
 import { withTimeout } from "nsuite";
 const newPromise = withTimeout(promise, 3000);
 ```
@@ -56,7 +56,7 @@ const newPromise = withTimeout(promise, 3000);
 
 ### createLogger
 
-```js
+```typescript
 import { createLogger } from "nsuite";
 export const logger = createLogger({
   level: "info",
@@ -78,16 +78,49 @@ export const logger = createLogger({
 
 Get a safe file name which you can use it in url after encodeURI handling.
 
-```js
+```typescript
 import { getSafeFileName } from "nsuite";
 const safeFileName = getSafeFileName("测试有空格 和特殊符号 &.pdf");
+```
+
+### zipFile
+
+Zips a single file and returns a promise that resolves when the zip operation is complete.
+
+```typescript
+import { zipFile } from "nsuite";
+await zipFile({
+  pathInputFile: "./package.json",
+  pathOutputFile: "./package.json.zip",
+});
+```
+
+### zipFolder
+
+Zips a folder and returns a promise that resolves when the zip operation is complete.
+
+```typescript
+import { zipFolder } from "nsuite";
+await zipFolder({
+  pathFolder: "./dist",
+  pathOutputFile: "./dist.zip",
+});
+```
+
+### getFileMd5
+
+Calculates the MD5 hash of a file and returns a promise that resolves with the hash.
+
+```typescript
+import { getFileMd5 } from "nsuite";
+const md5 = await getFileMd5({ pathFile: "./package.json" });
 ```
 
 ## Captcha
 
 ### generateSvgCaptcha
 
-```js
+```typescript
 import { generateSvgCaptcha } from "nsuite";
 const { text, data } = await generateSvgCaptcha({
   width: 148,
@@ -101,7 +134,7 @@ const { text, data } = await generateSvgCaptcha({
 
 Generate a summary of given text.
 
-```js
+```typescript
 import { generateSummary } from "nsuite";
 const summary = generateSummary({
   apiKey: "",
