@@ -216,10 +216,47 @@ import {
 import {
   getSSHClient,
   sshConnect,
-  sshPutDirectory,
-  sshPutFiles,
+  joinPath,
+  zipFolder,
+  sshPutFile,
   sshExecCommand,
 } from "nsuite";
+import { PATH_ROOT } from "#scripts/ConstantUtils";
+import { sshConfig } from "#hosts/Shanghai-Tencent/nginx/build/config";
+
+const sshClient = getSSHClient();
+await sshConnect({
+  ssh: sshClient,
+  ...sshConfig,
+});
+const pathDist = joinPath(PATH_ROOT, "apps-home/blog", "dist");
+const pathDistZip = joinPath(pathDist, "../dist.zip");
+await zipFolder({
+  pathFolder: pathDist,
+  pathOutputFile: pathDistZip,
+})
+
+const pathRemote = "/www/sites/www.orzzone.com/public";
+const pathRemoteZip = `${pathRemote}/dist.zip`;
+await sshPutFile({
+  ssh: sshClient,
+  localFile: pathDistZip,
+  remoteFile: pathRemoteZip,
+});
+await sshExecCommand({
+  ssh: sshClient,
+  cwd: pathRemote,
+  command: "unzip -o dist.zip",
+  onStdout: (chunk) => {
+    // eslint-disable-next-line no-console
+    console.log(chunk.toString().substring(0, 200));
+  },
+  onStderr: (chunk) => {
+    console.error(chunk.toString().substring(0, 200));
+  },
+})
+
+process.exit(0)
 ```
 
 ## License
