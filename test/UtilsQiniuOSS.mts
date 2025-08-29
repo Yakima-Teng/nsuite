@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  attachLogToFunc,
   parseEnvFiles,
   getDirname,
   getFilePath,
@@ -42,8 +43,11 @@ const bucketManager = getBucketManagerFromQiniuOSS({
   mac,
 });
 
+// @ts-ignore
+bucketManager._httpClient.timeout = 60 * 1000 * 2;
+
 const deleteRemoteTempFiles = async () => {
-  return await deleteRemotePathListFromQiniuOSS({
+  return await attachLogToFunc(deleteRemotePathListFromQiniuOSS)({
     bucketManager,
     bucket: QINIU_BUCKET_NAME,
     remotePathList: [KEY_PREFIX],
@@ -68,7 +72,7 @@ test("Upload current file and then delete it successfully", async () => {
 
   const key = `${KEY_PREFIX}/single`;
   const finalUrl = `${baseUrl}/${key}`;
-  const res = await uploadLocalFileToQiniuOSS({
+  const res = await attachLogToFunc(uploadLocalFileToQiniuOSS)({
     config,
     mac,
     localPath: currentFilePath,
@@ -86,7 +90,7 @@ test("Upload current file and then delete it successfully", async () => {
   assert.strictEqual(res.name, currentFileName);
   assert.strictEqual(res.url, finalUrl);
 
-  const downloadUrl = getPublicDownloadUrlFromQiniuOSS({
+  const downloadUrl = attachLogToFunc(getPublicDownloadUrlFromQiniuOSS)({
     bucketManager,
     key,
     baseUrl,
@@ -95,7 +99,7 @@ test("Upload current file and then delete it successfully", async () => {
 
   await assert.rejects(
     async () => {
-      await deleteRemotePathListFromQiniuOSS({
+      await attachLogToFunc(deleteRemotePathListFromQiniuOSS)({
         bucketManager,
         bucket: QINIU_BUCKET_NAME,
         remotePathList: [`${baseUrl}/${KEY_PREFIX}`],
@@ -114,7 +118,7 @@ test("Upload current file and then delete it successfully", async () => {
   );
   await assert.rejects(
     async () => {
-      await deleteRemotePathListFromQiniuOSS({
+      await attachLogToFunc(deleteRemotePathListFromQiniuOSS)({
         bucketManager,
         bucket: QINIU_BUCKET_NAME,
         remotePathList: [`/${KEY_PREFIX}`],

@@ -234,7 +234,7 @@ const pathDistZip = joinPath(pathDist, "../dist.zip");
 await zipFolder({
   pathFolder: pathDist,
   pathOutputFile: pathDistZip,
-})
+});
 
 const pathRemote = "/www/sites/www.orzzone.com/public";
 const pathRemoteZip = `${pathRemote}/dist.zip`;
@@ -254,9 +254,9 @@ await sshExecCommand({
   onStderr: (chunk) => {
     console.error(chunk.toString().substring(0, 200));
   },
-})
+});
 
-process.exit(0)
+process.exit(0);
 ```
 
 ## License
