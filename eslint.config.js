@@ -10,4 +10,9 @@ export default [
   {
     ignores: ["dist/", "patches/"],
   },
+  {
+    rules: {
+      "no-console": "error",
+    },
+  },
 ];

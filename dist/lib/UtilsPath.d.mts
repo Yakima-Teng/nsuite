@@ -13,6 +13,9 @@ export function getFilePath(metaUrl: string): string;
  */
 export function getDirname(metaUrl: string): string;
 export function joinPath(...args: string[]): string;
+export function joinPosixPath(...args: string[]): string;
+export function resolvePath(...args: string[]): string;
+export function resolvePosixPath(...args: string[]): string;
 export function isPathExists(path: string): Promise<boolean>;
 export function globMatchPaths(...pathArr: string[]): Promise<Array<string>>;
 //# sourceMappingURL=UtilsPath.d.mts.map
