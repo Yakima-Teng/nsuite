@@ -4,7 +4,7 @@ import test from "node:test";
 
 import {
   logError,
-  attachLogToFunc,
+  attachLogToFunc as rawAttachLogToFunc,
   parseEnvFiles,
   getDirname,
   getFilePath,
@@ -31,6 +31,18 @@ const {
   QINIU_ZONE_NAME = "",
   QINIU_PUBLIC_BUCKET_DOMAIN = "",
 } = process.env;
+
+// this flag is turned off by default, because number of urls to refresh is limited per day, this may have influence on business usage of the oss account
+const ALLOW_REFRESH: boolean = false;
+// this flag is turned off by default, otherwise too many logs will be printed to terminal console
+const DEBUG_LOG: boolean = false;
+
+let attachLogToFunc = <T extends Function>(func: T): T => {
+  return func;
+};
+if (DEBUG_LOG) {
+  attachLogToFunc = rawAttachLogToFunc;
+}
 
 const KEY_PREFIX = "nsuite";
 const baseUrl = QINIU_PUBLIC_BUCKET_DOMAIN;
@@ -178,7 +190,7 @@ test("Upload current folder and then delete it successfully", async () => {
       putPolicyOptions: {},
       localPath: __dirname,
       ignorePathList: [],
-      refresh: true,
+      refresh: ALLOW_REFRESH,
       recursive: true,
       dryRun: false,
       uploadCallback: (curIdx, totalCount, fileInfo) => {
@@ -190,7 +202,9 @@ test("Upload current folder and then delete it successfully", async () => {
     const { allPaths, uploadedList, refreshedUrlList } = res;
     assert.strictEqual(allPaths.length > 0, true);
     assert.strictEqual(uploadedList.length, allPaths.length);
-    assert.strictEqual(refreshedUrlList.length, uploadedList.length);
+    if (ALLOW_REFRESH) {
+      assert.strictEqual(refreshedUrlList.length, uploadedList.length);
+    }
 
     assert.strictEqual(
       allPaths.every((item) => {
@@ -222,6 +236,7 @@ test("Upload current folder and then delete it successfully", async () => {
     );
   } catch (err) {
     if (
+      ALLOW_REFRESH &&
       err instanceof Error &&
       err.message ===
         "[400034]: refresh url count limit error, 请求次数超出当日刷新限额"
