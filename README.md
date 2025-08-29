@@ -170,6 +170,8 @@ import {
   uploadDirToQiniuOSS,
 } from "nsuite";
 
+process.env.QINIU_HTTP_CLIENT_TIMEOUT = "120000";
+
 const mac = getMacFromQiniuOSS({
   accessKey: QINIU_ACCESS_KEY,
   secretKey: QINIU_SECRET_KEY,

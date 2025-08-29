@@ -6,6 +6,10 @@ export function refreshUrlsFromQiniuOSS(payload: ParamsQiniuOSSRefreshUrls): Pro
 export function deleteRemotePathListFromQiniuOSS(payload: ParamsQiniuOSSDeleteRemotePathList): Promise<ReturnQiniuOSSDeleteRemotePathList>;
 export function uploadLocalFileToQiniuOSS(payload: ParamsQiniuOSSUploadLocalFile): Promise<ReturnQiniuOSSUploadLocalFile>;
 export function uploadDirToQiniuOSS(payload: ParamsQiniuOSSUploadDir): Promise<ReturnQiniuOSSUploadDir>;
+export type QiniuHttpClientRawOptions = qiniu.httpc.HttpClientOptions;
+export type QiniuHttpClientOptions = QiniuHttpClientRawOptions & {
+    timeout?: number;
+};
 export type QiniuZoneName = keyof typeof import("qiniu").zone;
 export type QiniuConfig = import("qiniu").conf.Config;
 export type QiniuBucketManager = import("qiniu").rs.BucketManager;
