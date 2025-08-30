@@ -8,7 +8,7 @@ export default [
   pluginJs.configs.recommended,
   eslintConfigPrettier,
   {
-    ignores: ["dist/", "patches/"],
+    ignores: ["dist/", "patches/", "node_modules/", ".temp/"],
   },
   {
     rules: {

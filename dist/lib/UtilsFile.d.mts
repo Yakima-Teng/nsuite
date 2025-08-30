@@ -1,9 +1,9 @@
 export function getSafeFileName(fileName: string): string;
-export function zipFile({ pathInputFile, pathOutputFile }: {
+export function zipFile(options: {
     pathInputFile: string;
     pathOutputFile: string;
 }): Promise<number>;
-export function zipFolder({ pathFolder, pathOutputFile }: {
+export function zipFolder(options: {
     pathFolder: string;
     pathOutputFile: string;
 }): Promise<number>;
