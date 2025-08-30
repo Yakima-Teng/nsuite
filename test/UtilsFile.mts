@@ -10,8 +10,9 @@ import {
   getDirname,
   getFilePath,
   isPathExists,
+  getReadableFileSize,
+  joinPath,
 } from "#lib/index";
-import { joinPath } from "#lib/UtilsPath";
 
 const filePath = getFilePath(import.meta.url);
 const __dirname = getDirname(import.meta.url);
@@ -61,4 +62,67 @@ test("zipFolder and unzipFile", async () => {
   await assertUnzipFileSuccessfully(pathDest);
 
   await rm(pathTemp, { recursive: true, force: true });
+});
+
+test("getReadableFileSize", () => {
+  assert.equal(getReadableFileSize(0), "0 B");
+  assert.equal(getReadableFileSize(1024, { standard: "jedec" }), "1 KB");
+  assert.equal(getReadableFileSize(1024 * 1024, { standard: "jedec" }), "1 MB");
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024, { standard: "jedec" }),
+    "1 GB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024, { standard: "jedec" }),
+    "1 TB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024 * 1024, {
+      standard: "jedec",
+    }),
+    "1 PB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024, {
+      standard: "jedec",
+    }),
+    "1 EB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024, {
+      standard: "jedec",
+    }),
+    "1 ZB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024, {
+      standard: "jedec",
+    }),
+    "1 YB",
+  );
+  assert.equal(
+    getReadableFileSize(
+      1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024,
+      { standard: "jedec" },
+    ),
+    "1024 YB",
+  );
+  assert.equal(
+    getReadableFileSize(
+      1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024,
+      { standard: "jedec" },
+    ),
+    "1048576 YB",
+  );
+
+  assert.equal(getReadableFileSize(1000), "1 kB");
+  assert.equal(getReadableFileSize(1001), "1 kB");
+  assert.equal(getReadableFileSize(1010), "1.01 kB");
+  assert.equal(getReadableFileSize(1100), "1.1 kB");
+  assert.equal(getReadableFileSize(1024), "1.02 kB");
+  assert.equal(getReadableFileSize(1024 * 1000), "1.02 MB");
+  // 1024 * 1024 = 1048576
+  assert.equal(getReadableFileSize(1024 * 1024), "1.05 MB");
+  // 1024 * 1024 * 1024 = 1073741824
+  assert.equal(getReadableFileSize(1024 * 1024 * 1024), "1.07 GB");
 });

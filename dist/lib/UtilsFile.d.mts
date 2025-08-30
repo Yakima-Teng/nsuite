@@ -14,4 +14,7 @@ export function unzipFile({ pathFile, pathOutput }: {
     pathFile: string;
     pathOutput: string;
 }): Promise<void>;
+export function getReadableFileSize(size: number | string, options?: import("filesize").FilesizeOptions & {
+    output?: "string";
+}): string;
 //# sourceMappingURL=UtilsFile.d.mts.map

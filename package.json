@@ -60,6 +60,7 @@
     "ali-oss": "6.23.0",
     "archiver": "7.0.1",
     "dotenv": "16.4.7",
+    "filesize": "11.0.2",
     "fs-extra": "11.3.1",
     "glob": "11.0.2",
     "node-ssh": "13.2.1",

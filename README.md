@@ -129,6 +129,79 @@ import { getFileMd5 } from "nsuite";
 const md5 = await getFileMd5({ pathFile: "./package.json" });
 ```
 
+### getReadableFileSize
+
+converts file size in bytes to human-readable string
+
+```typescript
+import assert from "node:assert/strict";
+import test from "node:test";
+import { getReadableFileSize } from "nsuite";
+
+test("getReadableFileSize", () => {
+  assert.equal(getReadableFileSize(0), "0 B");
+  assert.equal(getReadableFileSize(1024, { standard: "jedec" }), "1 KB");
+  assert.equal(getReadableFileSize(1024 * 1024, { standard: "jedec" }), "1 MB");
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024, { standard: "jedec" }),
+    "1 GB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024, { standard: "jedec" }),
+    "1 TB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024 * 1024, {
+      standard: "jedec",
+    }),
+    "1 PB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024, {
+      standard: "jedec",
+    }),
+    "1 EB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024, {
+      standard: "jedec",
+    }),
+    "1 ZB",
+  );
+  assert.equal(
+    getReadableFileSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024, {
+      standard: "jedec",
+    }),
+    "1 YB",
+  );
+  assert.equal(
+    getReadableFileSize(
+      1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024,
+      { standard: "jedec" },
+    ),
+    "1024 YB",
+  );
+  assert.equal(
+    getReadableFileSize(
+      1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024,
+      { standard: "jedec" },
+    ),
+    "1048576 YB",
+  );
+
+  assert.equal(getReadableFileSize(1000), "1 kB");
+  assert.equal(getReadableFileSize(1001), "1 kB");
+  assert.equal(getReadableFileSize(1010), "1.01 kB");
+  assert.equal(getReadableFileSize(1100), "1.1 kB");
+  assert.equal(getReadableFileSize(1024), "1.02 kB");
+  assert.equal(getReadableFileSize(1024 * 1000), "1.02 MB");
+  // 1024 * 1024 = 1048576
+  assert.equal(getReadableFileSize(1024 * 1024), "1.05 MB");
+  // 1024 * 1024 * 1024 = 1073741824
+  assert.equal(getReadableFileSize(1024 * 1024 * 1024), "1.07 GB");
+});
+```
+
 ## Captcha
 
 ### generateSvgCaptcha
