@@ -3,6 +3,10 @@
  * @template {Function} T - 需要被包装的目标函数类型
  * @param {T} func - 需要被包装的目标函数
  * @returns {T} 包装后的函数，调用时会先打印入参日志，执行后打印返回值日志
+ * @example
+ * ```typescript
+ * attachLogToFunc(console.log)("hello world")
+ * ```
  */
-export const attachLogToFunc: <T extends Function>(func: T) => T;
+export function attachLogToFunc<T extends Function>(func: T): T;
 //# sourceMappingURL=UtilsDebug.d.mts.map

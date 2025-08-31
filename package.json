@@ -38,8 +38,9 @@
     "lint": "npx prettier . --write && eslint --fix ./",
     "test": "node test/index.mts",
     "ts:check:watch": "npx tsc --noEmit --watch",
+    "doc": "npx jsdoc --package ./package.json --configure ./jsdoc.json",
     "build": "npx rimraf dist && npx tsc && npx rimraf dist/test",
-    "lintTestAndBuild": "npm run lint && npm run test && npm run build"
+    "lintTestDocAndBuild": "npm run lint && npm run test && npm run doc && npm run build"
   },
   "devDependencies": {
     "@eslint/js": "9.21.0",
@@ -49,9 +50,12 @@
     "@types/object-inspect": "1.13.0",
     "@types/ssh2": "1.15.5",
     "@types/unzipper": "0.10.11",
+    "docdash": "2.0.2",
     "eslint": "9.21.0",
     "eslint-config-prettier": "10.0.2",
     "globals": "16.0.0",
+    "jsdoc": "4.0.4",
+    "jsdoc-tsimport-plugin": "1.0.5",
     "prettier": "3.5.3",
     "rimraf": "6.0.1",
     "typescript": "5.8.3"
