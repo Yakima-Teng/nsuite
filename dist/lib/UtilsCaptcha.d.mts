@@ -1,4 +1,8 @@
 /**
+ * Utility functions for captcha generation.
+ * @module Captcha
+ */
+/**
  * @typedef {Object} ReturnGenerateSvgCaptcha
  * @property {string} text - The text of the mathematical expression.
  * @property {string} data - The SVG data of the captcha image.

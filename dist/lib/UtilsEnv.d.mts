@@ -1,4 +1,8 @@
 /**
+ * Utility functions for environment variables.
+ * @module Env
+ */
+/**
  * Parses environment files using dotenv.
  *
  * @param {string[]} pathArr - An array of paths to the environment files.

@@ -1,4 +1,8 @@
 /**
+ * Utility functions for logging.
+ * @module Log
+ */
+/**
  * 记录信息性消息到控制台
  * @param {...*} args - 要记录的参数列表
  */

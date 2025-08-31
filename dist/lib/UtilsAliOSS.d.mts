@@ -1,4 +1,8 @@
 /**
+ * Utility functions for ali-oss
+ * @module OSS-Ali
+ */
+/**
  * @typedef {import('ali-oss')} AliOSSClient
  */
 /**

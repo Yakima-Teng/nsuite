@@ -1,4 +1,8 @@
 /**
+ * Utilities functions for text
+ * @module Text
+ */
+/**
  * Generates a summary of the provided content using OpenAI's chat completions API.
  *
  * @param {Object} options - The options for generating the summary.

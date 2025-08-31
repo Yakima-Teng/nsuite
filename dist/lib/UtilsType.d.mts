@@ -1,4 +1,8 @@
 /**
+ * Utilities functions for type
+ * @module Type
+ */
+/**
  * Get Error instance
  * @param {unknown} err
  * @returns {Error}

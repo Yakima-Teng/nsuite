@@ -1,4 +1,8 @@
 /**
+ * Utility functions for working with file paths.
+ * @module Path
+ */
+/**
  * Converts a file URL to a file path.
  *
  * @param {string} metaUrl - The file URL to convert.
