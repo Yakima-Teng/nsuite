@@ -38,9 +38,13 @@
     "lint": "npx prettier . --write && eslint --fix ./",
     "test": "node test/index.mts",
     "ts:check:watch": "npx tsc --noEmit --watch",
-    "doc": "npx jsdoc --package ./package.json --configure ./jsdoc.json",
-    "build": "npx rimraf dist && npx tsc && npx rimraf dist/test",
-    "lintTestDocAndBuild": "npm run lint && npm run test && npm run doc && npm run build"
+    "build": "npx rimraf dist && npx tsc && npx rimraf dist/test, dist/build",
+    "lintTestAndBuild": "npm run lint && npm run test && npm run build",
+    "docs:build": "npx jsdoc --package ./package.json --configure ./jsdoc.json",
+    "docs:deploy": "node ./build/deploy-docs.mts",
+    "docs:buildAndDeploy:int": "npm run lint && npm run docs:build && cross-env MODE=int npm run docs:deploy",
+    "docs:buildAndDeploy:pre": "npm run lint && npm run docs:build && cross-env MODE=pre npm run docs:deploy",
+    "docs:buildAndDeploy:production": "npm run lint && npm run docs:build && cross-env MODE=production npm run docs:deploy"
   },
   "devDependencies": {
     "@eslint/js": "9.21.0",
@@ -50,6 +54,7 @@
     "@types/object-inspect": "1.13.0",
     "@types/ssh2": "1.15.5",
     "@types/unzipper": "0.10.11",
+    "cross-env": "10.0.0",
     "docdash": "2.0.2",
     "eslint": "9.21.0",
     "eslint-config-prettier": "10.0.2",
