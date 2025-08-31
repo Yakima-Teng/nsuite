@@ -10,6 +10,17 @@
  * @param {string} options.content - The content to be summarized.
  * @returns {Promise<string>} - A promise that resolves to the generated summary.
  * @throws {Error} - Throws an error if there is a problem generating the summary.
+ *
+ * @example
+ * import { generateSummary } from "nsuite";
+ * const summary = generateSummary({
+ *   apiKey: "",
+ *   baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+ *   model: "qwen-turbo",
+ *   language: "English",
+ *   maxWords: 200,
+ *   content: "",
+ * });
  */
 export function generateSummary({ apiKey, baseUrl, model, language, maxWords, content, }: {
     apiKey: string;

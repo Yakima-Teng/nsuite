@@ -84,6 +84,51 @@ export function sshGetFile(payload: ParamsSSHGetFile): Promise<void>;
  * Put file to server
  * @param {ParamsSSHGetFile} payload
  * @returns {Promise<void>}
+ *
+ * @example
+ * import {
+ *   getSSHClient,
+ *   sshConnect,
+ *   joinPath,
+ *   zipFolder,
+ *   sshPutFile,
+ *   sshExecCommand,
+ * } from "nsuite";
+ * import { PATH_ROOT } from "#scripts/ConstantUtils";
+ * import { sshConfig } from "#hosts/Shanghai-Tencent/nginx/build/config";
+ *
+ * const sshClient = getSSHClient();
+ * await sshConnect({
+ *   ssh: sshClient,
+ *   ...sshConfig,
+ * });
+ * const pathDist = joinPath(PATH_ROOT, "apps-home/blog", "dist");
+ * const pathDistZip = joinPath(pathDist, "../dist.zip");
+ * await zipFolder({
+ *   pathFolder: pathDist,
+ *   pathOutputFile: pathDistZip,
+ * });
+ *
+ * const pathRemote = "/www/sites/www.orzzone.com/public";
+ * const pathRemoteZip = `${pathRemote}/dist.zip`;
+ * await sshPutFile({
+ *   ssh: sshClient,
+ *   localFile: pathDistZip,
+ *   remoteFile: pathRemoteZip,
+ * });
+ *
+ * const execCommand = async (command: string): Promise<void> => {
+ *   await sshExecCommand({
+ *     ssh: sshClient,
+ *     cwd: pathRemote,
+ *     command,
+ *   });
+ * };
+ * await execCommand("rm dist");
+ * await execCommand("unzip -o dist.zip");
+ * await execCommand("rm dist.zip");
+ *
+ * process.exit(0);
  */
 export function sshPutFile(payload: ParamsSSHGetFile): Promise<void>;
 /**

@@ -10,6 +10,13 @@
  * @param {number} [options.width=150] - The width of the captcha image.
  * @param {number} [options.height=50] - The height of the captcha image.
  * @returns {ReturnGenerateSvgCaptcha} An object containing the captcha text and data.
+ *
+ * @example
+ * import { generateSvgCaptcha } from "nsuite";
+ * const { text, data } = await generateSvgCaptcha({
+ *   width: 148,
+ *   height: 48,
+ * });
  */
 export function generateSvgCaptcha({ width, height }: {
     width?: number | undefined;

@@ -1,1 +1,1 @@
-{"version":3,"file":"UtilsPromise.d.mts","sourceRoot":"","sources":["../../lib/UtilsPromise.mjs"],"names":[],"mappings":"AAGA;;;;;;;;GAQG;AACH,4BALa,CAAC,WACH,OAAO,CAAC,CAAC,CAAC,cACV,MAAM,GACJ,OAAO,CAAC,CAAC,CAAC,CActB;AAxBD,oCAAqC,cAAc,CAAC;AACpD,uCAAwC,IAAI,CAAC"}
+{"version":3,"file":"UtilsPromise.d.mts","sourceRoot":"","sources":["../../lib/UtilsPromise.mjs"],"names":[],"mappings":"AAGA;;;;;;;;;;;;GAYG;AACH,4BATa,CAAC,WACH,OAAO,CAAC,CAAC,CAAC,cACV,MAAM,GACJ,OAAO,CAAC,CAAC,CAAC,CAkBtB;AA5BD,oCAAqC,cAAc,CAAC;AACpD,uCAAwC,IAAI,CAAC"}

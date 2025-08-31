@@ -8,301 +8,83 @@ After install with `npm i -S nsuite`, you will have all the following abilities 
 
 **TypeScript is supported.**
 
+## Documentation
+
+For online documentation, please visit [https://www-int.verysites.com/docs/nsuite](https://www-int.verysites.com/docs/nsuite).
+
 ## Env
 
-### parseEnvFiles
-
-```typescript
-import { parseEnvFiles } from "nsuite";
-
-// note: the first value set for a varialble will win
-parseEnvFiles([
-  path.resolve(process.cwd(), ".env.local"),
-  path.resolve(process.cwd(), ".env"),
-]);
-```
+- parseEnvFiles
 
 ## Path
 
-```typescript
-import {
-  getFilePath,
-  getDirname,
-  joinPath,
-  isPathExists,
-  globMatchPaths,
-} from "nsuite";
-
-const __filename = getFilePath(import.meta.url);
-const __dirname = getDirname(import.meta.url);
-
-const targetPath = joinPath(__dirname, "../", "package.json");
-const isExists = await isPathExists(targetPath);
-const excelFileList = await globMatchPaths(
-  joinPath(__dirname, "materials/*.xlsx"),
-);
-```
+- getFilePath
+- getDirname
+- joinPath
+- isPathExists
+- globMatchPaths
 
 ## Promise
 
-### withTimeout
-
-```typescript
-import { withTimeout } from "nsuite";
-const newPromise = withTimeout(promise, 3000);
-```
+- withTimeout
 
 ## Log
 
-### createLogger
-
-```typescript
-import { createLogger } from "nsuite";
-export const logger = createLogger({
-  level: "info",
-  meta: {
-    serverName: "your-server-name",
-    NODE_ENV: process.env.NODE_ENV,
-    MODE: process.env.MODE,
-  },
-  maxLength: 1000,
-  filename: "./logs/application-%DATE%.log",
-  zippedArchive: false,
-  enableConsole: process.env.NODE_ENV !== "production",
-});
-```
+- createLogger
+- logInfo
+- logWarn
+- logError
 
 ## File
 
-### getSafeFileName
-
-Get a safe file name which you can use it in url after encodeURI handling.
-
-```typescript
-import { getSafeFileName } from "nsuite";
-const safeFileName = getSafeFileName("测试有空格 和特殊符号 &.pdf");
-```
-
-### zipFile
-
-Zips a single file and returns a promise that resolves when the zip operation is complete.
-
-```typescript
-import { zipFile } from "nsuite";
-await zipFile({
-  pathInputFile: "./package.json",
-  pathOutputFile: "./package.json.zip",
-});
-```
-
-### zipFolder
-
-Zips a folder and returns a promise that resolves when the zip operation is complete.
-
-```typescript
-import { zipFolder } from "nsuite";
-await zipFolder({
-  pathFolder: "./dist",
-  pathOutputFile: "./dist.zip",
-});
-```
-
-### unzipFile
-
-Unzips a file and returns a promise that resolves when the unzip operation is complete.
-
-```typescript
-import { unzipFile } from "nsuite";
-
-await unzipFile({
-  pathFile: pathDistZip,
-  pathOutput: pathOutputDirectory,
-});
-```
-
-### getFileMd5
-
-Calculates the MD5 hash of a file and returns a promise that resolves with the hash.
-
-```typescript
-import { getFileMd5 } from "nsuite";
-const md5 = await getFileMd5({ pathFile: "./package.json" });
-```
-
-### getReadableFileSize
-
-converts file size in bytes to human-readable string
-
-```typescript
-import { getReadableFileSize } from "nsuite";
-
-getReadableFileSize(0); // "0 B"
-
-/***
- * 1024-based, with { standard: "jedec" }
- */
-getReadableFileSize(1024, { standard: "jedec" }); // "1 KB"
-getReadableFileSize(1024 * 1024, { standard: "jedec" }); // "1 MB"
-getReadableFileSize(1024 * 1024 * 1024, { standard: "jedec" }); // "1 GB"
-
-/***
- * 1000-based, default
- */
-getReadableFileSize(1000); // "1 kB"
-getReadableFileSize(1001); // "1 kB"
-getReadableFileSize(1010); // "1.01 kB"
-getReadableFileSize(1100); // 1.1 kB"
-getReadableFileSize(1024); // "1.02 kB"
-getReadableFileSize(1024 * 1000); // "1.02 MB"
-// 1024 * 1024 = 1048576
-getReadableFileSize(1024 * 1024); // "1.05 MB"
-// 1024 * 1024 * 1024 = 1073741824
-getReadableFileSize(1024 * 1024 * 1024); // "1.07 GB"
-```
+- getSafeFileName
+- zipFile
+- zipFolder
+- unzipFile
+- getFileMd5
+- getReadableFileSize
 
 ## Captcha
 
-### generateSvgCaptcha
-
-```typescript
-import { generateSvgCaptcha } from "nsuite";
-const { text, data } = await generateSvgCaptcha({
-  width: 148,
-  height: 48,
-});
-```
+- generateSvgCaptcha
 
 ## Text
 
-### generateSummary
-
-Generate a summary of given text.
-
-```typescript
-import { generateSummary } from "nsuite";
-const summary = generateSummary({
-  apiKey: "",
-  baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
-  model: "qwen-turbo",
-  language: "English",
-  maxWords: 200,
-  content: "",
-});
-```
+- generateSummary
 
 ## Qiniu OSS
 
-```typescript
-import {
-  getConfigFromQiniuOSS,
-  getMacFromQiniuOSS,
-  joinPath,
-  refreshUrlsFromQiniuOSS,
-  uploadDirToQiniuOSS,
-} from "nsuite";
-
-process.env.QINIU_HTTP_CLIENT_TIMEOUT = "120000";
-
-const mac = getMacFromQiniuOSS({
-  accessKey: QINIU_ACCESS_KEY,
-  secretKey: QINIU_SECRET_KEY,
-});
-const config = getConfigFromQiniuOSS({});
-const { uploadedList } = await uploadDirToQiniuOSS({
-  config,
-  mac,
-  bucket: QINIU_BUCKET_NAME,
-  baseUrl: QINIU_PUBLIC_BUCKET_DOMAIN,
-  keyPrefix: CDN_PATH_PREFIX,
-  putPolicyOptions: {
-    scope: QINIU_BUCKET_NAME,
-    expires: 7200,
-  },
-  localPath: PATH_PUBLIC,
-  ignorePathList: ["node_modules/**"],
-  refresh: false,
-  recursive: true,
-  dryRun: false,
-  uploadCallback: (curIdx, totalCount, fileInfo) => {
-    logger.info(`Uploaded ${curIdx + 1}/${totalCount} ${fileInfo.key}`);
-  },
-});
-
-const urlsToRefresh = uploadedList
-  .filter((item) => {
-    return item.key.endsWith(".css") || item.key.endsWith(".js");
-  })
-  .map((item) => item.url);
-
-logger.info(`Start refreshing CDN: ${urlsToRefresh.join(", ")}.`);
-const refreshedUrls = await refreshUrlsFromQiniuOSS({
-  urls: urlsToRefresh,
-  mac,
-});
-
-logger.info(`Refreshed urls: ${refreshedUrls.join(", ")}.`);
-```
+- getConfigFromQiniuOSS
+- getMacFromQiniuOSS
+- joinPath
+- refreshUrlsFromQiniuOSS
+- uploadDirToQiniuOSS
 
 ## Aliyun OSS
 
-```typescript
-import {
-  getClientFromAliOSS,
-  getObjectUrlFromAliOSS,
-  listFilesFromAliOSS,
-  deleteRemotePathListFromAliOSS,
-  uploadLocalFileToAliOSS,
-  uploadDirToAliOSS,
-} from "nsuite";
-```
+- getClientFromAliOSS
+- getObjectUrlFromAliOSS
+- listFilesFromAliOSS
+- deleteRemotePathListFromAliOSS
+- uploadLocalFileToAliOSS
+- uploadDirToAliOSS
 
 ## SSH
 
-```typescript
-import {
-  getSSHClient,
-  sshConnect,
-  joinPath,
-  zipFolder,
-  sshPutFile,
-  sshExecCommand,
-} from "nsuite";
-import { PATH_ROOT } from "#scripts/ConstantUtils";
-import { sshConfig } from "#hosts/Shanghai-Tencent/nginx/build/config";
+- getSSHClient
+- sshConnect
+- joinPath
+- zipFolder
+- sshPutFile
+- sshExecCommand
 
-const sshClient = getSSHClient();
-await sshConnect({
-  ssh: sshClient,
-  ...sshConfig,
-});
-const pathDist = joinPath(PATH_ROOT, "apps-home/blog", "dist");
-const pathDistZip = joinPath(pathDist, "../dist.zip");
-await zipFolder({
-  pathFolder: pathDist,
-  pathOutputFile: pathDistZip,
-});
+## Type
 
-const pathRemote = "/www/sites/www.orzzone.com/public";
-const pathRemoteZip = `${pathRemote}/dist.zip`;
-await sshPutFile({
-  ssh: sshClient,
-  localFile: pathDistZip,
-  remoteFile: pathRemoteZip,
-});
+- getError
 
-const execCommand = async (command: string): Promise<void> => {
-  await sshExecCommand({
-    ssh: sshClient,
-    cwd: pathRemote,
-    command,
-  });
-};
-await execCommand("rm dist");
-await execCommand("unzip -o dist.zip");
-await execCommand("rm dist.zip");
+## Debug
 
-process.exit(0);
-```
+- attachLogToFunc
 
 ## License
 

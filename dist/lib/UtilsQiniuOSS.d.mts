@@ -140,6 +140,56 @@ export function uploadLocalFileToQiniuOSS(payload: ParamsQiniuOSSUploadLocalFile
  * Upload directory to Qiniu OSS
  * @param {ParamsQiniuOSSUploadDir} payload
  * @returns {Promise<ReturnQiniuOSSUploadDir>}
+ *
+ * @example
+ * import {
+ *   getConfigFromQiniuOSS,
+ *   getMacFromQiniuOSS,
+ *   joinPath,
+ *   refreshUrlsFromQiniuOSS,
+ *   uploadDirToQiniuOSS,
+ * } from "nsuite";
+ *
+ * process.env.QINIU_HTTP_CLIENT_TIMEOUT = "120000";
+ *
+ * const mac = getMacFromQiniuOSS({
+ *   accessKey: QINIU_ACCESS_KEY,
+ *   secretKey: QINIU_SECRET_KEY,
+ * });
+ * const config = getConfigFromQiniuOSS({});
+ * const { uploadedList } = await uploadDirToQiniuOSS({
+ *   config,
+ *   mac,
+ *   bucket: QINIU_BUCKET_NAME,
+ *   baseUrl: QINIU_PUBLIC_BUCKET_DOMAIN,
+ *   keyPrefix: CDN_PATH_PREFIX,
+ *   putPolicyOptions: {
+ *     scope: QINIU_BUCKET_NAME,
+ *     expires: 7200,
+ *   },
+ *   localPath: PATH_PUBLIC,
+ *   ignorePathList: ["node_modules/**"],
+ *   refresh: false,
+ *   recursive: true,
+ *   dryRun: false,
+ *   uploadCallback: (curIdx, totalCount, fileInfo) => {
+ *     logger.info(`Uploaded ${curIdx + 1}/${totalCount} ${fileInfo.key}`);
+ *   },
+ * });
+ *
+ * const urlsToRefresh = uploadedList
+ *   .filter((item) => {
+ *     return item.key.endsWith(".css") || item.key.endsWith(".js");
+ *   })
+ *   .map((item) => item.url);
+ *
+ * logger.info(`Start refreshing CDN: ${urlsToRefresh.join(", ")}.`);
+ * const refreshedUrls = await refreshUrlsFromQiniuOSS({
+ *   urls: urlsToRefresh,
+ *   mac,
+ * });
+ *
+ * logger.info(`Refreshed urls: ${refreshedUrls.join(", ")}.`);
  */
 export function uploadDirToQiniuOSS(payload: ParamsQiniuOSSUploadDir): Promise<ReturnQiniuOSSUploadDir>;
 export type QiniuZoneName = "Zone_z0" | "Zone_z1" | "Zone_z2" | "Zone_na0" | "Zone_as0";
