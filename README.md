@@ -44,6 +44,23 @@ For online documentation, please visit [https://www-int.verysites.com/docs/nsuit
 - getFileMd5
 - getReadableFileSize
 
+## SSH
+
+- getSSHClient
+- sshConnect
+- joinPath
+- zipFolder
+- sshPutFile
+- sshExecCommand
+
+## Type
+
+- getError
+
+## Debug
+
+- attachLogToFunc
+
 ## Captcha
 
 - generateSvgCaptcha
@@ -68,23 +85,6 @@ For online documentation, please visit [https://www-int.verysites.com/docs/nsuit
 - deleteRemotePathListFromAliOSS
 - uploadLocalFileToAliOSS
 - uploadDirToAliOSS
-
-## SSH
-
-- getSSHClient
-- sshConnect
-- joinPath
-- zipFolder
-- sshPutFile
-- sshExecCommand
-
-## Type
-
-- getError
-
-## Debug
-
-- attachLogToFunc
 
 ## License
 
