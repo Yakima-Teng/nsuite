@@ -1,6 +1,6 @@
 /**
  * Utility functions for debugging
- * @module Debug
+ * @module 08-Debug
  */
 /**
  * 为函数添加调试日志包装，自动记录函数调用前后的参数和返回值

@@ -1,6 +1,6 @@
 /**
  * Utilities functions for type
- * @module Type
+ * @module 07-Type
  */
 /**
  * Get Error instance
@@ -9,11 +9,7 @@
  *
  * @example
  * import { getError } from 'nsuite
- * try {
- *   // ...
- * } catch (err) {
- *   return [getError(err), undefined]
- * }
+ * console.log(getError(err).message)
  */
 export function getError(err: unknown): Error;
 //# sourceMappingURL=UtilsType.d.mts.map

@@ -1,6 +1,6 @@
 /**
  * Utility functions for logging.
- * @module Log
+ * @module 05-Log
  */
 /**
  * 记录信息性消息到控制台

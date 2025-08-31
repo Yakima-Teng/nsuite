@@ -1,6 +1,6 @@
 /**
  * Utility functions for working with file paths.
- * @module Path
+ * @module 06-Path
  */
 /**
  * Converts a file URL to a file path.

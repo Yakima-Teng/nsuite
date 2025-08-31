@@ -1,6 +1,6 @@
 /**
  * Utility functions for working with files.
- * @module File
+ * @module 02-File
  */
 /**
  * Generates a safe file name by replacing special characters with underscores.

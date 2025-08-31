@@ -1,6 +1,6 @@
 /**
  * Utility functions for environment variables.
- * @module Env
+ * @module 01-Env
  */
 /**
  * Parses environment files using dotenv.

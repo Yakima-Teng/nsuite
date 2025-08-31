@@ -1,6 +1,6 @@
 /**
  * Utilities functions for text
- * @module Text
+ * @module 10-Text
  */
 /**
  * Generates a summary of the provided content using OpenAI's chat completions API.

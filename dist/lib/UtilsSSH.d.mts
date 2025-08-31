@@ -1,6 +1,6 @@
 /**
  * Utilities functions for SSH
- * @module SSH
+ * @module 09-SSH
  *
  * @example
  * import {

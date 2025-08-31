@@ -1,6 +1,6 @@
 /**
  * Utility functions for captcha generation.
- * @module Captcha
+ * @module 04-Captcha
  */
 /**
  * @typedef {Object} ReturnGenerateSvgCaptcha

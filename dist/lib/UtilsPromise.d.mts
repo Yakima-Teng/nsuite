@@ -14,7 +14,7 @@
 export function withTimeout<T>(promise: Promise<T>, timeoutMs?: number): Promise<T>;
 /**
  * Utility functions for promise
- * @module Promise
+ * @module 03-Promise
  */
 export const TIMEOUT_ERROR_MESSAGE: "TimeoutError";
 export const DEFAULT_PROMISE_TIME_OUT: 3000;
