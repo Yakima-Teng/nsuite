@@ -12,7 +12,8 @@
     "destination": "./.docs",
     "recurse": true,
     "encoding": "utf8",
-    "template": "node_modules/docdash"
+    "template": "node_modules/docdash",
+    "readme": "./README.md"
   },
   "sourceType": "module",
   "tags": {
