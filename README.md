@@ -1,6 +1,21 @@
 # nsuite
 
-> Your missing nodejs development suite!
+<p align="center" style="display: flex;align-items: center;justify-content: center;gap:8px;">
+  <a href="https://npmcharts.com/compare/nsuite?minimal=true">
+    <img src="https://img.shields.io/npm/dm/nsuite.svg" alt="Downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/nsuite">
+    <img src="https://img.shields.io/npm/v/nsuite.svg" alt="Version">
+  </a>
+  <a href="https://github.com/Yakima-Teng/nsuite/blob/master/LICENSE">
+    <img src="https://img.shields.io/npm/l/nsuite.svg" alt="License">
+  </a>
+  <a href="https://github.com/Yakima-Teng/nsuite">
+    <img src="https://img.shields.io/github/stars/Yakima-Teng/nsuite.svg?style=social" alt="Stars">
+  </a>
+</p>
+
+> Your missing nodejs development suite! Give it a star if you find this package useful ^_^.
 
 If you develop with Node.js, you will find that there are **many many many** functions/packages you need to write/install across **many** projects.
 nsuite will make you feel more comfortable.
@@ -88,4 +103,4 @@ For online documentation, please visit [https://www-int.verysites.com/docs/nsuit
 
 ## License
 
-This project is published under MIT license, which means you can use it in business projects for free. However, it would be better if you give this repo a star!
+This project is published under [MIT license](./LICENSE).
