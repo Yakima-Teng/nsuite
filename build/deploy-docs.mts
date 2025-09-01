@@ -21,13 +21,16 @@ parseEnvFiles([
 ])
 
 const {
+  MODE = '',
   SSH_HOST = '',
   SSH_PORT = '',
   SSH_USERNAME = '',
   SSH_PASSWORD = ''
 } = process.env
 
-const cwd = '/www/sites/www-int.verysites.com/public'
+const cwd = MODE === 'production'
+  ? '/www/sites/www.verysites.com/public'
+  : `/www/sites/www-${MODE}.verysites.com/public`
 const pathRemote = joinPosixPath(cwd, 'docs/nsuite')
 
 const pathLocalDocsRoot = joinPath(__dirname, '../.docs')
