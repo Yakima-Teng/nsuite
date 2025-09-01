@@ -7,6 +7,12 @@
   <a href="https://www.npmjs.com/package/nsuite">
     <img src="https://img.shields.io/npm/v/nsuite.svg" alt="Version">
   </a>
+  <a href="https://www.typescriptlang.org/">
+    <img src="https://img.shields.io/badge/TypeScript-√-blue" alt="Support Typescript">
+  </a>
+  <a href="https://jsdoc.app/">
+    <img src="https://img.shields.io/badge/JSDoc-√-red" alt="Support JSDoc">
+  </a>
   <a href="https://github.com/Yakima-Teng/nsuite/blob/master/LICENSE">
     <img src="https://img.shields.io/npm/l/nsuite.svg" alt="License">
   </a>
@@ -15,7 +21,7 @@
   </a>
 </p>
 
-> Your missing nodejs development suite! Give it a star if you find this package useful ^_^.
+> Your missing nodejs development suite! Give it a star if you find this package useful ^\_^.
 
 If you develop with Node.js, you will find that there are **many many many** functions/packages you need to write/install across **many** projects.
 nsuite will make you feel more comfortable.
