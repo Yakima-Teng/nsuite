@@ -4,9 +4,18 @@
   "description": "Your missing nodejs development suite!",
   "type": "module",
   "keywords": [
+    "env",
+    "path",
+    "file",
     "logger",
     "captcha",
-    "summary"
+    "summary",
+    "promise",
+    "ssh",
+    "type",
+    "debug",
+    "qiniu-oss",
+    "ali-oss"
   ],
   "main": "./lib/index.mjs",
   "types": "./dist/lib/index.d.mts",
