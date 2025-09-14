@@ -16,6 +16,7 @@ import {
   getBucketManagerFromQiniuOSS,
   getPublicDownloadUrlFromQiniuOSS,
   deleteRemotePathListFromQiniuOSS,
+  logInfo,
 } from "#lib/index";
 
 const __dirname = getDirname(import.meta.url);
@@ -165,10 +166,12 @@ test("Upload current folder with dryRun will not actually upload files", async (
     refresh: false,
     recursive: true,
     dryRun: true,
-    uploadCallback: (curIdx, totalCount, fileInfo) => {
-      console.log(
-        `[${curIdx + 1}/${totalCount}]: Uploaded ${fileInfo.name} => ${fileInfo.url}`,
-      );
+    uploadCallback: ({ err, curIdx, total, file }) => {
+      if (err) {
+        logError(`Failed uploadLocalFileToQiniuOSS, err: ${err.message}`);
+        return;
+      }
+      logInfo(`[${curIdx + 1}/${total}]: Uploaded ${file.name} => ${file.url}`);
     },
   });
   const { allPaths, uploadedList, refreshedUrlList } = res;
@@ -193,9 +196,13 @@ test("Upload current folder and then delete it successfully", async () => {
       refresh: ALLOW_REFRESH,
       recursive: true,
       dryRun: false,
-      uploadCallback: (curIdx, totalCount, fileInfo) => {
-        console.log(
-          `[${curIdx + 1}/${totalCount}]: Uploaded ${fileInfo.name} => ${fileInfo.url}`,
+      uploadCallback: ({ err, curIdx, total, file }) => {
+        if (err) {
+          logError(`Failed uploadLocalFileToQiniuOSS, err: ${err.message}`);
+          return;
+        }
+        logInfo(
+          `[${curIdx + 1}/${total}]: Uploaded ${file.name} => ${file.url}`,
         );
       },
     });
