@@ -31,7 +31,7 @@ After install with `npm i -S nsuite`, you will have all the following abilities 
 
 ## Documentation
 
-For online documentation, please visit [https://www-int.verysites.com/docs/nsuite](https://www-int.verysites.com/docs/nsuite).
+For online documentation, please visit [https://www.verysites.com/docs/nsuite/](https://www.verysites.com/docs/nsuite/).
 
 ## Env
 
