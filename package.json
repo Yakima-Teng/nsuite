@@ -57,7 +57,9 @@
     "docs:deploy": "node ./build/deploy-docs.mts",
     "docs:buildAndDeploy:int": "npm run lint && npm run docs:build && cross-env MODE=int npm run docs:deploy",
     "docs:buildAndDeploy:pre": "npm run lint && npm run docs:build && cross-env MODE=pre npm run docs:deploy",
-    "docs:buildAndDeploy:production": "npm run lint && npm run docs:build && cross-env MODE=production npm run docs:deploy"
+    "docs:buildAndDeploy:production": "npm run lint && npm run docs:build && cross-env MODE=production npm run docs:deploy",
+    "version:patch": "npm version patch",
+    "publish": "npm publish"
   },
   "devDependencies": {
     "@eslint/js": "9.21.0",
