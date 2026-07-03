@@ -47,6 +47,7 @@
     "url": "https://www.orzzone.com"
   },
   "scripts": {
+    "ready": "npm install",
     "postinstall": "patch-package",
     "lint": "npx prettier . --write && eslint --fix ./",
     "test": "node test/index.mts",
