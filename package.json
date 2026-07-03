@@ -90,7 +90,7 @@
     "object-inspect": "1.13.4",
     "openai": "4.86.1",
     "patch-package": "8.0.0",
-    "qiniu": "7.14.0",
+    "qiniu": "7.15.2",
     "svg-captcha": "1.4.0",
     "unzipper": "0.12.3",
     "winston": "3.17.0",
