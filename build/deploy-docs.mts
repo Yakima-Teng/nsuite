@@ -14,7 +14,7 @@ import {
 } from '#lib/index'
 
 const __dirname = getDirname(import.meta.url)
-const pathEnv = joinPath(__dirname, '../../aimian/.env')
+const pathEnv = joinPath(__dirname, '../../tech/.env')
 
 parseEnvFiles([
   pathEnv

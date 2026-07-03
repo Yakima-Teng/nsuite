@@ -21,7 +21,7 @@ import {
 
 const __dirname = getDirname(import.meta.url);
 
-parseEnvFiles([joinPath(__dirname, "../../aimian/.env")]);
+parseEnvFiles([joinPath(__dirname, "../../tech/.env")]);
 
 process.env.QINIU_HTTP_CLIENT_TIMEOUT = "120000";
 
