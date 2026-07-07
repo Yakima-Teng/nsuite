@@ -1,0 +1,13 @@
+diff --git a/node_modules/jsdoc-tsimport-plugin/index.js b/node_modules/jsdoc-tsimport-plugin/index.js
+index 7f70796..ed2b64f 100644
+--- a/node_modules/jsdoc-tsimport-plugin/index.js
++++ b/node_modules/jsdoc-tsimport-plugin/index.js
+@@ -37,7 +37,7 @@ const typedefRegex = /@typedef\s*(?:\{[^}]*\})\s*([\w-\$]*)/g;
+ /**
+  * Finds a ts import.
+  */
+-const importRegex = /import\(['"](\@?[\.\/_a-zA-Z0-9-\$]*)(?:\.js)?['"]\)\.?([_a-zA-Z0-9-\$]*)?/g;
++const importRegex = /import\(['"](\@?[\.\/_a-zA-Z0-9-\$:]*)(?:\.js)?['"]\)\.?([_a-zA-Z0-9-\$]*)?/g;
+ 
+ const typeRegex = /\{[^}]*\}/g;
+ 
