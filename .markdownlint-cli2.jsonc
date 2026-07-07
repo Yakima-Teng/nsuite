@@ -1,0 +1,9 @@
+{
+  "globs": ["**/*.md"],
+  "gitignore": true,
+  "ignores": [],
+  "fix": true,
+  "config": {
+    "default": true,
+  },
+}
