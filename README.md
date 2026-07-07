@@ -17,15 +17,19 @@
     <img src="https://img.shields.io/npm/l/nsuite.svg" alt="License">
   </a>
   <a href="https://github.com/Yakima-Teng/nsuite">
-    <img src="https://img.shields.io/github/stars/Yakima-Teng/nsuite.svg?style=social" alt="Stars">
+    <img src="https://img.shields.io/github/stars/Yakima-Teng/nsuite.svg?style=social"
+      alt="Stars">
   </a>
 </p>
 
-> Your missing nodejs development suite! Give it a star if you find this package useful ^\_^.
+> Your missing nodejs development suite! Give it a star if you find this
+> package useful ^\_^.
 
-If you develop with Node.js, you will find that there are **many many many** functions/packages you need to write/install across **many** projects.
+If you develop with Node.js, you will find that there are **many many many**
+functions/packages you need to write/install across **many** projects.
 nsuite will make you feel more comfortable.
-After install with `npm i -S nsuite`, you will have all the following abilities at your hand.
+After install with `npm i -S nsuite`, you will have all the following
+abilities at your hand.
 
 **TypeScript is supported.**
 
@@ -86,7 +90,8 @@ For online documentation, please visit [https://www.verysites.com/docs/nsuite/](
 
 ## Debug
 
-- `attachLogToFunc` — Wraps a function with debug logging for arguments and return value.
+- `attachLogToFunc` — Wraps a function with debug logging for arguments
+  and return value.
 
 ## Captcha
 
@@ -105,7 +110,8 @@ For online documentation, please visit [https://www.verysites.com/docs/nsuite/](
 - `getConfigFromQiniuOSS` — Creates a Qiniu configuration object.
 - `getMacFromQiniuOSS` — Creates a Qiniu Mac authentication object.
 - `getBucketManagerFromQiniuOSS` — Creates a Qiniu bucket manager instance.
-- `getPublicDownloadUrlFromQiniuOSS` — Generates a public download URL for a Qiniu object.
+- `getPublicDownloadUrlFromQiniuOSS` — Generates a public download URL
+  for a Qiniu object.
 - `refreshUrlsFromQiniuOSS` — Refreshes CDN cache URLs via Qiniu.
 - `deleteRemotePathListFromQiniuOSS` — Deletes multiple files from Qiniu OSS.
 - `uploadLocalFileToQiniuOSS` — Uploads a single local file to Qiniu OSS.
