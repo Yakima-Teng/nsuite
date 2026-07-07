@@ -35,77 +35,90 @@ For online documentation, please visit [https://www.verysites.com/docs/nsuite/](
 
 ## Env
 
-- parseEnvFiles
+- `parseEnvFiles` — Parses environment files using dotenv.
 
 ## Path
 
-- getFilePath
-- getDirname
-- joinPath
-- isPathExists
-- globMatchPaths
+- `getFilePath` — Converts `import.meta.url` to a file path.
+- `getDirname` — Returns the directory name from `import.meta.url`.
+- `joinPath` — Joins multiple path segments into a single path.
+- `joinPosixPath` — Joins multiple path segments into a single POSIX path.
+- `resolvePath` — Resolves path segments to an absolute path.
+- `resolvePosixPath` — Resolves path segments to an absolute POSIX path.
+- `isPathExists` — Checks if a given path exists.
+- `globMatchPaths` — Matches file paths using glob patterns.
 
 ## Promise
 
-- withTimeout
+- `withTimeout` — Wraps a promise with a configurable timeout.
 
 ## Log
 
-- createLogger
-- logInfo
-- logWarn
-- logError
+- `createLogger` — Creates a Winston logger with daily rotating file transport.
+- `logInfo` — Logs an informational message to the console.
+- `logWarn` — Logs a warning message to the console.
+- `logError` — Logs an error message to the console.
 
 ## File
 
-- getSafeFileName
-- zipFile
-- zipFolder
-- unzipFile
-- getFileMd5
-- getReadableFileSize
+- `getSafeFileName` — Sanitizes a file name by replacing special characters.
+- `zipFile` — Compresses a single file into a zip archive.
+- `zipFolder` — Compresses a folder into a zip archive.
+- `unzipFile` — Extracts a zip archive to a directory.
+- `getFileMd5` — Calculates the MD5 hash of a file.
+- `getReadableFileSize` — Converts file size in bytes to a human-readable string.
+- `writeFileSafely` — Writes content to a file, creating parent directories if needed.
 
 ## SSH
 
-- getSSHClient
-- sshConnect
-- joinPath
-- zipFolder
-- sshPutFile
-- sshExecCommand
+- `getSSHClient` — Creates a new SSH client instance.
+- `sshConnect` — Connects to a remote server via SSH.
+- `sshPutDirectory` — Uploads a local directory to a remote server via SSH.
+- `sshGetDirectory` — Downloads a remote directory from a server via SSH.
+- `sshGetFile` — Downloads a remote file from a server via SSH.
+- `sshPutFile` — Uploads a local file to a remote server via SSH.
+- `sshPutFiles` — Uploads multiple local files to a remote server via SSH.
+- `sshExecCommand` — Executes a command on a remote server via SSH.
 
 ## Type
 
-- getError
+- `getError` — Safely wraps an unknown error into an Error instance.
 
 ## Debug
 
-- attachLogToFunc
+- `attachLogToFunc` — Wraps a function with debug logging for arguments and return value.
 
 ## Captcha
 
-- generateSvgCaptcha
+- `generateSvgCaptcha` — Generates an SVG captcha with a mathematical expression.
 
 ## Text
 
-- generateSummary
+- `generateSummary` — Generates a text summary using OpenAI's chat completions API.
+
+## Module
+
+- `isMainModule` — Checks if the current module is the Node.js entry point.
 
 ## Qiniu OSS
 
-- getConfigFromQiniuOSS
-- getMacFromQiniuOSS
-- joinPath
-- refreshUrlsFromQiniuOSS
-- uploadDirToQiniuOSS
+- `getConfigFromQiniuOSS` — Creates a Qiniu configuration object.
+- `getMacFromQiniuOSS` — Creates a Qiniu Mac authentication object.
+- `getBucketManagerFromQiniuOSS` — Creates a Qiniu bucket manager instance.
+- `getPublicDownloadUrlFromQiniuOSS` — Generates a public download URL for a Qiniu object.
+- `refreshUrlsFromQiniuOSS` — Refreshes CDN cache URLs via Qiniu.
+- `deleteRemotePathListFromQiniuOSS` — Deletes multiple files from Qiniu OSS.
+- `uploadLocalFileToQiniuOSS` — Uploads a single local file to Qiniu OSS.
+- `uploadDirToQiniuOSS` — Uploads an entire directory to Qiniu OSS.
 
 ## Aliyun OSS
 
-- getClientFromAliOSS
-- getObjectUrlFromAliOSS
-- listFilesFromAliOSS
-- deleteRemotePathListFromAliOSS
-- uploadLocalFileToAliOSS
-- uploadDirToAliOSS
+- `getClientFromAliOSS` — Creates an Aliyun OSS client instance.
+- `getObjectUrlFromAliOSS` — Generates an object URL from Aliyun OSS.
+- `listFilesFromAliOSS` — Lists files under a prefix in Aliyun OSS.
+- `deleteRemotePathListFromAliOSS` — Deletes multiple files from Aliyun OSS.
+- `uploadLocalFileToAliOSS` — Uploads a single local file to Aliyun OSS.
+- `uploadDirToAliOSS` — Uploads an entire directory to Aliyun OSS.
 
 ## License
 
