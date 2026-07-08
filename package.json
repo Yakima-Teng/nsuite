@@ -58,7 +58,7 @@
     "test": "node test/index.mts",
     "build": "npx rimraf dist && npx tsc && npx rimraf dist/test, dist/build",
     "lintAndBuild": "npm run lint && npm run build",
-    "deploy": "npm publish --registry=https://registry.npmjs.org/",
+    "deploy": "node ./scripts/deploy-npm.mts",
     "docs:build": "npx rimraf .docs && npx jsdoc --package ./package.json --configure ./jsdoc.json",
     "docs:deploy": "node ./scripts/deploy-docs-gh-pages.mts",
     "docs:buildAndDeploy": "npm run lint && npm run docs:build && npm run docs:deploy",
