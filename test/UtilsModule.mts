@@ -28,10 +28,10 @@ test("should return true when called from the entry module", async () => {
   assert.strictEqual(stdout.trim(), "true");
 });
 
-test("should return false for an invalid URL", () => {
-  assert.strictEqual(isMainModule("not-a-url"), false);
+test("should throw for an invalid URL", () => {
+  assert.throws(() => isMainModule("not-a-url"));
 });
 
-test("should return false for an empty string", () => {
-  assert.strictEqual(isMainModule(""), false);
+test("should throw for an empty string", () => {
+  assert.throws(() => isMainModule(""));
 });
