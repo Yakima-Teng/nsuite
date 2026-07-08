@@ -1,6 +1,6 @@
 {
   // Change this to match your project
-  "include": ["./lib/**/*.mjs", "./test/**/*.mts", "./build/**/*.mts"],
+  "include": ["./lib/**/*.mjs", "./test/**/*.mts", "./scripts/**/*.mts"],
   "compilerOptions": {
     "target": "ES2017",
     "module": "NodeNext",

@@ -8,7 +8,7 @@
 ## 范围
 
 - 本仓库默认语言: JavaScript (ESM, .mjs)、TypeScript (.mts)
-- 允许修改目录: `lib/`、`test/`、`build/`、`patches/`
+- 允许修改目录: `lib/`、`test/`、`scripts/`、`patches/`
 - 禁止修改目录: `dist/`、`node_modules/`、`.git/`、`.idea/`
 
 ## 改动检查
@@ -51,7 +51,7 @@ nsuite/
 │   ├── UtilsAliOSS.mjs     # 阿里云 OSS 操作
 │   └── UtilsQiniuOSS.mjs   # 七牛 OSS 操作
 ├── test/                   # 测试文件（.mts）
-├── build/                  # 构建脚本（文档部署等）
+├── scripts/                  # 构建脚本（文档部署等）
 ├── dist/                   # 类型声明输出（自动生成，禁止修改）
 ├── patches/                # patch-package 补丁
 ├── types/                  # 额外类型定义
