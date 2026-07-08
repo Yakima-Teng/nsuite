@@ -12,12 +12,8 @@ if (!NPM_TOKEN) {
 }
 
 process.env.NPM_TOKEN = NPM_TOKEN;
-execSync(`npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}`, {
-  stdio: "inherit",
-  env: process.env,
-});
 execSync(
-  `cross-env NPM_TOKEN="${NPM_TOKEN}" npm publish --registry=https://registry.npmjs.org/`,
+  `npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN} && npm publish --registry=https://registry.npmjs.org/`,
   {
     stdio: "inherit",
     env: process.env,
