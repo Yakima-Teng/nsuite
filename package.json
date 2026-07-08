@@ -40,11 +40,11 @@
     "url": "git+https://github.com/Yakima-Teng/nsuite.git"
   },
   "license": "MIT",
-  "homepage": "https://www.verysites.com/docs/nsuite",
+  "homepage": "https://github.com/Yakima-Teng/nsuite",
   "author": {
     "name": "Yakima",
     "email": "yakima.public@gmail.com",
-    "url": "https://www.orzzone.com"
+    "url": "https://blog.verysites.com"
   },
   "scripts": {
     "ready": "npm install",

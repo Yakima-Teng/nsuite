@@ -35,7 +35,7 @@ abilities at your hand.
 
 ## Documentation
 
-For online documentation, please visit [https://www.verysites.com/docs/nsuite/](https://www.verysites.com/docs/nsuite/).
+For online documentation, please visit [https://yakima-teng.github.io/nsuite/](https://yakima-teng.github.io/nsuite/).
 
 ## Env
 
