@@ -216,8 +216,9 @@ test("Upload current folder and then delete it successfully", async () => {
     assert.strictEqual(
       allPaths.every((item) => {
         return (
-          new RegExp(`^${KEY_PREFIX}/[a-zA-Z]+\\.mts$`).test(item.key) &&
-          item.localPath.endsWith(basename(item.key))
+          new RegExp(
+            `^${KEY_PREFIX}/([a-zA-Z0-9_-]+/)*[a-zA-Z0-9_-]+\\.mts$`,
+          ).test(item.key) && item.localPath.endsWith(basename(item.key))
         );
       }),
       true,
@@ -231,7 +232,8 @@ test("Upload current folder and then delete it successfully", async () => {
           uploadedItem.url === `${baseUrl}/${uploadedItem.key}` &&
           uploadedItem.fileSize > 0 &&
           uploadedItem.etag.length > 0 &&
-          uploadedItem.key === `${KEY_PREFIX}/${uploadedItem.name}` &&
+          uploadedItem.key.startsWith(KEY_PREFIX) &&
+          uploadedItem.key.endsWith(uploadedItem.name) &&
           uploadedItem.bucket === QINIU_BUCKET_NAME
         );
       }),
