@@ -6,10 +6,16 @@ const __dirname = getDirname(import.meta.url);
 const envPath = resolvePath(__dirname, "../../tech/.env");
 
 const { parsed } = parseEnvFiles([envPath]);
-if (parsed?.NPM_TOKEN) {
-  process.env.NPM_TOKEN = parsed.NPM_TOKEN;
+const NPM_TOKEN = parsed?.NPM_TOKEN || "";
+if (!NPM_TOKEN) {
+  throw new Error(`No NPM_TOKEN detected!`);
 }
 
+process.env.NPM_TOKEN = NPM_TOKEN;
+execSync(`npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}`, {
+  stdio: "inherit",
+  env: process.env,
+});
 execSync("npm publish --registry=https://registry.npmjs.org/", {
   stdio: "inherit",
   env: process.env,
