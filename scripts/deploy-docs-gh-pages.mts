@@ -9,12 +9,8 @@ const __filename: string = fileURLToPath(import.meta.url);
 const __dirname: string = dirname(__filename);
 const repoRoot: string = join(__dirname, "..");
 
-// 1. Build docs
-console.log("[1/3] Building docs...");
-execSync("npm run docs:build", { cwd: repoRoot, stdio: "inherit" });
-
-// 2. Find the version directory under .docs/nsuite/
-console.log("[2/3] Preparing deployment files...");
+// 1. Find the version directory under .docs/nsuite/
+console.log("[1/2] Preparing deployment files...");
 const docsDir: string = join(repoRoot, ".docs/nsuite");
 const entries: Dirent[] = await readdir(docsDir, { withFileTypes: true });
 const versionDir: Dirent | undefined = entries.find((e) => e.isDirectory());
@@ -26,8 +22,8 @@ const sourceDir: string = join(docsDir, versionDir.name);
 const tmpDir: string = await mkdtemp(join(tmpdir(), "gh-pages-"));
 await cp(sourceDir, tmpDir, { recursive: true });
 
-// 3. Init git, commit, force push to gh-pages
-console.log("[3/3] Force pushing to gh-pages branch...");
+// 2. Init git, commit, force push to gh-pages
+console.log("[2/2] Force pushing to gh-pages branch...");
 execSync("git init", { cwd: tmpDir, stdio: "pipe" });
 execSync("git add -A", { cwd: tmpDir, stdio: "pipe" });
 execSync('git commit -m "docs: update API documentation"', {
