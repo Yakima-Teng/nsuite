@@ -128,4 +128,4 @@ For online documentation, please visit [https://yakima-teng.github.io/nsuite/](h
 
 ## License
 
-This project is published under [MIT license](./LICENSE).
+📄 [Apache License 2.0](https://github.com/Yakima-Teng/nsuite/blob/master/LICENSE)

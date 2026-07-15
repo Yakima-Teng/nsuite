@@ -39,7 +39,7 @@
     "type": "git",
     "url": "git+https://github.com/Yakima-Teng/nsuite.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "homepage": "https://github.com/Yakima-Teng/nsuite",
   "author": {
     "name": "Yakima",
