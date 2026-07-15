@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>UtilsFile.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Captcha.html">Captcha</a><ul class='methods'><li data-type='method'><a href="module-Captcha.html#.generateSvgCaptcha">generateSvgCaptcha</a></li></ul></li><li><a href="module-Debug.html">Debug</a><ul class='methods'><li data-type='method'><a href="module-Debug.html#.attachLogToFunc">attachLogToFunc</a></li></ul></li><li><a href="module-Env.html">Env</a><ul class='methods'><li data-type='method'><a href="module-Env.html#.parseEnvFiles">parseEnvFiles</a></li></ul></li><li><a href="module-File.html">File</a><ul class='methods'><li data-type='method'><a href="module-File.html#.getFileMd5">getFileMd5</a></li><li data-type='method'><a href="module-File.html#.getReadableFileSize">getReadableFileSize</a></li><li data-type='method'><a href="module-File.html#.getSafeFileName">getSafeFileName</a></li><li data-type='method'><a href="module-File.html#.unzipFile">unzipFile</a></li><li data-type='method'><a href="module-File.html#.writeFileSafely">writeFileSafely</a></li><li data-type='method'><a href="module-File.html#.zipFile">zipFile</a></li><li data-type='method'><a href="module-File.html#.zipFolder">zipFolder</a></li></ul></li><li><a href="module-Log.html">Log</a><ul class='methods'><li data-type='method'><a href="module-Log.html#.createLogger">createLogger</a></li><li data-type='method'><a href="module-Log.html#.logError">logError</a></li><li data-type='method'><a href="module-Log.html#.logInfo">logInfo</a></li><li data-type='method'><a href="module-Log.html#.logWarn">logWarn</a></li><li data-type='method'><a href="module-Log.html#~getCallSite">getCallSite</a></li></ul></li><li><a href="module-Module.html">Module</a><ul class='methods'><li data-type='method'><a href="module-Module.html#.isMainModule">isMainModule</a></li></ul></li><li><a href="module-OSS-Ali.html">OSS-Ali</a><ul class='methods'><li data-type='method'><a href="module-OSS-Ali.html#.deleteRemotePathListFromAliOSS">deleteRemotePathListFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getClientFromAliOSS">getClientFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getObjectUrlFromAliOSS">getObjectUrlFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.listFilesFromAliOSS">listFilesFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadDirToAliOSS">uploadDirToAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadLocalFileToAliOSS">uploadLocalFileToAliOSS</a></li></ul></li><li><a href="module-OSS-Qiniu.html">OSS-Qiniu</a><ul class='methods'><li data-type='method'><a href="module-OSS-Qiniu.html#.deleteRemotePathListFromQiniuOSS">deleteRemotePathListFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getBucketManagerFromQiniuOSS">getBucketManagerFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getConfigFromQiniuOSS">getConfigFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getMacFromQiniuOSS">getMacFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getPublicDownloadUrlFromQiniuOSS">getPublicDownloadUrlFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.refreshUrlsFromQiniuOSS">refreshUrlsFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadDirToQiniuOSS">uploadDirToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadLocalFileToQiniuOSS">uploadLocalFileToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#~getQiniuCacheRefreshCodeMessage">getQiniuCacheRefreshCodeMessage</a></li></ul></li><li><a href="module-Path.html">Path</a><ul class='methods'><li data-type='method'><a href="module-Path.html#.getDirname">getDirname</a></li><li data-type='method'><a href="module-Path.html#.getFilePath">getFilePath</a></li><li data-type='method'><a href="module-Path.html#.globMatchPaths">globMatchPaths</a></li><li data-type='method'><a href="module-Path.html#.isPathExists">isPathExists</a></li><li data-type='method'><a href="module-Path.html#.joinPath">joinPath</a></li><li data-type='method'><a href="module-Path.html#.joinPosixPath">joinPosixPath</a></li><li data-type='method'><a href="module-Path.html#.resolvePath">resolvePath</a></li><li data-type='method'><a href="module-Path.html#.resolvePosixPath">resolvePosixPath</a></li></ul></li><li><a href="module-Promise.html">Promise</a><ul class='methods'><li data-type='method'><a href="module-Promise.html#.withTimeout">withTimeout</a></li></ul></li><li><a href="module-SSH.html">SSH</a><ul class='methods'><li data-type='method'><a href="module-SSH.html#.getSSHClient">getSSHClient</a></li><li data-type='method'><a href="module-SSH.html#.sshConnect">sshConnect</a></li><li data-type='method'><a href="module-SSH.html#.sshExecCommand">sshExecCommand</a></li><li data-type='method'><a href="module-SSH.html#.sshGetDirectory">sshGetDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshGetFile">sshGetFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutDirectory">sshPutDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFile">sshPutFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFiles">sshPutFiles</a></li></ul></li><li><a href="module-Text.html">Text</a><ul class='methods'><li data-type='method'><a href="module-Text.html#.generateSummary">generateSummary</a></li></ul></li><li><a href="module-Type.html">Type</a><ul class='methods'><li data-type='method'><a href="module-Type.html#.getError">getError</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">UtilsFile.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { createReadStream, createWriteStream } from "node:fs";
+import { dirname, basename } from "node:path";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
+import crypto from "node:crypto";
+import archiver from "archiver";
+import unzipper from "unzipper";
+import { filesize } from "filesize";
+import { ensureDir } from "fs-extra/esm";
+
+/**
+ * Utility functions for working with files.
+ * @module File
+ */
+
+/**
+ * Generates a safe file name by replacing special characters with underscores.
+ * Consecutive underscores are also reduced to a single underscore.
+ *
+ * @param {string} fileName - The original file name to be sanitized.
+ * @returns {string} - The sanitized file name with special characters replaced by underscores and consecutive underscores reduced to a single underscore.
+ *
+ * @example
+ * import { getSafeFileName } from "nsuite";
+ * const safeFileName = getSafeFileName("测试有空格 和特殊符号 &amp;.pdf");
+ */
+export function getSafeFileName(fileName) {
+  return fileName
+    .replace(/[+\s?？！@#￥%…&amp;*（）=·~!$^()/&lt;>,;':"[\]{}]/g, "_")
+    .replace(/__/g, "_");
+}
+
+/**
+ * Zips a single file and returns a promise that resolves when the zip operation is complete.
+ *
+ * @param {Object} options - The options for the zip operation.
+ * @param {string} options.pathInputFile - The path to the input file to be zipped.
+ * @param {string} options.pathOutputFile - The path to the output zip file.
+ * @returns {Promise&lt;number>} - A promise that resolves with final zip file size in Bytes when the zip operation is complete.
+ *
+ * @example
+ * import { zipFile } from "nsuite";
+ * await zipFile({
+ *   pathInputFile: "./package.json",
+ *   pathOutputFile: "./package.json.zip",
+ * });
+ */
+export async function zipFile(options) {
+  const { pathInputFile, pathOutputFile } = options;
+  const outputDir = dirname(pathOutputFile);
+  await ensureDir(outputDir);
+  const outputStream = createWriteStream(pathOutputFile);
+  const archive = archiver("zip", {
+    zlib: { level: 9 },
+  });
+  archive.pipe(outputStream);
+  archive.append(createReadStream(pathInputFile), {
+    name: basename(pathInputFile),
+  });
+  return new Promise((resolve, reject) => {
+    outputStream.on("close", () => {
+      resolve(archive.pointer());
+    });
+    outputStream.on("error", (err) => {
+      reject(err);
+    });
+    archive.on("error", (err) => {
+      reject(err);
+    });
+    archive.finalize();
+  });
+}
+
+/**
+ * Zips a folder and returns a promise that resolves when the zip operation is complete.
+ *
+ * @param {Object} options - The options for the zip operation.
+ * @param {string} options.pathFolder - The path to the folder to be zipped.
+ * @param {string} options.pathOutputFile - The path to the output zip file.
+ * @returns {Promise&lt;number>} - A promise that resolves with final zip file size in Bytes when the zip operation is complete.
+ *
+ * @example
+ * import { zipFolder } from "nsuite";
+ * await zipFolder({
+ *   pathFolder: "./dist",
+ *   pathOutputFile: "./dist.zip",
+ * });
+ */
+export async function zipFolder(options) {
+  const { pathFolder, pathOutputFile } = options;
+  const outputDir = dirname(pathOutputFile);
+  await ensureDir(outputDir);
+  const outputStream = createWriteStream(pathOutputFile);
+  const archive = archiver("zip", {
+    zlib: { level: 9 },
+  });
+  archive.pipe(outputStream);
+  archive.directory(pathFolder, false);
+  return await new Promise((resolve, reject) => {
+    outputStream.on("close", () => {
+      resolve(archive.pointer());
+    });
+    outputStream.on("error", (err) => {
+      reject(err);
+    });
+    archive.on("error", (/** @type {any} */ err) => {
+      reject(err);
+    });
+    archive.finalize();
+  });
+}
+
+/**
+ * Unzips a file and returns a promise that resolves when the unzip operation is complete.
+ *
+ * @param {Object} options - The options for the unzip operation.
+ * @param {string} options.pathFile - The path to the zip file to be unzipped.
+ * @param {string} options.pathOutput - The path to the output directory.
+ * @returns {Promise&lt;void>} - A promise that resolves when the unzip operation is complete.
+ *
+ * @example
+ * import { unzipFile } from "nsuite";
+ *
+ * await unzipFile({
+ *   pathFile: pathDistZip,
+ *   pathOutput: pathOutputDirectory,
+ * });
+ */
+export async function unzipFile({ pathFile, pathOutput }) {
+  const directory = await unzipper.Open.file(pathFile);
+  await directory.extract({ path: pathOutput });
+}
+
+/**
+ * @typedef {import('filesize').FilesizeOptions} CustomFilesizeOptions
+ * @property {string} [output] - output format， only 'string' is supported
+ */
+
+/**
+ * converts file size in bytes to human-readable string
+ * @param {number | string} size
+ * @param {CustomFilesizeOptions} [options]
+ * @returns {string}
+ *
+ * @example
+ * import { getReadableFileSize } from "nsuite";
+ *
+ * getReadableFileSize(0); // "0 B"
+ *
+ * // 1024-based, with { standard: "jedec" }
+ * getReadableFileSize(1024, { standard: "jedec" }); // "1 KB"
+ * getReadableFileSize(1024 * 1024, { standard: "jedec" }); // "1 MB"
+ * getReadableFileSize(1024 * 1024 * 1024, { standard: "jedec" }); // "1 GB"
+ *
+ * // 1000-based, default
+ * getReadableFileSize(1000); // "1 kB"
+ * getReadableFileSize(1001); // "1 kB"
+ * getReadableFileSize(1010); // "1.01 kB"
+ * getReadableFileSize(1100); // 1.1 kB"
+ * getReadableFileSize(1024); // "1.02 kB"
+ * getReadableFileSize(1024 * 1000); // "1.02 MB"
+ * // 1024 * 1024 = 1048576
+ * getReadableFileSize(1024 * 1024); // "1.05 MB"
+ * // 1024 * 1024 * 1024 = 1073741824
+ * getReadableFileSize(1024 * 1024 * 1024); // "1.07 GB"
+ */
+export function getReadableFileSize(size, options) {
+  return filesize(size, options);
+}
+
+/**
+ * Calculates the MD5 hash of a file and returns a promise that resolves with the hash.
+ *
+ * @param {Object} options - The options for the hash operation.
+ * @param {string} options.pathFile - The path to the file for which the hash is to be calculated.
+ * @returns {Promise&lt;string>} - A promise that resolves with the MD5 hash of the file.
+ *
+ * @example
+ * import { getFileMd5 } from "nsuite";
+ * const md5 = await getFileMd5({ pathFile: "./package.json" });
+ */
+export async function getFileMd5({ pathFile }) {
+  const zipBuffer = await readFile(pathFile);
+  const hash = crypto.createHash("md5");
+  hash.update(zipBuffer);
+  return hash.digest("hex");
+}
+
+/**
+ * @typedef {import('node:fs').WriteFileOptions} WriteFileOptions
+ */
+
+/**
+ * Safely writes content to a file, creating parent directories if they don't exist.
+ *
+ * @param {string} filePath - The path to the file to be written.
+ * @param {string | Buffer | DataView | Uint8Array} content - The content to write to the file.
+ * @param {WriteFileOptions} [options] - Optional settings for the write operation.
+ * @returns {Promise&lt;void>} - A promise that resolves when the file has been written.
+ *
+ * @example
+ * import { writeFileSafely } from "nsuite";
+ * await writeFileSafely("./logs/error.log", "Error message", { encoding: "utf8" });
+ */
+export async function writeFileSafely(filePath, content, options) {
+  // 先获取父目录路径
+  const dir = dirname(filePath);
+  // 递归创建父目录（不存在则创建，已存在则忽略）
+  await mkdir(dir, { recursive: true });
+  // 写入文件
+  await writeFile(filePath, content, options);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jul 16 2026 00:45:27 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

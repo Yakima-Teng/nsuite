@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>UtilsLog.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Captcha.html">Captcha</a><ul class='methods'><li data-type='method'><a href="module-Captcha.html#.generateSvgCaptcha">generateSvgCaptcha</a></li></ul></li><li><a href="module-Debug.html">Debug</a><ul class='methods'><li data-type='method'><a href="module-Debug.html#.attachLogToFunc">attachLogToFunc</a></li></ul></li><li><a href="module-Env.html">Env</a><ul class='methods'><li data-type='method'><a href="module-Env.html#.parseEnvFiles">parseEnvFiles</a></li></ul></li><li><a href="module-File.html">File</a><ul class='methods'><li data-type='method'><a href="module-File.html#.getFileMd5">getFileMd5</a></li><li data-type='method'><a href="module-File.html#.getReadableFileSize">getReadableFileSize</a></li><li data-type='method'><a href="module-File.html#.getSafeFileName">getSafeFileName</a></li><li data-type='method'><a href="module-File.html#.unzipFile">unzipFile</a></li><li data-type='method'><a href="module-File.html#.writeFileSafely">writeFileSafely</a></li><li data-type='method'><a href="module-File.html#.zipFile">zipFile</a></li><li data-type='method'><a href="module-File.html#.zipFolder">zipFolder</a></li></ul></li><li><a href="module-Log.html">Log</a><ul class='methods'><li data-type='method'><a href="module-Log.html#.createLogger">createLogger</a></li><li data-type='method'><a href="module-Log.html#.logError">logError</a></li><li data-type='method'><a href="module-Log.html#.logInfo">logInfo</a></li><li data-type='method'><a href="module-Log.html#.logWarn">logWarn</a></li><li data-type='method'><a href="module-Log.html#~getCallSite">getCallSite</a></li></ul></li><li><a href="module-Module.html">Module</a><ul class='methods'><li data-type='method'><a href="module-Module.html#.isMainModule">isMainModule</a></li></ul></li><li><a href="module-OSS-Ali.html">OSS-Ali</a><ul class='methods'><li data-type='method'><a href="module-OSS-Ali.html#.deleteRemotePathListFromAliOSS">deleteRemotePathListFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getClientFromAliOSS">getClientFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getObjectUrlFromAliOSS">getObjectUrlFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.listFilesFromAliOSS">listFilesFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadDirToAliOSS">uploadDirToAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadLocalFileToAliOSS">uploadLocalFileToAliOSS</a></li></ul></li><li><a href="module-OSS-Qiniu.html">OSS-Qiniu</a><ul class='methods'><li data-type='method'><a href="module-OSS-Qiniu.html#.deleteRemotePathListFromQiniuOSS">deleteRemotePathListFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getBucketManagerFromQiniuOSS">getBucketManagerFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getConfigFromQiniuOSS">getConfigFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getMacFromQiniuOSS">getMacFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getPublicDownloadUrlFromQiniuOSS">getPublicDownloadUrlFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.refreshUrlsFromQiniuOSS">refreshUrlsFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadDirToQiniuOSS">uploadDirToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadLocalFileToQiniuOSS">uploadLocalFileToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#~getQiniuCacheRefreshCodeMessage">getQiniuCacheRefreshCodeMessage</a></li></ul></li><li><a href="module-Path.html">Path</a><ul class='methods'><li data-type='method'><a href="module-Path.html#.getDirname">getDirname</a></li><li data-type='method'><a href="module-Path.html#.getFilePath">getFilePath</a></li><li data-type='method'><a href="module-Path.html#.globMatchPaths">globMatchPaths</a></li><li data-type='method'><a href="module-Path.html#.isPathExists">isPathExists</a></li><li data-type='method'><a href="module-Path.html#.joinPath">joinPath</a></li><li data-type='method'><a href="module-Path.html#.joinPosixPath">joinPosixPath</a></li><li data-type='method'><a href="module-Path.html#.resolvePath">resolvePath</a></li><li data-type='method'><a href="module-Path.html#.resolvePosixPath">resolvePosixPath</a></li></ul></li><li><a href="module-Promise.html">Promise</a><ul class='methods'><li data-type='method'><a href="module-Promise.html#.withTimeout">withTimeout</a></li></ul></li><li><a href="module-SSH.html">SSH</a><ul class='methods'><li data-type='method'><a href="module-SSH.html#.getSSHClient">getSSHClient</a></li><li data-type='method'><a href="module-SSH.html#.sshConnect">sshConnect</a></li><li data-type='method'><a href="module-SSH.html#.sshExecCommand">sshExecCommand</a></li><li data-type='method'><a href="module-SSH.html#.sshGetDirectory">sshGetDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshGetFile">sshGetFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutDirectory">sshPutDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFile">sshPutFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFiles">sshPutFiles</a></li></ul></li><li><a href="module-Text.html">Text</a><ul class='methods'><li data-type='method'><a href="module-Text.html#.generateSummary">generateSummary</a></li></ul></li><li><a href="module-Type.html">Type</a><ul class='methods'><li data-type='method'><a href="module-Type.html#.getError">getError</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">UtilsLog.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { inspect as nodeInspect } from "node:util";
+import * as winston from "winston";
+import "winston-daily-rotate-file";
+import objectInspect from "object-inspect";
+
+/**
+ * Utility functions for logging.
+ * @module Log
+ */
+
+/**
+ * 记录信息性消息到控制台
+ * @param {...*} args - 要记录的参数列表
+ */
+export function logInfo(...args) {
+  // eslint-disable-next-line no-console
+  console.log(...args);
+}
+
+/**
+ * 记录警告消息到控制台
+ * @param {...*} args - 要记录的参数列表
+ */
+export function logWarn(...args) {
+  // eslint-disable-next-line no-console
+  console.warn(...args);
+}
+
+/**
+ * 记录错误消息到控制台
+ * @param {...*} args - 要记录的参数列表
+ */
+export function logError(...args) {
+  // eslint-disable-next-line no-console
+  console.error(...args);
+}
+
+/**
+ * Converts symbol keys to string keys in an object.
+ * @param {Record&lt;string | symbol, unknown>} obj
+ * @returns {Record&lt;string, unknown>}
+ * @ignore
+ */
+function convertSymbolKeys(obj) {
+  const result = { ...obj };
+  const symbols = Object.getOwnPropertySymbols(obj);
+
+  symbols.forEach((sym) => {
+    const keyDescription = sym.description;
+    if (keyDescription) {
+      result[keyDescription] = obj[sym];
+      delete result[sym];
+    }
+  });
+
+  return result;
+}
+
+/**
+ *
+ * @returns {string}
+ */
+function getCallSite() {
+  const stack = new Error().stack; // 我们只要 stack，不要抛异常
+  if (!stack) return "unknown";
+
+  // 0: Error
+  // 1: getCallSite 本身
+  // 2: 真实调用者（我们要的）
+  const lines = stack.split("\n");
+  const callSiteLines = lines.slice(2);
+
+  const matchLines = [];
+  for (const line of callSiteLines) {
+    // 把带有node_modules的行去掉
+    if (line.indexOf("node_modules") !== -1) {
+      continue;
+    }
+    matchLines.push(line.replace(/^\s*at\s*/, ""));
+  }
+
+  return matchLines.join(" &lt;= ");
+}
+
+/**
+ * Creates a Winston logger with a daily rotating file transport and optional console transport.
+ *
+ * @param {Object} options - Configuration options for the logger.
+ * @param {string} [options.level="info"] - The log level.
+ * @param {Record&lt;string, string>} [options.meta={}] - The name of the server.
+ * @param {string} [options.filename="./logs/application-%DATE%.log"] - The filename pattern for the log files.
+ * @param {number} [options.maxLength=1000] - The maximum length of the log message.
+ * @param {boolean} [options.zippedArchive=false] - Whether to zip old log files.
+ * @param {boolean} [options.enableConsole=false] - Whether to enable console logging.
+ * @param {boolean} [options.includeCallSite=false] - Whether to include the call site in the log message.
+ * @param {string} [options.inspector='nodeInspect'] - The inspector function to use for formatting log messages. Support 'nodeInspect' or 'objectInspect'
+ * @returns {winston.Logger} - The configured Winston logger instance.
+ *
+ * @example
+ * import { createLogger } from "nsuite";
+ * export const logger = createLogger({
+ *   level: "info",
+ *   meta: {
+ *     serverName: "your-server-name",
+ *     NODE_ENV: process.env.NODE_ENV,
+ *     MODE: process.env.MODE,
+ *   },
+ *   maxLength: 1000,
+ *   filename: "./logs/application-%DATE%.log",
+ *   zippedArchive: false,
+ *   enableConsole: process.env.NODE_ENV !== "production",
+ * });
+ */
+export function createLogger({
+  level = "info",
+  meta = {},
+  filename = "./logs/application-%DATE%.log",
+  maxLength = 1000,
+  zippedArchive = false,
+  enableConsole = false,
+  includeCallSite = false,
+  inspector = "nodeInspect",
+}) {
+  const transport = new winston.transports.DailyRotateFile({
+    filename,
+    datePattern: "YYYY-MM-DD-HH",
+    zippedArchive,
+    maxSize: "20m",
+    maxFiles: "14d",
+  });
+
+  transport.on("error", (error) => {
+    // log or handle errors here
+    logError("transport on error");
+    logError(error);
+  });
+
+  transport.on("rotate", (oldFilename, newFilename) => {
+    // do something fun
+    logInfo(`log file rotated from ${oldFilename} to ${newFilename}`);
+  });
+
+  const inspect = inspector === "nodeInspect" ? nodeInspect : objectInspect;
+
+  const logger = winston.createLogger({
+    level,
+    format: winston.format.combine(
+      winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+      winston.format.printf(({ timestamp, level, message, ...args }) => {
+        const argsObj = convertSymbolKeys(args);
+        const ignoreMetaKeys = ["level", "splat", "message"];
+        const metaDataStringArr = [];
+        for (const key in argsObj) {
+          const metaValue = argsObj[key];
+          if (!ignoreMetaKeys.includes(key)) {
+            metaDataStringArr.push(`${key}=${String(metaValue)}`);
+          }
+        }
+
+        /** @type {unknown[]} */
+        const splat = Array.isArray(argsObj.splat)
+          ? argsObj.splat
+          : argsObj.splat
+            ? [argsObj.splat]
+            : [];
+        const msgArr = [`${timestamp} ${level}`];
+
+        if (typeof message === "string") {
+          msgArr.push(message);
+        } else {
+          msgArr.push(inspect(message));
+        }
+
+        if (splat.length > 0) {
+          msgArr.push(...splat.map((item) => inspect(item)));
+        }
+
+        msgArr.push(`#meta=>${metaDataStringArr.join(",")}`);
+
+        if (includeCallSite &amp;&amp; level !== "info") {
+          msgArr.push(`#callSite=>${getCallSite()}`);
+        }
+
+        const msg = msgArr.join(" ");
+        if (msg.length &lt;= maxLength) {
+          return msg;
+        }
+        return `${msg.substring(0, maxLength)}...`;
+      }),
+      // 确保错误堆栈信息被捕获
+      winston.format.errors({ stack: true }),
+    ),
+    defaultMeta: meta,
+    transports: [transport],
+  });
+
+  if (enableConsole) {
+    logger.add(
+      new winston.transports.Console({
+        // format: winston.format.simple(),
+      }),
+    );
+  }
+
+  return logger;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jul 16 2026 00:45:27 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

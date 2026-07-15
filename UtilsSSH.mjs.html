@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>UtilsSSH.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Captcha.html">Captcha</a><ul class='methods'><li data-type='method'><a href="module-Captcha.html#.generateSvgCaptcha">generateSvgCaptcha</a></li></ul></li><li><a href="module-Debug.html">Debug</a><ul class='methods'><li data-type='method'><a href="module-Debug.html#.attachLogToFunc">attachLogToFunc</a></li></ul></li><li><a href="module-Env.html">Env</a><ul class='methods'><li data-type='method'><a href="module-Env.html#.parseEnvFiles">parseEnvFiles</a></li></ul></li><li><a href="module-File.html">File</a><ul class='methods'><li data-type='method'><a href="module-File.html#.getFileMd5">getFileMd5</a></li><li data-type='method'><a href="module-File.html#.getReadableFileSize">getReadableFileSize</a></li><li data-type='method'><a href="module-File.html#.getSafeFileName">getSafeFileName</a></li><li data-type='method'><a href="module-File.html#.unzipFile">unzipFile</a></li><li data-type='method'><a href="module-File.html#.writeFileSafely">writeFileSafely</a></li><li data-type='method'><a href="module-File.html#.zipFile">zipFile</a></li><li data-type='method'><a href="module-File.html#.zipFolder">zipFolder</a></li></ul></li><li><a href="module-Log.html">Log</a><ul class='methods'><li data-type='method'><a href="module-Log.html#.createLogger">createLogger</a></li><li data-type='method'><a href="module-Log.html#.logError">logError</a></li><li data-type='method'><a href="module-Log.html#.logInfo">logInfo</a></li><li data-type='method'><a href="module-Log.html#.logWarn">logWarn</a></li><li data-type='method'><a href="module-Log.html#~getCallSite">getCallSite</a></li></ul></li><li><a href="module-Module.html">Module</a><ul class='methods'><li data-type='method'><a href="module-Module.html#.isMainModule">isMainModule</a></li></ul></li><li><a href="module-OSS-Ali.html">OSS-Ali</a><ul class='methods'><li data-type='method'><a href="module-OSS-Ali.html#.deleteRemotePathListFromAliOSS">deleteRemotePathListFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getClientFromAliOSS">getClientFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getObjectUrlFromAliOSS">getObjectUrlFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.listFilesFromAliOSS">listFilesFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadDirToAliOSS">uploadDirToAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadLocalFileToAliOSS">uploadLocalFileToAliOSS</a></li></ul></li><li><a href="module-OSS-Qiniu.html">OSS-Qiniu</a><ul class='methods'><li data-type='method'><a href="module-OSS-Qiniu.html#.deleteRemotePathListFromQiniuOSS">deleteRemotePathListFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getBucketManagerFromQiniuOSS">getBucketManagerFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getConfigFromQiniuOSS">getConfigFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getMacFromQiniuOSS">getMacFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getPublicDownloadUrlFromQiniuOSS">getPublicDownloadUrlFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.refreshUrlsFromQiniuOSS">refreshUrlsFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadDirToQiniuOSS">uploadDirToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadLocalFileToQiniuOSS">uploadLocalFileToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#~getQiniuCacheRefreshCodeMessage">getQiniuCacheRefreshCodeMessage</a></li></ul></li><li><a href="module-Path.html">Path</a><ul class='methods'><li data-type='method'><a href="module-Path.html#.getDirname">getDirname</a></li><li data-type='method'><a href="module-Path.html#.getFilePath">getFilePath</a></li><li data-type='method'><a href="module-Path.html#.globMatchPaths">globMatchPaths</a></li><li data-type='method'><a href="module-Path.html#.isPathExists">isPathExists</a></li><li data-type='method'><a href="module-Path.html#.joinPath">joinPath</a></li><li data-type='method'><a href="module-Path.html#.joinPosixPath">joinPosixPath</a></li><li data-type='method'><a href="module-Path.html#.resolvePath">resolvePath</a></li><li data-type='method'><a href="module-Path.html#.resolvePosixPath">resolvePosixPath</a></li></ul></li><li><a href="module-Promise.html">Promise</a><ul class='methods'><li data-type='method'><a href="module-Promise.html#.withTimeout">withTimeout</a></li></ul></li><li><a href="module-SSH.html">SSH</a><ul class='methods'><li data-type='method'><a href="module-SSH.html#.getSSHClient">getSSHClient</a></li><li data-type='method'><a href="module-SSH.html#.sshConnect">sshConnect</a></li><li data-type='method'><a href="module-SSH.html#.sshExecCommand">sshExecCommand</a></li><li data-type='method'><a href="module-SSH.html#.sshGetDirectory">sshGetDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshGetFile">sshGetFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutDirectory">sshPutDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFile">sshPutFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFiles">sshPutFiles</a></li></ul></li><li><a href="module-Text.html">Text</a><ul class='methods'><li data-type='method'><a href="module-Text.html#.generateSummary">generateSummary</a></li></ul></li><li><a href="module-Type.html">Type</a><ul class='methods'><li data-type='method'><a href="module-Type.html#.getError">getError</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">UtilsSSH.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import path from "path";
+import { NodeSSH } from "node-ssh";
+
+/**
+ * Utilities functions for SSH
+ * @module SSH
+ *
+ * @example
+ * import {
+ *   getSSHClient,
+ *   sshConnect,
+ *   joinPath,
+ *   zipFolder,
+ *   sshPutFile,
+ *   sshExecCommand,
+ * } from "nsuite";
+ * import { PATH_ROOT } from "#scripts/ConstantUtils";
+ * import { sshConfig } from "#hosts/Shanghai-Tencent/nginx/build/config";
+ *
+ * const sshClient = getSSHClient();
+ * await sshConnect({
+ *   ssh: sshClient,
+ *   ...sshConfig,
+ * });
+ * const pathDist = joinPath(PATH_ROOT, "apps-home/blog", "dist");
+ * const pathDistZip = joinPath(pathDist, "../dist.zip");
+ * await zipFolder({
+ *   pathFolder: pathDist,
+ *   pathOutputFile: pathDistZip,
+ * });
+ *
+ * const pathRemote = "/www/sites/www.example.com/public";
+ * const pathRemoteZip = `${pathRemote}/dist.zip`;
+ * await sshPutFile({
+ *   ssh: sshClient,
+ *   localFile: pathDistZip,
+ *   remoteFile: pathRemoteZip,
+ * });
+ *
+ * const execCommand = async (command: string): Promise&lt;void> => {
+ *   await sshExecCommand({
+ *     ssh: sshClient,
+ *     cwd: pathRemote,
+ *     command,
+ *   });
+ * };
+ * await execCommand("rm dist");
+ * await execCommand("unzip -o dist.zip");
+ * await execCommand("rm dist.zip");
+ *
+ * process.exit(0);
+ */
+
+/**
+ * @typedef {import('node-ssh').NodeSSH} SSH
+ * @typedef {import('node-ssh').SSHGetPutDirectoryOptions} GetPutDirectoryOptions
+ * @typedef {import('node-ssh').SSHPutFilesOptions} PutFilesOptions
+ */
+
+/**
+ * @typedef {Object} PathPair
+ * @property {string} local
+ * @property {string} remote
+ */
+
+/**
+ * Get SSH instance
+ * @returns {SSH}
+ */
+export function getSSHClient() {
+  return new NodeSSH();
+}
+
+/**
+ * @typedef {Object} ParamsConnect
+ * @property {SSH} ssh
+ * @property {string} host
+ * @property {number} port
+ * @property {string} username
+ * @property {string} password
+ */
+
+/**
+ * Connect to SSH
+ * @param {ParamsConnect} payload
+ * @returns {Promise&lt;void>}
+ */
+export async function sshConnect(payload) {
+  const { ssh, ...config } = payload;
+  await ssh.connect(config);
+}
+
+/**
+ * @callback SSHUploadFileCallback
+ * @param {string} local
+ * @param {string} remote
+ * @param {Error | null} error
+ */
+
+/**
+ * @typedef {Object} ParamsPutDir
+ * @property {SSH} ssh
+ * @property {string} fromPath
+ * @property {string} toPath
+ * @property {GetPutDirectoryOptions} [options]
+ * @property {SSHUploadFileCallback} [uploadCallback] - callback function for upload progress
+ */
+
+/**
+ * @typedef {Object} ReturnPutDir
+ * @property {boolean} success
+ * @property {PathPair[]} failItems
+ * @property {PathPair[]} successItems
+ */
+
+/**
+ * Put directory
+ * @param {ParamsPutDir} payload
+ * @returns {Promise&lt;ReturnPutDir>}
+ */
+export async function sshPutDirectory(payload) {
+  const { ssh, fromPath, toPath, options, uploadCallback } = payload;
+  /** @type {PathPair[]} */
+  const failItems = [];
+  /** @type {PathPair[]} */
+  const successItems = [];
+  const success = await ssh.putDirectory(fromPath, toPath, {
+    recursive: true,
+    concurrency: 10,
+    validate(itemPath) {
+      const baseName = path.basename(itemPath);
+      return baseName !== "node_modules";
+    },
+    tick(local, remote, error) {
+      if (typeof uploadCallback === "function") {
+        uploadCallback(local, remote, error);
+      }
+      if (error) {
+        failItems.push({ local, remote });
+      } else {
+        successItems.push({ local, remote });
+      }
+    },
+    ...(options || {}),
+  });
+
+  return {
+    success,
+    failItems,
+    successItems,
+  };
+}
+
+/**
+ * @typedef {Object} ParamsSSHGetDir
+ * @property {SSH} ssh
+ * @property {string} localDirectory
+ * @property {string} remoteDirectory
+ * @property {GetPutDirectoryOptions} [options]
+ */
+
+/**
+ * Download directory from remote server
+ * @param { ParamsSSHGetDir } payload
+ * @returns {Promise&lt;boolean>}
+ */
+export async function sshGetDirectory(payload) {
+  const { ssh, localDirectory, remoteDirectory, options } = payload;
+  return await ssh.getDirectory(localDirectory, remoteDirectory, options);
+}
+
+/**
+ * @typedef {Object} ParamsSSHGetFile
+ * @property {SSH} ssh
+ * @property {string} localFile
+ * @property {string} remoteFile
+ * @property {import('ssh2').SFTPWrapper | null} [givenSftp]
+ * @property {import('ssh2').TransferOptions} [transferOptions]
+ */
+
+/**
+ * Download file from server
+ * @param {ParamsSSHGetFile} payload
+ * @returns {Promise&lt;void>}
+ */
+export async function sshGetFile(payload) {
+  const { ssh, localFile, remoteFile, givenSftp, transferOptions } = payload;
+  return await ssh.getFile(localFile, remoteFile, givenSftp, transferOptions);
+}
+
+/**
+ * Put file to server
+ * @param {ParamsSSHGetFile} payload
+ * @returns {Promise&lt;void>}
+ */
+export async function sshPutFile(payload) {
+  const { ssh, localFile, remoteFile, givenSftp, transferOptions } = payload;
+  return await ssh.putFile(localFile, remoteFile, givenSftp, transferOptions);
+}
+
+/**
+ * @typedef {Object} ParamsPutFiles
+ * @property {SSH} ssh
+ * @property {PathPair[]} files
+ * @property {PutFilesOptions} [options]
+ */
+
+/**
+ * Put files
+ * @param {ParamsPutFiles} payload
+ * @returns {Promise&lt;void>}
+ */
+export async function sshPutFiles(payload) {
+  const { ssh, files, options } = payload;
+  return ssh.putFiles(files, options);
+}
+
+/**
+ * @typedef {Object} ParamsExecCommand
+ * @property {SSH} ssh
+ * @property {string} cwd
+ * @property {string} command
+ * @property {function(Buffer): void} [onStdout]
+ * @property {function(Buffer): void} [onStderr]
+ */
+
+/**
+ * Execute command
+ * @param {ParamsExecCommand} payload
+ * @returns {Promise&lt;void>}
+ */
+export async function sshExecCommand(payload) {
+  const { ssh, cwd, command, onStdout, onStderr } = payload;
+  await ssh.execCommand(command, {
+    cwd,
+    onStdout(chunk) {
+      if (typeof onStdout === "function") {
+        onStdout(chunk);
+      }
+    },
+    onStderr(chunk) {
+      if (typeof onStderr === "function") {
+        onStderr(chunk);
+      }
+    },
+  });
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jul 16 2026 00:45:27 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

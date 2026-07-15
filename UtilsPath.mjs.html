@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>UtilsPath.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Captcha.html">Captcha</a><ul class='methods'><li data-type='method'><a href="module-Captcha.html#.generateSvgCaptcha">generateSvgCaptcha</a></li></ul></li><li><a href="module-Debug.html">Debug</a><ul class='methods'><li data-type='method'><a href="module-Debug.html#.attachLogToFunc">attachLogToFunc</a></li></ul></li><li><a href="module-Env.html">Env</a><ul class='methods'><li data-type='method'><a href="module-Env.html#.parseEnvFiles">parseEnvFiles</a></li></ul></li><li><a href="module-File.html">File</a><ul class='methods'><li data-type='method'><a href="module-File.html#.getFileMd5">getFileMd5</a></li><li data-type='method'><a href="module-File.html#.getReadableFileSize">getReadableFileSize</a></li><li data-type='method'><a href="module-File.html#.getSafeFileName">getSafeFileName</a></li><li data-type='method'><a href="module-File.html#.unzipFile">unzipFile</a></li><li data-type='method'><a href="module-File.html#.writeFileSafely">writeFileSafely</a></li><li data-type='method'><a href="module-File.html#.zipFile">zipFile</a></li><li data-type='method'><a href="module-File.html#.zipFolder">zipFolder</a></li></ul></li><li><a href="module-Log.html">Log</a><ul class='methods'><li data-type='method'><a href="module-Log.html#.createLogger">createLogger</a></li><li data-type='method'><a href="module-Log.html#.logError">logError</a></li><li data-type='method'><a href="module-Log.html#.logInfo">logInfo</a></li><li data-type='method'><a href="module-Log.html#.logWarn">logWarn</a></li><li data-type='method'><a href="module-Log.html#~getCallSite">getCallSite</a></li></ul></li><li><a href="module-Module.html">Module</a><ul class='methods'><li data-type='method'><a href="module-Module.html#.isMainModule">isMainModule</a></li></ul></li><li><a href="module-OSS-Ali.html">OSS-Ali</a><ul class='methods'><li data-type='method'><a href="module-OSS-Ali.html#.deleteRemotePathListFromAliOSS">deleteRemotePathListFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getClientFromAliOSS">getClientFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getObjectUrlFromAliOSS">getObjectUrlFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.listFilesFromAliOSS">listFilesFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadDirToAliOSS">uploadDirToAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadLocalFileToAliOSS">uploadLocalFileToAliOSS</a></li></ul></li><li><a href="module-OSS-Qiniu.html">OSS-Qiniu</a><ul class='methods'><li data-type='method'><a href="module-OSS-Qiniu.html#.deleteRemotePathListFromQiniuOSS">deleteRemotePathListFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getBucketManagerFromQiniuOSS">getBucketManagerFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getConfigFromQiniuOSS">getConfigFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getMacFromQiniuOSS">getMacFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getPublicDownloadUrlFromQiniuOSS">getPublicDownloadUrlFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.refreshUrlsFromQiniuOSS">refreshUrlsFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadDirToQiniuOSS">uploadDirToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadLocalFileToQiniuOSS">uploadLocalFileToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#~getQiniuCacheRefreshCodeMessage">getQiniuCacheRefreshCodeMessage</a></li></ul></li><li><a href="module-Path.html">Path</a><ul class='methods'><li data-type='method'><a href="module-Path.html#.getDirname">getDirname</a></li><li data-type='method'><a href="module-Path.html#.getFilePath">getFilePath</a></li><li data-type='method'><a href="module-Path.html#.globMatchPaths">globMatchPaths</a></li><li data-type='method'><a href="module-Path.html#.isPathExists">isPathExists</a></li><li data-type='method'><a href="module-Path.html#.joinPath">joinPath</a></li><li data-type='method'><a href="module-Path.html#.joinPosixPath">joinPosixPath</a></li><li data-type='method'><a href="module-Path.html#.resolvePath">resolvePath</a></li><li data-type='method'><a href="module-Path.html#.resolvePosixPath">resolvePosixPath</a></li></ul></li><li><a href="module-Promise.html">Promise</a><ul class='methods'><li data-type='method'><a href="module-Promise.html#.withTimeout">withTimeout</a></li></ul></li><li><a href="module-SSH.html">SSH</a><ul class='methods'><li data-type='method'><a href="module-SSH.html#.getSSHClient">getSSHClient</a></li><li data-type='method'><a href="module-SSH.html#.sshConnect">sshConnect</a></li><li data-type='method'><a href="module-SSH.html#.sshExecCommand">sshExecCommand</a></li><li data-type='method'><a href="module-SSH.html#.sshGetDirectory">sshGetDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshGetFile">sshGetFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutDirectory">sshPutDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFile">sshPutFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFiles">sshPutFiles</a></li></ul></li><li><a href="module-Text.html">Text</a><ul class='methods'><li data-type='method'><a href="module-Text.html#.generateSummary">generateSummary</a></li></ul></li><li><a href="module-Type.html">Type</a><ul class='methods'><li data-type='method'><a href="module-Type.html#.getError">getError</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">UtilsPath.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { fileURLToPath } from "url";
+import { dirname, join, resolve } from "node:path";
+import { join as joinPosix, resolve as resolvePosix } from "node:path/posix";
+import { access } from "fs/promises";
+import { glob } from "glob";
+
+/**
+ * Utility functions for working with file paths.
+ * @module Path
+ */
+
+/**
+ * Converts a file URL to a file path.
+ *
+ * @param {string} metaUrl - The file URL to convert.
+ * @returns {string} The file path corresponding to the given file URL.
+ *
+ * @example
+ * import { getFilePath } from "nsuite";
+ * const __filename = getFilePath(import.meta.url);
+ */
+export function getFilePath(metaUrl) {
+  return fileURLToPath(metaUrl);
+}
+
+/**
+ * Returns the directory name of the given file URL.
+ *
+ * @param {string} metaUrl - The file URL to extract the directory name from.
+ * @returns {string} The directory name of the given file URL.
+ *
+ * @example
+ * import { getDirname } from "nsuite";
+ * const __dirname = getDirname(import.meta.url);
+ */
+export function getDirname(metaUrl) {
+  return dirname(fileURLToPath(metaUrl));
+}
+
+/**
+ * Joins multiple path segments into a single path.
+ *
+ * @param {...string} args - The path segments to join.
+ * @returns {string} The joined path.
+ *
+ * @example
+ * import { joinPath } from "nsuite";
+ * const targetPath = joinPath("path", "to", "file.txt");
+ */
+export function joinPath(...args) {
+  return join(...args);
+}
+
+/**
+ * Joins multiple path segments into a single POSIX path.
+ *
+ * @param {...string} args - The path segments to join.
+ * @returns {string} The joined POSIX path.
+ *
+ * @example
+ * import { joinPosixPath } from "nsuite";
+ * const targetPath = joinPosixPath("path", "to", "file.txt");
+ */
+export function joinPosixPath(...args) {
+  return joinPosix(...args);
+}
+
+/**
+ * Resolves multiple path segments to an absolute path.
+ *
+ * @param {...string} args - The path segments to resolve.
+ * @returns {string} The resolved absolute path.
+ *
+ * @example
+ * import { resolvePath } from "nsuite";
+ * const targetPath = resolvePath("path", "to", "file.txt");
+ */
+export function resolvePath(...args) {
+  return resolve(...args);
+}
+
+/**
+ * Resolves multiple path segments to an absolute POSIX path.
+ *
+ * @param {...string} args - The path segments to resolve.
+ * @returns {string} The resolved absolute POSIX path.
+ *
+ * @example
+ * import { resolvePosixPath } from "nsuite";
+ * const targetPath = resolvePosixPath("path", "to", "file.txt");
+ */
+export function resolvePosixPath(...args) {
+  return resolvePosix(...args);
+}
+
+/**
+ * Checks if a given path exists.
+ *
+ * @param {string} path - The path to check.
+ * @returns {Promise&lt;boolean>} A promise that resolves to `true` if the path exists, otherwise `false`.
+ *
+ * @example
+ * import { isPathExists } from "nsuite";
+ * const isExists = await isPathExists("path/to/file.txt")
+ */
+export async function isPathExists(path) {
+  try {
+    await access(path);
+    return true;
+    // eslint-disable-next-line no-unused-vars
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * Matches file paths using glob patterns.
+ *
+ * @param {...string} pathArr - The path segments to join and match using glob patterns.
+ * @returns {Promise&lt;Array&lt;string>>} A promise that resolves to an array of matched file paths.
+ *
+ * @example
+ * import { globMatchPaths } from "nsuite";
+ * const excelFileList = await globMatchPaths(
+ *   joinPath(__dirname, "materials/*.xlsx"),
+ * );
+ */
+export async function globMatchPaths(...pathArr) {
+  const targetPath = joinPath(...pathArr).replace(/\\/g, "/");
+  return await glob(targetPath, { nocase: true });
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jul 16 2026 00:45:27 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

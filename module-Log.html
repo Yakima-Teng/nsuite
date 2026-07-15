@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Log - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Captcha.html">Captcha</a><ul class='methods'><li data-type='method'><a href="module-Captcha.html#.generateSvgCaptcha">generateSvgCaptcha</a></li></ul></li><li><a href="module-Debug.html">Debug</a><ul class='methods'><li data-type='method'><a href="module-Debug.html#.attachLogToFunc">attachLogToFunc</a></li></ul></li><li><a href="module-Env.html">Env</a><ul class='methods'><li data-type='method'><a href="module-Env.html#.parseEnvFiles">parseEnvFiles</a></li></ul></li><li><a href="module-File.html">File</a><ul class='methods'><li data-type='method'><a href="module-File.html#.getFileMd5">getFileMd5</a></li><li data-type='method'><a href="module-File.html#.getReadableFileSize">getReadableFileSize</a></li><li data-type='method'><a href="module-File.html#.getSafeFileName">getSafeFileName</a></li><li data-type='method'><a href="module-File.html#.unzipFile">unzipFile</a></li><li data-type='method'><a href="module-File.html#.writeFileSafely">writeFileSafely</a></li><li data-type='method'><a href="module-File.html#.zipFile">zipFile</a></li><li data-type='method'><a href="module-File.html#.zipFolder">zipFolder</a></li></ul></li><li><a href="module-Log.html">Log</a><ul class='methods'><li data-type='method'><a href="module-Log.html#.createLogger">createLogger</a></li><li data-type='method'><a href="module-Log.html#.logError">logError</a></li><li data-type='method'><a href="module-Log.html#.logInfo">logInfo</a></li><li data-type='method'><a href="module-Log.html#.logWarn">logWarn</a></li><li data-type='method'><a href="module-Log.html#~getCallSite">getCallSite</a></li></ul></li><li><a href="module-Module.html">Module</a><ul class='methods'><li data-type='method'><a href="module-Module.html#.isMainModule">isMainModule</a></li></ul></li><li><a href="module-OSS-Ali.html">OSS-Ali</a><ul class='methods'><li data-type='method'><a href="module-OSS-Ali.html#.deleteRemotePathListFromAliOSS">deleteRemotePathListFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getClientFromAliOSS">getClientFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.getObjectUrlFromAliOSS">getObjectUrlFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.listFilesFromAliOSS">listFilesFromAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadDirToAliOSS">uploadDirToAliOSS</a></li><li data-type='method'><a href="module-OSS-Ali.html#.uploadLocalFileToAliOSS">uploadLocalFileToAliOSS</a></li></ul></li><li><a href="module-OSS-Qiniu.html">OSS-Qiniu</a><ul class='methods'><li data-type='method'><a href="module-OSS-Qiniu.html#.deleteRemotePathListFromQiniuOSS">deleteRemotePathListFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getBucketManagerFromQiniuOSS">getBucketManagerFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getConfigFromQiniuOSS">getConfigFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getMacFromQiniuOSS">getMacFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.getPublicDownloadUrlFromQiniuOSS">getPublicDownloadUrlFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.refreshUrlsFromQiniuOSS">refreshUrlsFromQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadDirToQiniuOSS">uploadDirToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#.uploadLocalFileToQiniuOSS">uploadLocalFileToQiniuOSS</a></li><li data-type='method'><a href="module-OSS-Qiniu.html#~getQiniuCacheRefreshCodeMessage">getQiniuCacheRefreshCodeMessage</a></li></ul></li><li><a href="module-Path.html">Path</a><ul class='methods'><li data-type='method'><a href="module-Path.html#.getDirname">getDirname</a></li><li data-type='method'><a href="module-Path.html#.getFilePath">getFilePath</a></li><li data-type='method'><a href="module-Path.html#.globMatchPaths">globMatchPaths</a></li><li data-type='method'><a href="module-Path.html#.isPathExists">isPathExists</a></li><li data-type='method'><a href="module-Path.html#.joinPath">joinPath</a></li><li data-type='method'><a href="module-Path.html#.joinPosixPath">joinPosixPath</a></li><li data-type='method'><a href="module-Path.html#.resolvePath">resolvePath</a></li><li data-type='method'><a href="module-Path.html#.resolvePosixPath">resolvePosixPath</a></li></ul></li><li><a href="module-Promise.html">Promise</a><ul class='methods'><li data-type='method'><a href="module-Promise.html#.withTimeout">withTimeout</a></li></ul></li><li><a href="module-SSH.html">SSH</a><ul class='methods'><li data-type='method'><a href="module-SSH.html#.getSSHClient">getSSHClient</a></li><li data-type='method'><a href="module-SSH.html#.sshConnect">sshConnect</a></li><li data-type='method'><a href="module-SSH.html#.sshExecCommand">sshExecCommand</a></li><li data-type='method'><a href="module-SSH.html#.sshGetDirectory">sshGetDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshGetFile">sshGetFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutDirectory">sshPutDirectory</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFile">sshPutFile</a></li><li data-type='method'><a href="module-SSH.html#.sshPutFiles">sshPutFiles</a></li></ul></li><li><a href="module-Text.html">Text</a><ul class='methods'><li data-type='method'><a href="module-Text.html#.generateSummary">generateSummary</a></li></ul></li><li><a href="module-Type.html">Type</a><ul class='methods'><li data-type='method'><a href="module-Type.html#.getError">getError</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Log</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext"><p>Utility functions for logging.</p></div>
+            
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Utility functions for logging.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="UtilsLog.mjs.html">UtilsLog.mjs</a>, <a href="UtilsLog.mjs.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".createLogger"><span class="type-signature type-signature-static">(static) </span>createLogger<span class="signature">(options)</span><span class="type-signature"> &rarr; {winston.Logger}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a Winston logger with a daily rotating file transport and optional console transport.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="UtilsLog.mjs.html">UtilsLog.mjs</a>, <a href="UtilsLog.mjs.html#line114">line 114</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>import { createLogger } from "nsuite";
+export const logger = createLogger({
+  level: "info",
+  meta: {
+    serverName: "your-server-name",
+    NODE_ENV: process.env.NODE_ENV,
+    MODE: process.env.MODE,
+  },
+  maxLength: 1000,
+  filename: "./logs/application-%DATE%.log",
+  zippedArchive: false,
+  enableConsole: process.env.NODE_ENV !== "production",
+});</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Configuration options for the logger.</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>level</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>"info"</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>The log level.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>meta</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Record.&lt;string, string></span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>{}</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>The name of the server.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>filename</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>"./logs/application-%DATE%.log"</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>The filename pattern for the log files.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxLength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>1000</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>The maximum length of the log message.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>zippedArchive</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>Whether to zip old log files.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>enableConsole</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>Whether to enable console logging.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>includeCallSite</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>Whether to include the call site in the log message.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>inspector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>'nodeInspect'</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>The inspector function to use for formatting log messages. Support 'nodeInspect' or 'objectInspect'</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>The configured Winston logger instance.</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">winston.Logger</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".logError"><span class="type-signature type-signature-static">(static) </span>logError<span class="signature">(&hellip;args)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>记录错误消息到控制台</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="UtilsLog.mjs.html">UtilsLog.mjs</a>, <a href="UtilsLog.mjs.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>要记录的参数列表</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".logInfo"><span class="type-signature type-signature-static">(static) </span>logInfo<span class="signature">(&hellip;args)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>记录信息性消息到控制台</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="UtilsLog.mjs.html">UtilsLog.mjs</a>, <a href="UtilsLog.mjs.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>要记录的参数列表</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".logWarn"><span class="type-signature type-signature-static">(static) </span>logWarn<span class="signature">(&hellip;args)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>记录警告消息到控制台</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="UtilsLog.mjs.html">UtilsLog.mjs</a>, <a href="UtilsLog.mjs.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>要记录的参数列表</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~getCallSite"><span class="type-signature type-signature-inner">(inner) </span>getCallSite<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="UtilsLog.mjs.html">UtilsLog.mjs</a>, <a href="UtilsLog.mjs.html#line63">line 63</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jul 16 2026 00:45:27 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
