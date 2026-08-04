@@ -49,7 +49,7 @@
   "scripts": {
     "ready": "npm install",
     "postinstall": "patch-package",
-    "lint": "npm run format && npm run lint:code && npm run lint:markdown && npm run typecheck && npm run test",
+    "lint": "npm run format && npm run lint:code && npm run lint:markdown && npm run typecheck && npm run docs:build && npm run test",
     "format": "prettier . --write",
     "lint:code": "eslint . --fix",
     "lint:markdown": "markdownlint-cli2",
