@@ -3,7 +3,7 @@ const config = {
   entryPoints: ["./lib"],
   entryPointStrategy: "expand",
   out: "docs",
-  exclude: ["node_modules"],
+  exclude: ["./lib/index.mjs", "node_modules"],
   readme: "./README.md",
   includeVersion: true,
   cleanOutputDir: true,
