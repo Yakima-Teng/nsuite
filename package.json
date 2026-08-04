@@ -59,7 +59,7 @@
     "build": "npx rimraf dist && npx tsc && npx rimraf dist/test, dist/build",
     "lintAndBuild": "npm run lint && npm run build",
     "deploy": "node ./scripts/deploy-npm.mts",
-    "docs:build": "npx rimraf .docs && npx jsdoc --package ./package.json --configure ./jsdoc.json",
+    "docs:build": "npx rimraf docs && npx typedoc",
     "docs:deploy": "node ./scripts/deploy-docs-gh-pages.mts",
     "docs:buildAndDeploy": "npm run lint && npm run docs:build && npm run docs:deploy",
     "version:patch": "npm version patch",
@@ -77,11 +77,10 @@
     "eslint": "9.21.0",
     "eslint-config-prettier": "10.0.2",
     "globals": "16.0.0",
-    "jsdoc": "4.0.4",
-    "jsdoc-tsimport-plugin": "1.0.5",
     "markdownlint-cli2": "0.23.0",
     "prettier": "3.5.3",
     "rimraf": "6.0.1",
+    "typedoc": "0.28.20",
     "typescript": "5.8.3"
   },
   "dependencies": {

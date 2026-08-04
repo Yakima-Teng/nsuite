@@ -3,7 +3,7 @@ node_modules
 .env.local
 /dist
 /.temp
-/.docs
+/docs
 AGENTS.LOCAL.md
 .terminal.local.md
 .agents/plans

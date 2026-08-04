@@ -11,7 +11,7 @@ const repoRoot: string = join(__dirname, "..");
 
 // 1. Find the version directory under .docs/nsuite/
 console.log("[1/2] Preparing deployment files...");
-const docsDir: string = join(repoRoot, ".docs/nsuite");
+const docsDir: string = join(repoRoot, "docs");
 const entries: Dirent[] = await readdir(docsDir, { withFileTypes: true });
 const versionDir: Dirent | undefined = entries.find((e) => e.isDirectory());
 if (!versionDir) {
