@@ -87,6 +87,9 @@ For online documentation, please visit [https://yakima-teng.github.io/nsuite/](h
 ## Type
 
 - `getError` — Safely wraps an unknown error into an Error instance.
+- `getObjectKeys` — Returns typed enumerable property keys from an object.
+- `parseJsonString` — Parses a typed JSON string into its original value type.
+- `stringifyToJsonString` — Serializes a value into a typed JSON string.
 
 ## Debug
 

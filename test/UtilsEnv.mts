@@ -7,7 +7,7 @@ const __dirname = getDirname(import.meta.url);
 
 test("The first definition win in case of duplicate definitions across multiple files", () => {
   parseEnvFiles([
-    joinPath(__dirname, "../../tech/.env.pre"),
+    joinPath(__dirname, "../../tech/.env.production"),
     joinPath(__dirname, "../../tech/.env"),
   ]);
   const { HOME_URL = "" } = process.env;
