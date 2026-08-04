@@ -91,6 +91,14 @@ For online documentation, please visit [https://yakima-teng.github.io/nsuite/](h
 - `parseJsonString` — Parses a typed JSON string into its original value type.
 - `stringifyToJsonString` — Serializes a value into a typed JSON string.
 
+## String
+
+- `generateRandomString` — Generates a random alphanumeric string.
+- `limitStringLength` — Limits a string to a maximum length.
+- `limitJsonStringLength` — Proportionally limits string values in a typed JSON
+  string.
+- `safeStringify` — Safely converts unknown values into readable strings.
+
 ## Debug
 
 - `attachLogToFunc` — Wraps a function with debug logging for arguments
