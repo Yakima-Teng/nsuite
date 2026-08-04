@@ -9,18 +9,12 @@ const __filename: string = fileURLToPath(import.meta.url);
 const __dirname: string = dirname(__filename);
 const repoRoot: string = join(__dirname, "..");
 
-// 1. Find the version directory under .docs/nsuite/
+// 1. Find the version directory under ./docs/
 console.log("[1/2] Preparing deployment files...");
 const docsDir: string = join(repoRoot, "docs");
-const entries: Dirent[] = await readdir(docsDir, { withFileTypes: true });
-const versionDir: Dirent | undefined = entries.find((e) => e.isDirectory());
-if (!versionDir) {
-  throw new Error(`No version subdirectory found under ${docsDir}`);
-}
 
-const sourceDir: string = join(docsDir, versionDir.name);
 const tmpDir: string = await mkdtemp(join(tmpdir(), "gh-pages-"));
-await cp(sourceDir, tmpDir, { recursive: true });
+await cp(docsDir, tmpDir, { recursive: true });
 
 // 2. Init git, commit, force push to gh-pages
 console.log("[2/2] Force pushing to gh-pages branch...");
