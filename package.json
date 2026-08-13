@@ -17,8 +17,11 @@
     "qiniu-oss",
     "ali-oss"
   ],
-  "main": "./lib/index.mjs",
+  "main": "./dist/cjs/index.cjs",
   "types": "./dist/lib/index.d.mts",
+  "engines": {
+    "node": ">=18"
+  },
   "imports": {
     "#lib/*": "./lib/*.mjs",
     "#test/*": "./test/*.mts"
@@ -26,11 +29,13 @@
   "exports": {
     ".": {
       "types": "./dist/lib/index.d.mts",
-      "import": "./lib/index.mjs"
+      "import": "./lib/index.mjs",
+      "require": "./dist/cjs/index.cjs"
     }
   },
   "files": [
     "dist/lib",
+    "dist/cjs",
     "lib",
     "package.json",
     "README.md"
@@ -55,8 +60,9 @@
     "lint:markdown": "markdownlint-cli2",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "typecheck:watch": "tsc -p tsconfig.json --noEmit --watch",
-    "test": "node test/index.mts",
-    "build": "npx rimraf dist && npx tsc && npx rimraf dist/test, dist/build",
+    "test": "npm run build:cjs && node test/index.mts",
+    "build:cjs": "esbuild ./lib/index.mjs --bundle --platform=node --format=cjs --target=node18 --packages=external --outfile=./dist/cjs/index.cjs",
+    "build": "npx rimraf dist && npx tsc && npm run build:cjs && npx rimraf dist/test, dist/build",
     "lintAndBuild": "npm run lint && npm run build",
     "deploy": "node ./scripts/deploy-npm.mts",
     "docs:build": "npx rimraf docs && npx typedoc",
@@ -75,6 +81,7 @@
     "@types/unzipper": "0.10.11",
     "cross-env": "10.0.0",
     "docdash": "2.0.2",
+    "esbuild": "0.28.2",
     "eslint": "9.21.0",
     "eslint-config-prettier": "10.0.2",
     "globals": "16.0.0",

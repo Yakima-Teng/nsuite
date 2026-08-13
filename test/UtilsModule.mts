@@ -1,4 +1,5 @@
 import { execFile } from "node:child_process";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -6,6 +7,7 @@ import test from "node:test";
 import { getDirname, joinPath, isMainModule } from "#lib/index";
 
 const __dirname = getDirname(import.meta.url);
+const require = createRequire(import.meta.url);
 
 test("should return false when not called from the entry module", () => {
   // The entry point is test/index.mts, so isMainModule from this file should be false
@@ -34,4 +36,13 @@ test("should throw for an invalid URL", () => {
 
 test("should throw for an empty string", () => {
   assert.throws(() => isMainModule(""));
+});
+
+test("should load the package root through ESM and CommonJS", async () => {
+  const packageName = "nsuite";
+  const esmModule = await import(packageName);
+  const cjsModule = require(packageName);
+
+  assert.strictEqual(esmModule.getError("esm").message, "esm");
+  assert.strictEqual(cjsModule.getError("commonjs").message, "commonjs");
 });
