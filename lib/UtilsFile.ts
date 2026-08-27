@@ -18,8 +18,8 @@ import type { WriteFileOptions } from "node:fs";
  * Generates a safe file name by replacing special characters with underscores.
  * Consecutive underscores are also reduced to a single underscore.
  *
- * @param {string} fileName - The original file name to be sanitized.
- * @returns {string} - The sanitized file name with special characters replaced by underscores and consecutive underscores reduced to a single underscore.
+ * @param fileName - The original file name to be sanitized.
+ * @returns - The sanitized file name with special characters replaced by underscores and consecutive underscores reduced to a single underscore.
  *
  * @example
  * import { getSafeFileName } from "nsuite";
@@ -51,10 +51,10 @@ export function getSafeFileName(fileName: string): string {
 /**
  * Zips a single file and returns a promise that resolves when the zip operation is complete.
  *
- * @param {Object} options - The options for the zip operation.
- * @param {string} options.pathInputFile - The path to the input file to be zipped.
- * @param {string} options.pathOutputFile - The path to the output zip file.
- * @returns {Promise<number>} - A promise that resolves with final zip file size in Bytes when the zip operation is complete.
+ * @param options - The options for the zip operation.
+ * @param options.pathInputFile - The path to the input file to be zipped.
+ * @param options.pathOutputFile - The path to the output zip file.
+ * @returns - A promise that resolves with final zip file size in Bytes when the zip operation is complete.
  *
  * @example
  * import { zipFile } from "nsuite";
@@ -92,10 +92,10 @@ export async function zipFile(options: ZipFileOptions): Promise<number> {
 /**
  * Zips a folder and returns a promise that resolves when the zip operation is complete.
  *
- * @param {Object} options - The options for the zip operation.
- * @param {string} options.pathFolder - The path to the folder to be zipped.
- * @param {string} options.pathOutputFile - The path to the output zip file.
- * @returns {Promise<number>} - A promise that resolves with final zip file size in Bytes when the zip operation is complete.
+ * @param options - The options for the zip operation.
+ * @param options.pathFolder - The path to the folder to be zipped.
+ * @param options.pathOutputFile - The path to the output zip file.
+ * @returns - A promise that resolves with final zip file size in Bytes when the zip operation is complete.
  *
  * @example
  * import { zipFolder } from "nsuite";
@@ -131,10 +131,10 @@ export async function zipFolder(options: ZipFolderOptions): Promise<number> {
 /**
  * Unzips a file and returns a promise that resolves when the unzip operation is complete.
  *
- * @param {Object} options - The options for the unzip operation.
- * @param {string} options.pathFile - The path to the zip file to be unzipped.
- * @param {string} options.pathOutput - The path to the output directory.
- * @returns {Promise<void>} - A promise that resolves when the unzip operation is complete.
+ * @param options - The options for the unzip operation.
+ * @param options.pathFile - The path to the zip file to be unzipped.
+ * @param options.pathOutput - The path to the output directory.
+ * @returns - A promise that resolves when the unzip operation is complete.
  *
  * @example
  * import { unzipFile } from "nsuite";
@@ -153,15 +153,7 @@ export async function unzipFile({
 }
 
 /**
- * @typedef {import('filesize').FilesizeOptions} CustomFilesizeOptions
- * @property {string} [output] - output format， only 'string' is supported
- */
-
-/**
  * converts file size in bytes to human-readable string
- * @param {number | string} size
- * @param {CustomFilesizeOptions} [options]
- * @returns {string}
  *
  * @example
  * import { getReadableFileSize } from "nsuite";
@@ -195,9 +187,9 @@ export function getReadableFileSize(
 /**
  * Calculates the MD5 hash of a file and returns a promise that resolves with the hash.
  *
- * @param {Object} options - The options for the hash operation.
- * @param {string} options.pathFile - The path to the file for which the hash is to be calculated.
- * @returns {Promise<string>} - A promise that resolves with the MD5 hash of the file.
+ * @param options - The options for the hash operation.
+ * @param options.pathFile - The path to the file for which the hash is to be calculated.
+ * @returns - A promise that resolves with the MD5 hash of the file.
  *
  * @example
  * import { getFileMd5 } from "nsuite";
@@ -213,16 +205,12 @@ export async function getFileMd5({
 }
 
 /**
- * @typedef {import('node:fs').WriteFileOptions} WriteFileOptions
- */
-
-/**
  * Safely writes content to a file, creating parent directories if they don't exist.
  *
- * @param {string} filePath - The path to the file to be written.
- * @param {string | Buffer | DataView | Uint8Array} content - The content to write to the file.
- * @param {WriteFileOptions} [options] - Optional settings for the write operation.
- * @returns {Promise<void>} - A promise that resolves when the file has been written.
+ * @param filePath - The path to the file to be written.
+ * @param content - The content to write to the file.
+ * @param [options] - Optional settings for the write operation.
+ * @returns - A promise that resolves when the file has been written.
  *
  * @example
  * import { writeFileSafely } from "nsuite";

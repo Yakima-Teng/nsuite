@@ -10,7 +10,7 @@ import objectInspect from "object-inspect";
 
 /**
  * 记录信息性消息到控制台
- * @param {...*} args - 要记录的参数列表
+ * @param args - 要记录的参数列表
  */
 export function logInfo(...args: unknown[]): void {
   // eslint-disable-next-line no-console
@@ -19,7 +19,7 @@ export function logInfo(...args: unknown[]): void {
 
 /**
  * 记录警告消息到控制台
- * @param {...*} args - 要记录的参数列表
+ * @param args - 要记录的参数列表
  */
 export function logWarn(...args: unknown[]): void {
   // eslint-disable-next-line no-console
@@ -28,7 +28,7 @@ export function logWarn(...args: unknown[]): void {
 
 /**
  * 记录错误消息到控制台
- * @param {...*} args - 要记录的参数列表
+ * @param args - 要记录的参数列表
  */
 export function logError(...args: unknown[]): void {
   // eslint-disable-next-line no-console
@@ -37,8 +37,6 @@ export function logError(...args: unknown[]): void {
 
 /**
  * Converts symbol keys to string keys in an object.
- * @param {Record<string | symbol, unknown>} obj
- * @returns {Record<string, unknown>}
  * @ignore
  */
 function convertSymbolKeys(
@@ -60,7 +58,6 @@ function convertSymbolKeys(
 
 /**
  *
- * @returns {string}
  */
 function getCallSite(): string {
   const stack = new Error().stack; // 我们只要 stack，不要抛异常
@@ -87,31 +84,24 @@ function getCallSite(): string {
 /**
  * Creates a Winston logger with a daily rotating file transport and optional console transport.
  *
- * @param {Object} options - Configuration options for the logger.
- * @param {string} [options.level="info"] - The log level.
- * @param {Record<string, string>} [options.meta={}] - The name of the server.
- * @param {string} [options.filename="./logs/application-%DATE%.log"] - The filename pattern for the log files.
- * @param {number} [options.maxLength=1000] - The maximum length of the log message.
- * @param {boolean} [options.zippedArchive=false] - Whether to zip old log files.
- * @param {boolean} [options.enableConsole=false] - Whether to enable console logging.
- * @param {boolean} [options.includeCallSite=false] - Whether to include the call site in the log message.
- * @param {string} [options.inspector='nodeInspect'] - The inspector function to use for formatting log messages. Support 'nodeInspect' or 'objectInspect'
- * @returns {winston.Logger} - The configured Winston logger instance.
+ * @param options - Configuration options for the logger.
+ * @param [options.level="info"] - The log level.
+ * @param [options.meta={}] - The name of the server.
+ * @param [options.filename="./logs/application-%DATE%.log"] - The filename pattern for the log files.
+ * @param [options.maxLength=1000] - The maximum length of the log message.
+ * @param [options.zippedArchive=false] - Whether to zip old log files.
+ * @param [options.enableConsole=false] - Whether to enable console logging.
+ * @param [options.includeCallSite=false] - Whether to include the call site in the log message.
+ * @param [options.inspector='nodeInspect'] - The inspector function to use for formatting log messages. Support 'nodeInspect' or 'objectInspect'
+ * @returns - The configured Winston logg…1934 tokens truncated…OUT_ERROR_MESSAGE} error.
+ *
+ * @param promise - The promise to wrap with a timeout.
+ * @param [timeoutMs=3000] - The timeout duration in milliseconds.
+ * @returns - A new promise that either resolves with the original promise's value or rejects with a timeout error if the timeout duration is exceeded.
  *
  * @example
- * import { createLogger } from "nsuite";
- * export const logger = createLogger({
- *   level: "info",
- *   meta: {
- *     serverName: "your-server-name",
- *     NODE_ENV: process.env.NODE_ENV,
- *     MODE: process.env.MODE,
- *   },
- *   maxLength: 1000,
- *   filename: "./logs/application-%DATE%.log",
- *   zippedArchive: false,
- *   enableConsole: process.env.NODE_ENV !== "production",
- * });
+ * import { withTimeout } from "nsuite";
+ * const newPromise = withTimeout(promise, 3000);
  */
 export interface CreateLoggerOptions {
   level?: string;

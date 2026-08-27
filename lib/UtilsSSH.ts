@@ -58,20 +58,7 @@ import type { SFTPWrapper, TransferOptions } from "ssh2";
  */
 
 /**
- * @typedef {import('node-ssh').NodeSSH} SSH
- * @typedef {import('node-ssh').SSHGetPutDirectoryOptions} GetPutDirectoryOptions
- * @typedef {import('node-ssh').SSHPutFilesOptions} PutFilesOptions
- */
-
-/**
- * @typedef {Object} PathPair
- * @property {string} local
- * @property {string} remote
- */
-
-/**
  * Get SSH instance
- * @returns {SSH}
  */
 export interface PathPair {
   local: string;
@@ -134,18 +121,7 @@ export function getSSHClient(): SSH {
 }
 
 /**
- * @typedef {Object} ParamsConnect
- * @property {SSH} ssh
- * @property {string} host
- * @property {number} port
- * @property {string} username
- * @property {string} password
- */
-
-/**
  * Connect to SSH
- * @param {ParamsConnect} payload
- * @returns {Promise<void>}
  */
 export async function sshConnect(payload: ParamsConnect): Promise<void> {
   const { ssh, ...config } = payload;
@@ -153,32 +129,7 @@ export async function sshConnect(payload: ParamsConnect): Promise<void> {
 }
 
 /**
- * @callback SSHUploadFileCallback
- * @param {string} local
- * @param {string} remote
- * @param {Error | null} error
- */
-
-/**
- * @typedef {Object} ParamsPutDir
- * @property {SSH} ssh
- * @property {string} fromPath
- * @property {string} toPath
- * @property {GetPutDirectoryOptions} [options]
- * @property {SSHUploadFileCallback} [uploadCallback] - callback function for upload progress
- */
-
-/**
- * @typedef {Object} ReturnPutDir
- * @property {boolean} success
- * @property {PathPair[]} failItems
- * @property {PathPair[]} successItems
- */
-
-/**
  * Put directory
- * @param {ParamsPutDir} payload
- * @returns {Promise<ReturnPutDir>}
  */
 export async function sshPutDirectory(
   payload: ParamsPutDir,
@@ -214,17 +165,7 @@ export async function sshPutDirectory(
 }
 
 /**
- * @typedef {Object} ParamsSSHGetDir
- * @property {SSH} ssh
- * @property {string} localDirectory
- * @property {string} remoteDirectory
- * @property {GetPutDirectoryOptions} [options]
- */
-
-/**
  * Download directory from remote server
- * @param { ParamsSSHGetDir } payload
- * @returns {Promise<boolean>}
  */
 export async function sshGetDirectory(
   payload: ParamsSSHGetDir,
@@ -234,18 +175,7 @@ export async function sshGetDirectory(
 }
 
 /**
- * @typedef {Object} ParamsSSHGetFile
- * @property {SSH} ssh
- * @property {string} localFile
- * @property {string} remoteFile
- * @property {import('ssh2').SFTPWrapper | null} [givenSftp]
- * @property {import('ssh2').TransferOptions} [transferOptions]
- */
-
-/**
  * Download file from server
- * @param {ParamsSSHGetFile} payload
- * @returns {Promise<void>}
  */
 export async function sshGetFile(payload: ParamsSSHGetFile): Promise<void> {
   const { ssh, localFile, remoteFile, givenSftp, transferOptions } = payload;
@@ -254,8 +184,6 @@ export async function sshGetFile(payload: ParamsSSHGetFile): Promise<void> {
 
 /**
  * Put file to server
- * @param {ParamsSSHGetFile} payload
- * @returns {Promise<void>}
  */
 export async function sshPutFile(payload: ParamsSSHGetFile): Promise<void> {
   const { ssh, localFile, remoteFile, givenSftp, transferOptions } = payload;
@@ -263,16 +191,7 @@ export async function sshPutFile(payload: ParamsSSHGetFile): Promise<void> {
 }
 
 /**
- * @typedef {Object} ParamsPutFiles
- * @property {SSH} ssh
- * @property {PathPair[]} files
- * @property {PutFilesOptions} [options]
- */
-
-/**
  * Put files
- * @param {ParamsPutFiles} payload
- * @returns {Promise<void>}
  */
 export async function sshPutFiles(payload: ParamsPutFiles): Promise<void> {
   const { ssh, files, options } = payload;
@@ -280,18 +199,7 @@ export async function sshPutFiles(payload: ParamsPutFiles): Promise<void> {
 }
 
 /**
- * @typedef {Object} ParamsExecCommand
- * @property {SSH} ssh
- * @property {string} cwd
- * @property {string} command
- * @property {function(Buffer): void} [onStdout]
- * @property {function(Buffer): void} [onStderr]
- */
-
-/**
  * Execute command
- * @param {ParamsExecCommand} payload
- * @returns {Promise<void>}
  */
 export async function sshExecCommand(
   payload: ParamsExecCommand,

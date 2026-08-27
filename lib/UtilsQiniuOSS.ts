@@ -170,15 +170,6 @@ export interface ReturnQiniuOSSUploadDir {
  * logger.info(`Refreshed urls: ${refreshedUrls.join(", ")}.`);
  */
 
-/**
- * @typedef {qiniu.httpc.HttpClientOptions} QiniuHttpClientRawOptions
- */
-
-/**
- * @typedef {QiniuHttpClientRawOptions} QiniuHttpClientOptions
- * @property {number} [timeout]
- */
-
 const getQiniuOssTimeout = (): number => {
   const { QINIU_HTTP_CLIENT_TIMEOUT } = process.env;
   if (QINIU_HTTP_CLIENT_TIMEOUT) {
@@ -201,8 +192,6 @@ const getQiniuOssTimeout = (): number => {
  * 403024  single user QPS Rate limited  请求达到单用户QPS限制，请重试或联系我们
  * 403022  server QPS Rate limited  请求达到全局QPS限制，请联系我们
  * 500000  internal error  服务端内部错误，请联系技术支持
- * @param {number} code
- * @returns {string}
  */
 const getQiniuCacheRefreshCodeMessage = (code: number): string => {
   switch (code) {
@@ -232,29 +221,7 @@ const getQiniuCacheRefreshCodeMessage = (code: number): string => {
 };
 
 /**
- * @typedef {'Zone_z0' | 'Zone_z1' | 'Zone_z2' | 'Zone_na0' | 'Zone_as0'} QiniuZoneName
- * @typedef {import('qiniu').conf.Config} QiniuConfig
- * @typedef {import('qiniu').rs.BucketManager} QiniuBucketManager
- * @typedef {import('qiniu').auth.digest.Mac} QiniuMac
- * @typedef {import('qiniu').auth.digest.MacOptions} QiniuMacOptions
- * @typedef {import('qiniu').rs.PutPolicyOptions} QiniuPutPolicyOptions
- * @typedef {import('qiniu/StorageResponseInterface.d.ts').ListedObjectEntry} QiniuListedObjectEntry
- * @typedef {import('qiniu').rs.ListPrefixOptions} QiniuListPrefixOptions
- * @typedef {import('qiniu').httpc.ResponseWrapper} QiniuHttpcResponseWrapper
- * @typedef {import('qiniu/StorageResponseInterface.d.ts').OperationResponse} QiniuOperationResponse
- */
-
-/**
- * @typedef {Object} ParamsQiniuOSSGetMac
- * @property {string} accessKey
- * @property {string} secretKey
- * @property {QiniuMacOptions} [options]
- */
-
-/**
  * Get mac from qiniu
- * @param {ParamsQiniuOSSGetMac} payload
- * @returns {QiniuMac}
  */
 export function getMacFromQiniuOSS(payload: ParamsQiniuOSSGetMac): QiniuMac {
   const { accessKey, secretKey, options } = payload;
@@ -263,8 +230,6 @@ export function getMacFromQiniuOSS(payload: ParamsQiniuOSSGetMac): QiniuMac {
 
 /**
  * Get
- * @param {import('qiniu').conf.ConfigOptions} options
- * @returns {QiniuConfig}
  */
 export function getConfigFromQiniuOSS(
   options: qiniu.conf.ConfigOptions,
@@ -273,15 +238,7 @@ export function getConfigFromQiniuOSS(
 }
 
 /**
- * @typedef {Object} ParamsQiniuOSSGetBucketManager
- * @property {QiniuMac} mac
- * @property {QiniuConfig} config
- */
-
-/**
  * Get bucket manager from qiniu
- * @param {ParamsQiniuOSSGetBucketManager} payload
- * @returns {QiniuBucketManager}
  */
 export function getBucketManagerFromQiniuOSS(
   payload: ParamsQiniuOSSGetBucketManager,
@@ -297,16 +254,7 @@ export function getBucketManagerFromQiniuOSS(
 }
 
 /**
- * @typedef {Object} ParamsQiniuOSSGetPublicDownloadUrl
- * @property {QiniuBucketManager} bucketManager
- * @property {string} key
- * @property {string} [baseUrl]
- */
-
-/**
  * Get public download url
- * @param {ParamsQiniuOSSGetPublicDownloadUrl} payload
- * @returns {string}
  */
 export function getPublicDownloadUrlFromQiniuOSS(
   payload: ParamsQiniuOSSGetPublicDownloadUrl,
@@ -316,15 +264,7 @@ export function getPublicDownloadUrlFromQiniuOSS(
 }
 
 /**
- * @typedef {Object} ParamsQiniuOSSRefreshUrls
- * @property {string[]} urls
- * @property {QiniuMac} mac
- */
-
-/**
  * Refresh cdn urls
- * @param {ParamsQiniuOSSRefreshUrls} payload
- * @returns {Promise<string[]>}
  */
 export async function refreshUrlsFromQiniuOSS(
   payload: ParamsQiniuOSSRefreshUrls,
@@ -337,41 +277,11 @@ export async function refreshUrlsFromQiniuOSS(
 
   /**
    * Promise function
-   * @param {string[]} someUrls
-   * @returns {Promise<string[]>}
    */
   const promiseFunc = (someUrls: string[]): Promise<string[]> => {
-    /** @type {Promise<string[]>} */
     return new Promise((resolve, reject) => {
       /**
-       * @typedef {Object} QiniuRefreshUrlsRespBody
-       * @property {number} code 200 if success
-       * @property {string} error 'success' is success
-       * @property {string} requestId
-       * @property {null | Record<string, unknown>} taskIds
-       */
-      /**
-       * @typedef {Object} QiniuRefreshUrlsRespInfo
-       * @property {number} status 200 if success
-       * @property {number} statusCode 200 if success
-       * @property {string} statusMessage 'OK' if success
-       * @property {Record<string, string>} headers
-       * @property {number} size
-       * @property {boolean} aborted
-       * @property {number} rt
-       * @property {QiniuRefreshUrlsRespBody} data
-       * @property {string[]} requestUrls
-       * @property {number | null} timing
-       * @property {string} remoteAddress
-       * @property {number} remotePort
-       * @property {number} socketHandledRequests
-       * @property {number} socketHandledResponses
-       */
-      /**
        * Callback function
-       * @param {Error | undefined} err
-       * @param {QiniuRefreshUrlsRespBody} respBody
-       * @param {QiniuRefreshUrlsRespInfo} respInfo
        */
       const refreshCallback = (
         err: Error | undefined,
@@ -428,17 +338,8 @@ export async function refreshUrlsFromQiniuOSS(
   return returnUrls;
 }
 
-/**
- * @typedef {Object} ParamsQiniuOSSListFiles
- * @property {QiniuBucketManager} bucketManager
- * @property {string} bucket
- * @property {QiniuListPrefixOptions} options
- */
-
 /***
  * List all files under a remote directory
- * @param {ParamsQiniuOSSListFiles} payload
- * @return {Promise<QiniuListedObjectEntry[]>}
  */
 // 查询某个远程目录下的文件列表
 const listFilesFromQiniuOSS = async (
@@ -476,22 +377,7 @@ const listFilesFromQiniuOSS = async (
 };
 
 /**
- * @typedef {Object} ParamsQiniuOSSDeleteRemotePathList
- * @property {QiniuBucketManager} bucketManager
- * @property {string[]} remotePathList
- * @property {string} bucket
- */
-
-/**
- * @typedef {Object} ReturnQiniuOSSDeleteRemotePathList
- * @property {string[]} successItems
- * @property {string[]} failItems
- */
-
-/**
  * Delete files
- * @param {ParamsQiniuOSSDeleteRemotePathList} payload
- * @returns {Promise<ReturnQiniuOSSDeleteRemotePathList>}
  */
 export async function deleteRemotePathListFromQiniuOSS(
   payload: ParamsQiniuOSSDeleteRemotePathList,
@@ -553,30 +439,7 @@ export async function deleteRemotePathListFromQiniuOSS(
 }
 
 /**
- * @typedef {Object} ParamsQiniuOSSUploadLocalFile
- * @property {QiniuConfig} config
- * @property {QiniuMac} mac
- * @property {string} localPath
- * @property {string} key
- * @property {string} baseUrl
- * @property {string} bucket
- * @property {QiniuPutPolicyOptions} [putPolicyOptions]
- */
-
-/**
- * @typedef {Object} ReturnQiniuOSSUploadLocalFile
- * @property {string} key
- * @property {string} etag
- * @property {number} fileSize
- * @property {string} bucket
- * @property {string} name
- * @property {string} url
- */
-
-/**
  * Upload local file to Qiniu
- * @param {ParamsQiniuOSSUploadLocalFile} payload
- * @returns {Promise<ReturnQiniuOSSUploadLocalFile>}
  */
 export async function uploadLocalFileToQiniuOSS(
   payload: ParamsQiniuOSSUploadLocalFile,
@@ -623,8 +486,6 @@ export async function uploadLocalFileToQiniuOSS(
 
 /**
  * Normalize path
- * @param {string} filePath
- * @returns {string}
  *
  * @ignore
  */
@@ -633,61 +494,7 @@ const normalizePath = (filePath: string): string => {
 };
 
 /**
- * @typedef {Object} ParamsQiniuOSSUploadFileCallbackWithoutError
- * @property {null} err
- * @property {number} curIdx - current index, starting from 0, ranging from 0 to (total - 1)
- * @property {number} total - total count
- * @property {ReturnQiniuOSSUploadLocalFile} file - file info
- */
-
-/**
- * @typedef {Object} ParamsQiniuOSSUploadFileCallbackWithError
- * @property {Error} err
- * @property {number} curIdx - current index, starting from 0, ranging from 0 to (total - 1)
- * @property {number} total - total count
- * @property {null} file - file info
- */
-
-/**
- * @callback FuncQiniuOSSUploadFileCallback
- * @param {ParamsQiniuOSSUploadFileCallbackWithoutError | ParamsQiniuOSSUploadFileCallbackWithError} payload
- * @returns {void}
- */
-
-/**
- * @typedef {Object} ParamsQiniuOSSUploadDir
- * @property {QiniuConfig} config
- * @property {QiniuMac} mac
- * @property {string} bucket
- * @property {string} [baseUrl] - needed if refresh is set true
- * @property {string} [keyPrefix = '']
- * @property {QiniuPutPolicyOptions} [putPolicyOptions = {}]
- * @property {string} localPath
- * @property {string[]} [ignorePathList = []]
- * @property {boolean} [refresh = false]
- * @property {boolean} [recursive = false]
- * @property {boolean} [dryRun = false] - set to true if you want to check which files will be deployed before real deployment
- * @property {FuncQiniuOSSUploadFileCallback} [uploadCallback] - callback function for upload progress
- * @property {number} [maxTryTimes = 3] - max retry times per file, set to Infinity for unlimited retries
- * @property {number} [maxConcurrency = 500] - max concurrency for upload
- */
-
-/**
- * @typedef {Object} QiniuOSSLocalPathAndKey
- * @property {string} localPath
- * @property {string} key
- */
-
-/**
- * @typedef {Object} ReturnQiniuOSSUploadDir
- * @property {ReturnQiniuOSSUploadLocalFile[]} uploadedList
- * @property {string[]} refreshedUrlList
- * @property {QiniuOSSLocalPathAndKey[]} allPaths
- */
-/**
  * Upload directory to Qiniu OSS
- * @param {ParamsQiniuOSSUploadDir} payload
- * @returns {Promise<ReturnQiniuOSSUploadDir>}
  */
 export async function uploadDirToQiniuOSS(
   payload: ParamsQiniuOSSUploadDir,
@@ -752,11 +559,6 @@ export async function uploadDirToQiniuOSS(
   for (const group of groups) {
     const list: Array<ReturnQiniuOSSUploadLocalFile | void> = await Promise.all(
       group.map(({ localPath, key }) => {
-        /**
-         * @callback FuncReturnPromiseQiniuOSSUploadLocalFile
-         * @returns {Promise<ReturnQiniuOSSUploadLocalFile | void>}
-         */
-
         const funcPromise =
           async (): Promise<ReturnQiniuOSSUploadLocalFile | void> => {
             let tryTimes = 0;
@@ -816,7 +618,6 @@ export async function uploadDirToQiniuOSS(
       config,
       mac,
     });
-    /** @type {string[]} */
     const downloadUrlList = uploadedList.map((item) => {
       return getPublicDownloadUrlFromQiniuOSS({
         bucketManager,

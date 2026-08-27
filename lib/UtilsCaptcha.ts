@@ -5,12 +5,6 @@ import svgCaptcha from "svg-captcha";
  * @module Captcha
  */
 
-/**
- * @typedef {Object} ReturnGenerateSvgCaptcha
- * @property {string} text - The text of the mathematical expression.
- * @property {string} data - The SVG data of the captcha image.
- */
-
 export interface GenerateSvgCaptchaOptions {
   width?: number;
   height?: number;
@@ -24,10 +18,10 @@ export interface ReturnGenerateSvgCaptcha {
 /**
  * Generates an SVG captcha with a mathematical expression.
  *
- * @param {Object} options - Options for generating the captcha.
- * @param {number} [options.width=150] - The width of the captcha image.
- * @param {number} [options.height=50] - The height of the captcha image.
- * @returns {ReturnGenerateSvgCaptcha} An object containing the captcha text and data.
+ * @param options - Options for generating the captcha.
+ * @param [options.width=150] - The width of the captcha image.
+ * @param [options.height=50] - The height of the captcha image.
+ * @returns An object containing the captcha text and data.
  *
  * @example
  * import { generateSvgCaptcha } from "nsuite";

@@ -71,8 +71,6 @@ const numberArr = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 /**
  * Generate a random alphanumeric string with the specified length
- * @param {number} len
- * @returns {string}
  *
  * @example
  * import { generateRandomString } from 'nsuite'
@@ -94,10 +92,6 @@ export function generateRandomString(len: number): string {
 
 /**
  * Limit a string to the specified maximum length
- * @template {string} T
- * @param {T} str
- * @param {number} len
- * @returns {T}
  *
  * @example
  * import { limitStringLength } from 'nsuite'
@@ -109,10 +103,6 @@ export function limitStringLength<T extends string>(str: T, len: number): T {
 
 /**
  * Proportionally limit string values in a typed JSON string
- * @template {Record<string, string>} T
- * @param {import("./UtilsType.js").JSONString<T>} str
- * @param {number} len
- * @returns {import("./UtilsType.js").JSONString<T>}
  *
  * @example
  * import { limitJsonStringLength, stringifyToJsonString } from 'nsuite'
@@ -142,8 +132,6 @@ export function limitJsonStringLength<T extends Record<string, string>>(
 
 /**
  * Safely convert an unknown value to a readable string
- * @param {unknown} value
- * @returns {string}
  *
  * @example
  * import { safeStringify } from 'nsuite'

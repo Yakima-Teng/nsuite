@@ -3,18 +3,10 @@
  * @module Type
  */
 
-/**
- * JSON string with its parsed value type
- * @template T
- * @typedef {string & { __brand: "JSONString", __type: T }} JSONString
- */
-
 export type JSONString<T> = string & { __brand: "JSONString"; __type: T };
 
 /**
  * Get Error instance
- * @param {unknown} err
- * @returns {Error}
  *
  * @example
  * import { getError } from 'nsuite
@@ -45,9 +37,6 @@ export function getError(err: unknown): Error {
 
 /**
  * Get typed enumerable property keys from an object
- * @template {object} T
- * @param {T} obj
- * @returns {Array<keyof T>}
  *
  * @example
  * import { getObjectKeys } from 'nsuite'
@@ -59,9 +48,6 @@ export function getObjectKeys<T extends object>(obj: T): Array<keyof T> {
 
 /**
  * Parse a typed JSON string
- * @template T
- * @param {JSONString<T>} jsonString
- * @returns {T}
  *
  * @example
  * import { parseJsonString, stringifyToJsonString } from 'nsuite'
@@ -73,9 +59,6 @@ export function parseJsonString<T>(jsonString: JSONString<T>): T {
 
 /**
  * Stringify a value as a typed JSON string
- * @template T
- * @param {T} obj
- * @returns {JSONString<T>}
  *
  * @example
  * import { stringifyToJsonString } from 'nsuite'

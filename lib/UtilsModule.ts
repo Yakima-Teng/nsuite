@@ -13,8 +13,8 @@ import { resolve } from "node:path";
  * other modules. By checking `isMainModule(import.meta.url)`, you can conditionally
  * execute code only when the file is the entry point.
  *
- * @param {string} callerModuleUrl - The `import.meta.url` of the calling module.
- * @returns {boolean} `true` if the calling module is the Node.js entry point, `false` otherwise.
+ * @param callerModuleUrl - The `import.meta.url` of the calling module.
+ * @returns `true` if the calling module is the Node.js entry point, `false` otherwise.
  *
  * @example
  * import { isMainModule } from "nsuite";

@@ -8,9 +8,8 @@ import { logInfo, logError } from "./UtilsLog.js";
 
 /**
  * 为函数添加调试日志包装，自动记录函数调用前后的参数和返回值
- * @template {Function} T - 需要被包装的目标函数类型
- * @param {T} func - 需要被包装的目标函数
- * @returns {T} 包装后的函数，调用时会先打印入参日志，执行后打印返回值日志
+ * @param func - 需要被包装的目标函数
+ * @returns 包装后的函数，调用时会先打印入参日志，执行后打印返回值日志
  *
  * @example
  * import { attachLogToFunc } from 'nsuite
@@ -19,8 +18,8 @@ import { logInfo, logError } from "./UtilsLog.js";
 export function attachLogToFunc<T extends Function>(func: T): T {
   /**
    * 包装后的函数，调用时会先打印入参日志，执行后打印返回值日志
-   * @param {...*} args - 调用目标函数的参数
-   * @returns {*} 目标函数的返回值
+   * @param args - 调用目标函数的参数
+   * @returns 目标函数的返回值
    */
   const wrapperFunc = (...args: unknown[]): unknown => {
     logInfo();
@@ -34,8 +33,8 @@ export function attachLogToFunc<T extends Function>(func: T): T {
         .then(
           /**
            * 处理 Promise 解析后的结果，打印日志并透传结果
-           * @param {*} resolvedResult - Promise 成功解析后的返回值
-           * @returns {*} 透传解析结果以维持 Promise 链式调用
+           * @param resolvedResult - Promise 成功解析后的返回值
+           * @returns 透传解析结果以维持 Promise 链式调用
            */
           (resolvedResult: unknown) => {
             logInfo();
@@ -49,7 +48,7 @@ export function attachLogToFunc<T extends Function>(func: T): T {
         .catch(
           /**
            * 处理 Promise 拒绝错误，打印错误日志并透传错误
-           * @param {Error} error - Promise 被拒绝时的错误对象
+           * @param error - Promise 被拒绝时的错误对象
            * @throws {Error} 透传原始错误以维持 Promise 错误处理链
            */
           (error: unknown) => {

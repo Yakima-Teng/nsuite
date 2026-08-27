@@ -8,21 +8,7 @@ import OSS from "ali-oss";
  */
 
 /**
- * @typedef {import('ali-oss')} AliOSSClient
- */
-
-/**
- * @typedef {Object} ParamsAliOSSConstructor
- * @property {string} accessKeyId
- * @property {string} accessKeySecret
- * @property {string} bucket
- * @property {string} region
- */
-
-/**
  * Get Ali OSS client
- * @param {ParamsAliOSSConstructor} payload
- * @returns {AliOSSClient}
  */
 export type AliOSSClient = OSS;
 
@@ -90,16 +76,7 @@ export function getClientFromAliOSS(
 }
 
 /**
- * @typedef {Object} ParamsAliOSSGetObjectUrl
- * @property {AliOSSClient} client
- * @property {string} key
- * @property {string} [baseUrl] 一般为CDN加速域名，以http(s)开头
- */
-
-/**
  * Get object url
- * @param {ParamsAliOSSGetObjectUrl} payload
- * @returns {string}
  */
 export function getObjectUrlFromAliOSS(
   payload: ParamsAliOSSGetObjectUrl,
@@ -109,22 +86,7 @@ export function getObjectUrlFromAliOSS(
 }
 
 /**
- * @typedef {import('ali-oss').RequestOptions} AliRequestOptions
- * @typedef {import('ali-oss').ObjectMeta} AliObjectMeta
- */
-
-/**
- * @typedef {Object} ParamsAliOSSListFiles
- * @property {AliOSSClient} client
- * @property {string} prefix
- * @property {number} [maxKeys = 100] max objects, default is 100, limit to 1000, set it to 0 or ignore it if you want to list all files
- * @property {AliRequestOptions} [options]
- */
-
-/**
  * List files
- * @param {ParamsAliOSSListFiles} payload
- * @returns {Promise<AliObjectMeta[]>}
  */
 export async function listFilesFromAliOSS(
   payload: ParamsAliOSSListFiles,
@@ -153,31 +115,7 @@ export async function listFilesFromAliOSS(
 }
 
 /**
- * @typedef {Object} ParamsAliDeleteRemotePathList
- * @property {AliOSSClient} client
- * @property {string[]} remotePathList
- */
-
-/**
- * @typedef {Object} ReturnAliDeleteRemotePathList
- * @property {string[]} successItems
- * @property {string[]} failItems
- */
-
-/**
- * @typedef {Object} ReturnAliDeleteResultDeleted
- * @property {string} key
- */
-
-/**
- * @typedef {Object} ReturnAliDeleteResult
- * @property {ReturnAliDeleteResultDeleted[]} deleted
- */
-
-/**
  * Delete files
- * @param {ParamsAliDeleteRemotePathList} payload
- * @returns {Promise<ReturnAliDeleteRemotePathList>}
  */
 export async function deleteRemotePathListFromAliOSS(
   payload: ParamsAliDeleteRemotePathList,
@@ -219,25 +157,7 @@ export async function deleteRemotePathListFromAliOSS(
 }
 
 /**
- * @typedef {Object} ParamsUploadLocalFile
- * @property {AliOSSClient} client
- * @property {string} localPath
- * @property {string} remotePath
- * @property {string} [baseUrl]
- * @property {import('ali-oss').PutObjectOptions} [config]
- */
-
-/**
- * @typedef {Object} ReturnUploadLocalFile
- * @property {string} name
- * @property {string} url
- * @property {string} cdnUrl
- */
-
-/**
  * Upload local file to aliyun oss
- * @param {ParamsUploadLocalFile} payload
- * @returns {Promise<ReturnUploadLocalFile>}
  */
 export async function uploadLocalFileToAliOSS(
   payload: ParamsUploadLocalFile,
@@ -284,8 +204,6 @@ export async function uploadLocalFileToAliOSS(
 
 /**
  * Normalize path
- * @param {string} filePath
- * @returns {string}
  *
  * @ignore
  */
@@ -294,17 +212,7 @@ const normalizePath = (filePath: string): string => {
 };
 
 /**
- * @typedef {Object} ParamsUploadDirToAliOSS
- * @property {AliOSSClient} client
- * @property {string} localPath
- * @property {string[]} ignorePathList
- * @property {boolean} [recursive = false]
- */
-
-/**
  * Upload directory to aliyun oss
- * @param {ParamsUploadDirToAliOSS} payload
- * @returns {Promise<ReturnUploadLocalFile[]>}
  */
 export async function uploadDirToAliOSS(
   payload: ParamsUploadDirToAliOSS,

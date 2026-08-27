@@ -8,8 +8,8 @@ import dotenv from "dotenv";
 /**
  * Parses environment files using dotenv.
  *
- * @param {string[]} pathArr - An array of paths to the environment files.
- * @returns {import('dotenv').DotenvConfigOutput} returns - The result of the dotenv configuration.
+ * @param pathArr - An array of paths to the environment files.
+ * @returns returns - The result of the dotenv configuration.
  *
  * @example
  * import { parseEnvFiles } from "nsuite";
