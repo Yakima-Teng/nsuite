@@ -221,7 +221,11 @@ const getQiniuCacheRefreshCodeMessage = (code: number): string => {
 };
 
 /**
- * Get mac from qiniu
+ * Creates Qiniu credentials used to sign storage and CDN requests.
+ *
+ * @category Qiniu OSS
+ * @param payload - The access key, secret key, and optional credential settings.
+ * @returns A Qiniu MAC instance.
  */
 export function getMacFromQiniuOSS(payload: ParamsQiniuOSSGetMac): QiniuMac {
   const { accessKey, secretKey, options } = payload;
@@ -229,7 +233,11 @@ export function getMacFromQiniuOSS(payload: ParamsQiniuOSSGetMac): QiniuMac {
 }
 
 /**
- * Get
+ * Creates a Qiniu storage configuration.
+ *
+ * @category Qiniu OSS
+ * @param options - Qiniu SDK configuration options.
+ * @returns A Qiniu configuration instance.
  */
 export function getConfigFromQiniuOSS(
   options: qiniu.conf.ConfigOptions,
@@ -238,7 +246,11 @@ export function getConfigFromQiniuOSS(
 }
 
 /**
- * Get bucket manager from qiniu
+ * Creates a Qiniu bucket manager for object operations.
+ *
+ * @category Qiniu OSS
+ * @param payload - The credentials and storage configuration.
+ * @returns A configured Qiniu bucket manager.
  */
 export function getBucketManagerFromQiniuOSS(
   payload: ParamsQiniuOSSGetBucketManager,
@@ -254,7 +266,11 @@ export function getBucketManagerFromQiniuOSS(
 }
 
 /**
- * Get public download url
+ * Gets a public download URL for a Qiniu object.
+ *
+ * @category Qiniu OSS
+ * @param payload - The bucket manager, object key, and optional public domain.
+ * @returns The public download URL.
  */
 export function getPublicDownloadUrlFromQiniuOSS(
   payload: ParamsQiniuOSSGetPublicDownloadUrl,
@@ -264,7 +280,11 @@ export function getPublicDownloadUrlFromQiniuOSS(
 }
 
 /**
- * Refresh cdn urls
+ * Refreshes Qiniu CDN URLs in batches of 100.
+ *
+ * @category Qiniu OSS
+ * @param payload - The URLs to refresh and credentials used to authorize the request.
+ * @returns The refreshed task identifiers.
  */
 export async function refreshUrlsFromQiniuOSS(
   payload: ParamsQiniuOSSRefreshUrls,
@@ -377,7 +397,11 @@ const listFilesFromQiniuOSS = async (
 };
 
 /**
- * Delete files
+ * Deletes all Qiniu objects under the supplied remote path prefixes.
+ *
+ * @category Qiniu OSS
+ * @param payload - The bucket manager, bucket, and prefixes to delete.
+ * @returns The object keys that were deleted and those that failed.
  */
 export async function deleteRemotePathListFromQiniuOSS(
   payload: ParamsQiniuOSSDeleteRemotePathList,
@@ -439,7 +463,11 @@ export async function deleteRemotePathListFromQiniuOSS(
 }
 
 /**
- * Upload local file to Qiniu
+ * Uploads one local file to Qiniu OSS.
+ *
+ * @category Qiniu OSS
+ * @param payload - The upload credentials, local file, object key, and bucket.
+ * @returns The stored object metadata and its public URL.
  */
 export async function uploadLocalFileToQiniuOSS(
   payload: ParamsQiniuOSSUploadLocalFile,
@@ -494,7 +522,13 @@ const normalizePath = (filePath: string): string => {
 };
 
 /**
- * Upload directory to Qiniu OSS
+ * Uploads files from a local directory to Qiniu OSS.
+ *
+ * @category Qiniu OSS
+ * @remarks Set `dryRun` to inspect the resolved local and remote paths without
+ * uploading files.
+ * @param payload - The upload settings, source directory, and optional callbacks.
+ * @returns Uploaded objects, refreshed URLs, and every resolved path.
  */
 export async function uploadDirToQiniuOSS(
   payload: ParamsQiniuOSSUploadDir,

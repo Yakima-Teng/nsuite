@@ -68,8 +68,9 @@
     "build": "npx rimraf dist && npx tsc -p tsconfig.build.json && npm run build:cjs",
     "lintAndBuild": "npm run lint && npm run build",
     "deploy": "node ./scripts/deploy-npm.mts",
-    "docs:build": "npx rimraf docs && npx typedoc",
-    "docs:preview": "npx http-server ./docs",
+    "docs:build": "npx rimraf docs docs-src/api && npx typedoc && npx vitepress build docs-src",
+    "docs:dev": "npx vitepress dev docs-src",
+    "docs:preview": "npx vitepress preview docs-src",
     "docs:deploy": "node ./scripts/deploy-docs-gh-pages.mts",
     "docs:buildAndDeploy": "npm run lint && npm run docs:deploy",
     "version:patch": "npm version patch",
@@ -93,7 +94,9 @@
     "prettier": "3.5.3",
     "rimraf": "6.0.1",
     "typedoc": "0.28.20",
-    "typescript": "5.8.3"
+    "typedoc-plugin-markdown": "4.13.0",
+    "typescript": "5.8.3",
+    "vitepress": "1.6.4"
   },
   "dependencies": {
     "@types/ali-oss": "6.16.11",

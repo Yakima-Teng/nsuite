@@ -116,12 +116,22 @@ export interface ParamsExecCommand {
   onStderr?: (chunk: Buffer) => void;
 }
 
+/**
+ * Creates an SSH client that can be connected with {@link sshConnect}.
+ *
+ * @category SSH
+ * @returns A disconnected `NodeSSH` client.
+ */
 export function getSSHClient(): SSH {
   return new NodeSSH();
 }
 
 /**
- * Connect to SSH
+ * Connects an SSH client to a remote host.
+ *
+ * @category SSH
+ * @param payload - The client and connection credentials.
+ * @returns A promise that resolves after authentication succeeds.
  */
 export async function sshConnect(payload: ParamsConnect): Promise<void> {
   const { ssh, ...config } = payload;
@@ -129,7 +139,13 @@ export async function sshConnect(payload: ParamsConnect): Promise<void> {
 }
 
 /**
- * Put directory
+ * Uploads a directory recursively and records every successful and failed file.
+ *
+ * @category SSH
+ * @remarks `node_modules` is excluded unless a custom `validate` option changes
+ * that behavior.
+ * @param payload - The source, destination, and optional transfer settings.
+ * @returns The overall result and individual transfer outcomes.
  */
 export async function sshPutDirectory(
   payload: ParamsPutDir,
@@ -165,7 +181,11 @@ export async function sshPutDirectory(
 }
 
 /**
- * Download directory from remote server
+ * Downloads a remote directory to a local directory.
+ *
+ * @category SSH
+ * @param payload - The connected client, local destination, and remote source.
+ * @returns Whether the directory transfer completed successfully.
  */
 export async function sshGetDirectory(
   payload: ParamsSSHGetDir,
@@ -175,7 +195,11 @@ export async function sshGetDirectory(
 }
 
 /**
- * Download file from server
+ * Downloads one remote file through SFTP.
+ *
+ * @category SSH
+ * @param payload - The connected client, source, destination, and SFTP options.
+ * @returns A promise that resolves when the file is written locally.
  */
 export async function sshGetFile(payload: ParamsSSHGetFile): Promise<void> {
   const { ssh, localFile, remoteFile, givenSftp, transferOptions } = payload;
@@ -183,7 +207,11 @@ export async function sshGetFile(payload: ParamsSSHGetFile): Promise<void> {
 }
 
 /**
- * Put file to server
+ * Uploads one local file through SFTP.
+ *
+ * @category SSH
+ * @param payload - The connected client, source, destination, and SFTP options.
+ * @returns A promise that resolves when the remote file is written.
  */
 export async function sshPutFile(payload: ParamsSSHGetFile): Promise<void> {
   const { ssh, localFile, remoteFile, givenSftp, transferOptions } = payload;
@@ -191,7 +219,11 @@ export async function sshPutFile(payload: ParamsSSHGetFile): Promise<void> {
 }
 
 /**
- * Put files
+ * Uploads multiple local files through one SSH client.
+ *
+ * @category SSH
+ * @param payload - The file pairs and optional transfer settings.
+ * @returns A promise that resolves after all file transfers complete.
  */
 export async function sshPutFiles(payload: ParamsPutFiles): Promise<void> {
   const { ssh, files, options } = payload;
@@ -199,7 +231,11 @@ export async function sshPutFiles(payload: ParamsPutFiles): Promise<void> {
 }
 
 /**
- * Execute command
+ * Executes a command in a remote working directory.
+ *
+ * @category SSH
+ * @param payload - The connected client, command, working directory, and output callbacks.
+ * @returns A promise that resolves after the command completes.
  */
 export async function sshExecCommand(
   payload: ParamsExecCommand,

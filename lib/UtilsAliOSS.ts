@@ -63,6 +63,21 @@ export interface ParamsUploadDirToAliOSS {
   recursive?: boolean;
 }
 
+/**
+ * Creates an Aliyun OSS client for one bucket and region.
+ *
+ * @category Aliyun OSS
+ * @param payload - The access credentials and bucket location.
+ * @returns A configured Aliyun OSS client.
+ *
+ * @example
+ * const client = getClientFromAliOSS({
+ *   accessKeyId: process.env.ALI_ACCESS_KEY_ID ?? "",
+ *   accessKeySecret: process.env.ALI_ACCESS_KEY_SECRET ?? "",
+ *   bucket: "example-bucket",
+ *   region: "oss-cn-hangzhou",
+ * });
+ */
 export function getClientFromAliOSS(
   payload: ParamsAliOSSConstructor,
 ): AliOSSClient {
@@ -76,7 +91,11 @@ export function getClientFromAliOSS(
 }
 
 /**
- * Get object url
+ * Gets the URL for an object stored in Aliyun OSS.
+ *
+ * @category Aliyun OSS
+ * @param payload - The client, object key, and optional base URL.
+ * @returns The object URL returned by the OSS client.
  */
 export function getObjectUrlFromAliOSS(
   payload: ParamsAliOSSGetObjectUrl,
@@ -86,7 +105,13 @@ export function getObjectUrlFromAliOSS(
 }
 
 /**
- * List files
+ * Lists objects under an Aliyun OSS prefix.
+ *
+ * @category Aliyun OSS
+ * @remarks Pass `maxKeys: 0` to keep requesting pages until the prefix is
+ * exhausted.
+ * @param payload - The client, prefix, page limit, and optional request settings.
+ * @returns All object metadata returned for the prefix.
  */
 export async function listFilesFromAliOSS(
   payload: ParamsAliOSSListFiles,
@@ -115,7 +140,11 @@ export async function listFilesFromAliOSS(
 }
 
 /**
- * Delete files
+ * Deletes objects selected by remote path prefixes.
+ *
+ * @category Aliyun OSS
+ * @param payload - The client and remote paths to remove.
+ * @returns The keys reported as successfully deleted and those that failed.
  */
 export async function deleteRemotePathListFromAliOSS(
   payload: ParamsAliDeleteRemotePathList,
@@ -157,7 +186,20 @@ export async function deleteRemotePathListFromAliOSS(
 }
 
 /**
- * Upload local file to aliyun oss
+ * Uploads one local file to Aliyun OSS.
+ *
+ * @category Aliyun OSS
+ * @remarks The helper sets public-read and inline-content headers unless the
+ * supplied request configuration overrides them.
+ * @param payload - The client, local file, remote object path, and upload options.
+ * @returns The stored object name plus its origin and CDN URLs.
+ *
+ * @example
+ * const result = await uploadLocalFileToAliOSS({
+ *   client,
+ *   localPath: "./dist/app.js",
+ *   remotePath: "assets/app.js",
+ * });
  */
 export async function uploadLocalFileToAliOSS(
   payload: ParamsUploadLocalFile,
@@ -212,7 +254,11 @@ const normalizePath = (filePath: string): string => {
 };
 
 /**
- * Upload directory to aliyun oss
+ * Uploads the files in a local directory to Aliyun OSS.
+ *
+ * @category Aliyun OSS
+ * @param payload - The client, source directory, ignore list, and recursion setting.
+ * @returns Details for every uploaded object.
  */
 export async function uploadDirToAliOSS(
   payload: ParamsUploadDirToAliOSS,

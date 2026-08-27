@@ -35,7 +35,8 @@ abilities at your hand.
 
 ## Documentation
 
-For online documentation, please visit [https://yakima-teng.github.io/nsuite/](https://yakima-teng.github.io/nsuite/).
+For English and Chinese guides, plus the English API reference, visit
+[https://yakima-teng.github.io/nsuite/](https://yakima-teng.github.io/nsuite/).
 
 ## Env
 
