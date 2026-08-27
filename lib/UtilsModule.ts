@@ -24,7 +24,7 @@ import { resolve } from "node:path";
  *   myFunction();
  * }
  */
-export function isMainModule(callerModuleUrl) {
+export function isMainModule(callerModuleUrl: string): boolean {
   const callerFilePath = fileURLToPath(callerModuleUrl);
   const resolvedCallerFile = resolve(callerFilePath);
   const entryFilePath = resolve(process.argv[1]);

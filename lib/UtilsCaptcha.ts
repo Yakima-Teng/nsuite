@@ -11,6 +11,16 @@ import svgCaptcha from "svg-captcha";
  * @property {string} data - The SVG data of the captcha image.
  */
 
+export interface GenerateSvgCaptchaOptions {
+  width?: number;
+  height?: number;
+}
+
+export interface ReturnGenerateSvgCaptcha {
+  text: string;
+  data: string;
+}
+
 /**
  * Generates an SVG captcha with a mathematical expression.
  *
@@ -26,7 +36,10 @@ import svgCaptcha from "svg-captcha";
  *   height: 48,
  * });
  */
-export function generateSvgCaptcha({ width = 150, height = 50 }) {
+export function generateSvgCaptcha({
+  width = 150,
+  height = 50,
+}: GenerateSvgCaptchaOptions = {}): ReturnGenerateSvgCaptcha {
   const captcha = svgCaptcha.createMathExpr({
     mathMin: 1,
     mathMax: 9,

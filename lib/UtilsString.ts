@@ -3,7 +3,8 @@ import {
   getObjectKeys,
   parseJsonString,
   stringifyToJsonString,
-} from "#lib/UtilsType";
+  type JSONString,
+} from "./UtilsType.js";
 
 /**
  * Utilities functions for string
@@ -77,7 +78,7 @@ const numberArr = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
  * import { generateRandomString } from 'nsuite'
  * console.log(generateRandomString(16))
  */
-export function generateRandomString(len) {
+export function generateRandomString(len: number): string {
   const listArr = [lowercaseArr, uppercaseArr, numberArr];
   const getRandomStr = () => {
     const idx = Math.floor(Math.random() * listArr.length);
@@ -102,22 +103,25 @@ export function generateRandomString(len) {
  * import { limitStringLength } from 'nsuite'
  * console.log(limitStringLength('nsuite', 3))
  */
-export function limitStringLength(str, len) {
-  return /** @type {T} */ (str.substring(0, len));
+export function limitStringLength<T extends string>(str: T, len: number): T {
+  return str.substring(0, len) as T;
 }
 
 /**
  * Proportionally limit string values in a typed JSON string
  * @template {Record<string, string>} T
- * @param {import("./UtilsType.mjs").JSONString<T>} str
+ * @param {import("./UtilsType.js").JSONString<T>} str
  * @param {number} len
- * @returns {import("./UtilsType.mjs").JSONString<T>}
+ * @returns {import("./UtilsType.js").JSONString<T>}
  *
  * @example
  * import { limitJsonStringLength, stringifyToJsonString } from 'nsuite'
  * console.log(limitJsonStringLength(stringifyToJsonString({ text: 'nsuite' }), 20))
  */
-export function limitJsonStringLength(str, len) {
+export function limitJsonStringLength<T extends Record<string, string>>(
+  str: JSONString<T>,
+  len: number,
+): JSONString<T> {
   if (str.length <= len) {
     return str;
   }
@@ -145,7 +149,7 @@ export function limitJsonStringLength(str, len) {
  * import { safeStringify } from 'nsuite'
  * console.log(safeStringify({ name: 'nsuite' }))
  */
-export function safeStringify(value) {
+export function safeStringify(value: unknown): string {
   try {
     if (typeof value === "string") {
       return value;

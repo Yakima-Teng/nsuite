@@ -12,7 +12,7 @@ import objectInspect from "object-inspect";
  * 记录信息性消息到控制台
  * @param {...*} args - 要记录的参数列表
  */
-export function logInfo(...args) {
+export function logInfo(...args: unknown[]): void {
   // eslint-disable-next-line no-console
   console.log(...args);
 }
@@ -21,7 +21,7 @@ export function logInfo(...args) {
  * 记录警告消息到控制台
  * @param {...*} args - 要记录的参数列表
  */
-export function logWarn(...args) {
+export function logWarn(...args: unknown[]): void {
   // eslint-disable-next-line no-console
   console.warn(...args);
 }
@@ -30,7 +30,7 @@ export function logWarn(...args) {
  * 记录错误消息到控制台
  * @param {...*} args - 要记录的参数列表
  */
-export function logError(...args) {
+export function logError(...args: unknown[]): void {
   // eslint-disable-next-line no-console
   console.error(...args);
 }
@@ -41,7 +41,9 @@ export function logError(...args) {
  * @returns {Record<string, unknown>}
  * @ignore
  */
-function convertSymbolKeys(obj) {
+function convertSymbolKeys(
+  obj: Record<string | symbol, unknown>,
+): Record<string, unknown> {
   const result = { ...obj };
   const symbols = Object.getOwnPropertySymbols(obj);
 
@@ -60,7 +62,7 @@ function convertSymbolKeys(obj) {
  *
  * @returns {string}
  */
-function getCallSite() {
+function getCallSite(): string {
   const stack = new Error().stack; // 我们只要 stack，不要抛异常
   if (!stack) return "unknown";
 
@@ -111,6 +113,17 @@ function getCallSite() {
  *   enableConsole: process.env.NODE_ENV !== "production",
  * });
  */
+export interface CreateLoggerOptions {
+  level?: string;
+  meta?: Record<string, string>;
+  filename?: string;
+  maxLength?: number;
+  zippedArchive?: boolean;
+  enableConsole?: boolean;
+  includeCallSite?: boolean;
+  inspector?: "nodeInspect" | "objectInspect";
+}
+
 export function createLogger({
   level = "info",
   meta = {},
@@ -120,7 +133,7 @@ export function createLogger({
   enableConsole = false,
   includeCallSite = false,
   inspector = "nodeInspect",
-}) {
+}: CreateLoggerOptions = {}): winston.Logger {
   const transport = new winston.transports.DailyRotateFile({
     filename,
     datePattern: "YYYY-MM-DD-HH",
@@ -150,8 +163,7 @@ export function createLogger({
       winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
       winston.format.printf(({ timestamp, level, message, ...args }) => {
         const argsObj = convertSymbolKeys(args);
-        /** @type {string[]} */
-        const metaDataStringArr = [];
+        const metaDataStringArr: string[] = [];
         if (!Array.isArray(argsObj)) {
           for (const key of metaKeys) {
             const metaValue = argsObj[key];
@@ -159,8 +171,7 @@ export function createLogger({
           }
         }
 
-        /** @type {unknown[]} */
-        const splat = Array.isArray(argsObj.splat)
+        const splat: unknown[] = Array.isArray(argsObj.splat)
           ? argsObj.splat
           : argsObj.splat
             ? [argsObj.splat]
@@ -177,7 +188,7 @@ export function createLogger({
           msgArr.push(...splat.map((item) => inspect(item)));
         }
 
-        const finalMsgArr = [];
+        const finalMsgArr: string[] = [];
         let msg = msgArr.join(" ");
         if (msg.length <= maxLength) {
           finalMsgArr.push(msg);

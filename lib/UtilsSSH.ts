@@ -1,5 +1,11 @@
 import path from "path";
 import { NodeSSH } from "node-ssh";
+import type {
+  NodeSSH as SSH,
+  SSHGetPutDirectoryOptions,
+  SSHPutFilesOptions,
+} from "node-ssh";
+import type { SFTPWrapper, TransferOptions } from "ssh2";
 
 /**
  * Utilities functions for SSH
@@ -67,7 +73,63 @@ import { NodeSSH } from "node-ssh";
  * Get SSH instance
  * @returns {SSH}
  */
-export function getSSHClient() {
+export interface PathPair {
+  local: string;
+  remote: string;
+}
+
+export interface ParamsConnect {
+  ssh: SSH;
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+}
+
+export interface ParamsPutDir {
+  ssh: SSH;
+  fromPath: string;
+  toPath: string;
+  options?: SSHGetPutDirectoryOptions;
+  uploadCallback?: (local: string, remote: string, error: Error | null) => void;
+}
+
+export interface ReturnPutDir {
+  success: boolean;
+  failItems: PathPair[];
+  successItems: PathPair[];
+}
+
+export interface ParamsSSHGetDir {
+  ssh: SSH;
+  localDirectory: string;
+  remoteDirectory: string;
+  options?: SSHGetPutDirectoryOptions;
+}
+
+export interface ParamsSSHGetFile {
+  ssh: SSH;
+  localFile: string;
+  remoteFile: string;
+  givenSftp?: SFTPWrapper | null;
+  transferOptions?: TransferOptions;
+}
+
+export interface ParamsPutFiles {
+  ssh: SSH;
+  files: PathPair[];
+  options?: SSHPutFilesOptions;
+}
+
+export interface ParamsExecCommand {
+  ssh: SSH;
+  cwd: string;
+  command: string;
+  onStdout?: (chunk: Buffer) => void;
+  onStderr?: (chunk: Buffer) => void;
+}
+
+export function getSSHClient(): SSH {
   return new NodeSSH();
 }
 
@@ -85,7 +147,7 @@ export function getSSHClient() {
  * @param {ParamsConnect} payload
  * @returns {Promise<void>}
  */
-export async function sshConnect(payload) {
+export async function sshConnect(payload: ParamsConnect): Promise<void> {
   const { ssh, ...config } = payload;
   await ssh.connect(config);
 }
@@ -118,12 +180,12 @@ export async function sshConnect(payload) {
  * @param {ParamsPutDir} payload
  * @returns {Promise<ReturnPutDir>}
  */
-export async function sshPutDirectory(payload) {
+export async function sshPutDirectory(
+  payload: ParamsPutDir,
+): Promise<ReturnPutDir> {
   const { ssh, fromPath, toPath, options, uploadCallback } = payload;
-  /** @type {PathPair[]} */
-  const failItems = [];
-  /** @type {PathPair[]} */
-  const successItems = [];
+  const failItems: PathPair[] = [];
+  const successItems: PathPair[] = [];
   const success = await ssh.putDirectory(fromPath, toPath, {
     recursive: true,
     concurrency: 10,
@@ -164,7 +226,9 @@ export async function sshPutDirectory(payload) {
  * @param { ParamsSSHGetDir } payload
  * @returns {Promise<boolean>}
  */
-export async function sshGetDirectory(payload) {
+export async function sshGetDirectory(
+  payload: ParamsSSHGetDir,
+): Promise<boolean> {
   const { ssh, localDirectory, remoteDirectory, options } = payload;
   return await ssh.getDirectory(localDirectory, remoteDirectory, options);
 }
@@ -183,7 +247,7 @@ export async function sshGetDirectory(payload) {
  * @param {ParamsSSHGetFile} payload
  * @returns {Promise<void>}
  */
-export async function sshGetFile(payload) {
+export async function sshGetFile(payload: ParamsSSHGetFile): Promise<void> {
   const { ssh, localFile, remoteFile, givenSftp, transferOptions } = payload;
   return await ssh.getFile(localFile, remoteFile, givenSftp, transferOptions);
 }
@@ -193,7 +257,7 @@ export async function sshGetFile(payload) {
  * @param {ParamsSSHGetFile} payload
  * @returns {Promise<void>}
  */
-export async function sshPutFile(payload) {
+export async function sshPutFile(payload: ParamsSSHGetFile): Promise<void> {
   const { ssh, localFile, remoteFile, givenSftp, transferOptions } = payload;
   return await ssh.putFile(localFile, remoteFile, givenSftp, transferOptions);
 }
@@ -210,7 +274,7 @@ export async function sshPutFile(payload) {
  * @param {ParamsPutFiles} payload
  * @returns {Promise<void>}
  */
-export async function sshPutFiles(payload) {
+export async function sshPutFiles(payload: ParamsPutFiles): Promise<void> {
   const { ssh, files, options } = payload;
   return ssh.putFiles(files, options);
 }
@@ -229,7 +293,9 @@ export async function sshPutFiles(payload) {
  * @param {ParamsExecCommand} payload
  * @returns {Promise<void>}
  */
-export async function sshExecCommand(payload) {
+export async function sshExecCommand(
+  payload: ParamsExecCommand,
+): Promise<void> {
   const { ssh, cwd, command, onStdout, onStderr } = payload;
   await ssh.execCommand(command, {
     cwd,

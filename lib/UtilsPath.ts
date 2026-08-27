@@ -19,7 +19,7 @@ import { glob } from "glob";
  * import { getFilePath } from "nsuite";
  * const __filename = getFilePath(import.meta.url);
  */
-export function getFilePath(metaUrl) {
+export function getFilePath(metaUrl: string): string {
   return fileURLToPath(metaUrl);
 }
 
@@ -33,7 +33,7 @@ export function getFilePath(metaUrl) {
  * import { getDirname } from "nsuite";
  * const __dirname = getDirname(import.meta.url);
  */
-export function getDirname(metaUrl) {
+export function getDirname(metaUrl: string): string {
   return dirname(fileURLToPath(metaUrl));
 }
 
@@ -47,7 +47,7 @@ export function getDirname(metaUrl) {
  * import { joinPath } from "nsuite";
  * const targetPath = joinPath("path", "to", "file.txt");
  */
-export function joinPath(...args) {
+export function joinPath(...args: string[]): string {
   return join(...args);
 }
 
@@ -61,7 +61,7 @@ export function joinPath(...args) {
  * import { joinPosixPath } from "nsuite";
  * const targetPath = joinPosixPath("path", "to", "file.txt");
  */
-export function joinPosixPath(...args) {
+export function joinPosixPath(...args: string[]): string {
   return joinPosix(...args);
 }
 
@@ -75,7 +75,7 @@ export function joinPosixPath(...args) {
  * import { resolvePath } from "nsuite";
  * const targetPath = resolvePath("path", "to", "file.txt");
  */
-export function resolvePath(...args) {
+export function resolvePath(...args: string[]): string {
   return resolve(...args);
 }
 
@@ -89,7 +89,7 @@ export function resolvePath(...args) {
  * import { resolvePosixPath } from "nsuite";
  * const targetPath = resolvePosixPath("path", "to", "file.txt");
  */
-export function resolvePosixPath(...args) {
+export function resolvePosixPath(...args: string[]): string {
   return resolvePosix(...args);
 }
 
@@ -103,7 +103,7 @@ export function resolvePosixPath(...args) {
  * import { isPathExists } from "nsuite";
  * const isExists = await isPathExists("path/to/file.txt")
  */
-export async function isPathExists(path) {
+export async function isPathExists(path: string): Promise<boolean> {
   try {
     await access(path);
     return true;
@@ -125,7 +125,7 @@ export async function isPathExists(path) {
  *   joinPath(__dirname, "materials/*.xlsx"),
  * );
  */
-export async function globMatchPaths(...pathArr) {
+export async function globMatchPaths(...pathArr: string[]): Promise<string[]> {
   const targetPath = joinPath(...pathArr).replace(/\\/g, "/");
   return await glob(targetPath, { nocase: true });
 }

@@ -18,25 +18,28 @@
     "ali-oss"
   ],
   "main": "./dist/cjs/index.cjs",
-  "types": "./dist/lib/index.d.mts",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "engines": {
     "node": ">=18"
   },
   "imports": {
-    "#lib/*": "./lib/*.mjs",
+    "#lib/*": {
+      "types": "./lib/*.ts",
+      "default": "./dist/esm/*.js"
+    },
     "#test/*": "./test/*.mts"
   },
   "exports": {
     ".": {
-      "types": "./dist/lib/index.d.mts",
-      "import": "./lib/index.mjs",
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.cjs"
     }
   },
   "files": [
-    "dist/lib",
+    "dist/esm",
     "dist/cjs",
-    "lib",
     "package.json",
     "README.md"
   ],
@@ -60,9 +63,9 @@
     "lint:markdown": "markdownlint-cli2",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "typecheck:watch": "tsc -p tsconfig.json --noEmit --watch",
-    "test": "npm run build:cjs && node test/index.mts",
-    "build:cjs": "esbuild ./lib/index.mjs --bundle --platform=node --format=cjs --target=node18 --packages=external --outfile=./dist/cjs/index.cjs",
-    "build": "npx rimraf dist && npx tsc && npm run build:cjs && npx rimraf dist/test, dist/build",
+    "test": "npm run build && node test/index.mts",
+    "build:cjs": "esbuild ./dist/esm/index.js --bundle --platform=node --format=cjs --target=node18 --packages=external --outfile=./dist/cjs/index.cjs",
+    "build": "npx rimraf dist && npx tsc -p tsconfig.build.json && npm run build:cjs",
     "lintAndBuild": "npm run lint && npm run build",
     "deploy": "node ./scripts/deploy-npm.mts",
     "docs:build": "npx rimraf docs && npx typedoc",

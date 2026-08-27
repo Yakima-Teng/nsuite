@@ -24,7 +24,62 @@ import OSS from "ali-oss";
  * @param {ParamsAliOSSConstructor} payload
  * @returns {AliOSSClient}
  */
-export function getClientFromAliOSS(payload) {
+export type AliOSSClient = OSS;
+
+export interface ParamsAliOSSConstructor {
+  accessKeyId: string;
+  accessKeySecret: string;
+  bucket: string;
+  region: string;
+}
+
+export interface ParamsAliOSSGetObjectUrl {
+  client: AliOSSClient;
+  key: string;
+  baseUrl?: string;
+}
+
+export interface ParamsAliOSSListFiles {
+  client: AliOSSClient;
+  prefix: string;
+  maxKeys?: number;
+  options?: OSS.RequestOptions;
+}
+
+export interface ParamsAliDeleteRemotePathList {
+  client: AliOSSClient;
+  remotePathList: string[];
+}
+
+export interface ReturnAliDeleteRemotePathList {
+  successItems: string[];
+  failItems: string[];
+}
+
+export interface ParamsUploadLocalFile {
+  client: AliOSSClient;
+  localPath: string;
+  remotePath: string;
+  baseUrl?: string;
+  config?: OSS.PutObjectOptions;
+}
+
+export interface ReturnUploadLocalFile {
+  name: string;
+  url: string;
+  cdnUrl: string;
+}
+
+export interface ParamsUploadDirToAliOSS {
+  client: AliOSSClient;
+  localPath: string;
+  ignorePathList: string[];
+  recursive?: boolean;
+}
+
+export function getClientFromAliOSS(
+  payload: ParamsAliOSSConstructor,
+): AliOSSClient {
   const { accessKeyId, accessKeySecret, bucket, region } = payload;
   return new OSS({
     accessKeyId,
@@ -46,7 +101,9 @@ export function getClientFromAliOSS(payload) {
  * @param {ParamsAliOSSGetObjectUrl} payload
  * @returns {string}
  */
-export function getObjectUrlFromAliOSS(payload) {
+export function getObjectUrlFromAliOSS(
+  payload: ParamsAliOSSGetObjectUrl,
+): string {
   const { client, key, baseUrl } = payload;
   return client.getObjectUrl(key, baseUrl);
 }
@@ -69,11 +126,11 @@ export function getObjectUrlFromAliOSS(payload) {
  * @param {ParamsAliOSSListFiles} payload
  * @returns {Promise<AliObjectMeta[]>}
  */
-export async function listFilesFromAliOSS(payload) {
+export async function listFilesFromAliOSS(
+  payload: ParamsAliOSSListFiles,
+): Promise<OSS.ObjectMeta[]> {
   const { client, prefix, maxKeys = 100, options } = payload;
-  /** @type {AliObjectMeta[]} */
-  let resultObjects = [];
-  /** @type {string | null} */
+  let resultObjects: OSS.ObjectMeta[] = [];
   let continuationToken = "";
   do {
     const data = await client.listV2(
@@ -89,7 +146,6 @@ export async function listFilesFromAliOSS(payload) {
     if (data.objects) {
       resultObjects = resultObjects.concat(data.objects);
     }
-    // @ts-ignore
     continuationToken = data.nextContinuationToken || "";
   } while (continuationToken && !maxKeys);
 
@@ -123,12 +179,12 @@ export async function listFilesFromAliOSS(payload) {
  * @param {ParamsAliDeleteRemotePathList} payload
  * @returns {Promise<ReturnAliDeleteRemotePathList>}
  */
-export async function deleteRemotePathListFromAliOSS(payload) {
+export async function deleteRemotePathListFromAliOSS(
+  payload: ParamsAliDeleteRemotePathList,
+): Promise<ReturnAliDeleteRemotePathList> {
   const { client, remotePathList } = payload;
-  /** @type {string[]} */
-  const successItems = [];
-  /** @type {string[]} */
-  const failItems = [];
+  const successItems: string[] = [];
+  const failItems: string[] = [];
   if (remotePathList.length === 0) {
     return {
       successItems: [],
@@ -144,11 +200,8 @@ export async function deleteRemotePathListFromAliOSS(payload) {
       maxKeys: 0,
     });
     const keysToDelete = fileList.map((item) => item.name);
-    /** @type {ReturnAliDeleteResult} */
-    // @ts-ignore
     const result = await client.deleteMulti(remotePathList);
     const rawDeleted = result.deleted || [];
-    /** @type {string[]} */
     const deletedKeys = rawDeleted.map((item) => item.key);
     keysToDelete.forEach((key) => {
       if (deletedKeys.includes(key)) {
@@ -186,7 +239,9 @@ export async function deleteRemotePathListFromAliOSS(payload) {
  * @param {ParamsUploadLocalFile} payload
  * @returns {Promise<ReturnUploadLocalFile>}
  */
-export async function uploadLocalFileToAliOSS(payload) {
+export async function uploadLocalFileToAliOSS(
+  payload: ParamsUploadLocalFile,
+): Promise<ReturnUploadLocalFile> {
   const { client, localPath, remotePath, baseUrl, config = {} } = payload;
   // 自定义请求头
   const headers = {
@@ -234,7 +289,7 @@ export async function uploadLocalFileToAliOSS(payload) {
  *
  * @ignore
  */
-const normalizePath = (filePath) => {
+const normalizePath = (filePath: string): string => {
   return filePath.replace(/\\/g, "/");
 };
 
@@ -251,19 +306,20 @@ const normalizePath = (filePath) => {
  * @param {ParamsUploadDirToAliOSS} payload
  * @returns {Promise<ReturnUploadLocalFile[]>}
  */
-export async function uploadDirToAliOSS(payload) {
+export async function uploadDirToAliOSS(
+  payload: ParamsUploadDirToAliOSS,
+): Promise<ReturnUploadLocalFile[]> {
   const { client, localPath, ignorePathList, recursive = false } = payload;
   const globPath = recursive
     ? path.resolve(localPath, "**/*")
     : path.resolve(localPath, "*");
-  /** @type {import('glob').GlobOptionsWithFileTypesUnset} */
   const globConfig = {
     windowsPathsNoEscape: true,
     // only want the files, not the dirs
     nodir: true,
     ignore: Array.from(new Set(["node_modules", ...(ignorePathList || [])])),
   };
-  const allFiles = await glob.glob(globPath, globConfig);
+  const allFiles = await glob(globPath, globConfig);
   const rootPath = `${normalizePath(path.resolve(localPath))}/`;
   const allPaths = allFiles.map((filePath) => {
     return {

@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { logError, logInfo } from "#lib/UtilsLog";
+import { logError, logInfo } from "./UtilsLog.js";
 
 /**
  * Utilities functions for text
@@ -30,6 +30,15 @@ import { logError, logInfo } from "#lib/UtilsLog";
  *   content: "",
  * });
  */
+export interface GenerateSummaryOptions {
+  apiKey: string;
+  baseUrl: string;
+  model: string;
+  language: string;
+  maxWords: number;
+  content: string;
+}
+
 export async function generateSummary({
   apiKey,
   baseUrl,
@@ -37,7 +46,7 @@ export async function generateSummary({
   language,
   maxWords,
   content,
-}) {
+}: GenerateSummaryOptions): Promise<string> {
   try {
     const openai = new OpenAI({
       apiKey,

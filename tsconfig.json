@@ -1,7 +1,7 @@
 {
   // Change this to match your project
   "include": [
-    "./lib/**/*.mjs",
+    "./lib/**/*.ts",
     "./test/**/*.mts",
     "./scripts/**/*.mts",
     "./typedoc.config.mjs"
@@ -34,6 +34,10 @@
     // go to js file when using IDE functions like
     // "Go to Definition" in VSCode
     "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "nsuite": ["./lib/index.ts"]
+    },
     "typeRoots": ["node_modules/@types", "types"],
     "declarationMap": true,
     "allowImportingTsExtensions": true, // Import .ts files directly

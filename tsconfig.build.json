@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["./lib/**/*.ts"],
+  "compilerOptions": {
+    "allowJs": false,
+    "checkJs": false,
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist/esm",
+    "rootDir": "./lib",
+    "sourceMap": false,
+    "allowImportingTsExtensions": false
+  }
+}

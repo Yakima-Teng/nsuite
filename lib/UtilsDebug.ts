@@ -1,5 +1,5 @@
 import inspect from "object-inspect";
-import { logInfo, logError } from "#lib/UtilsLog";
+import { logInfo, logError } from "./UtilsLog.js";
 
 /**
  * Utility functions for debugging
@@ -16,28 +16,28 @@ import { logInfo, logError } from "#lib/UtilsLog";
  * import { attachLogToFunc } from 'nsuite
  * attachLogToFunc(console.log)("hello world")
  */
-export function attachLogToFunc(func) {
+export function attachLogToFunc<T extends Function>(func: T): T {
   /**
    * 包装后的函数，调用时会先打印入参日志，执行后打印返回值日志
    * @param {...*} args - 调用目标函数的参数
    * @returns {*} 目标函数的返回值
    */
-  const wrapperFunc = (...args) => {
+  const wrapperFunc = (...args: unknown[]): unknown => {
     logInfo();
     logInfo(`[DEBUG BEFORE] calling ${func.name} with args: ${inspect(args)}`);
     const result = func(...args);
 
     // 检查返回值是否为 Promise/thenable，若是则等待解析后再打印日志
-    if (typeof result?.then === "function") {
+    if (result && typeof (result as PromiseLike<unknown>).then === "function") {
       // 若返回值为 Promise，则等待解析后再打印日志
-      return result
+      return Promise.resolve(result)
         .then(
           /**
            * 处理 Promise 解析后的结果，打印日志并透传结果
            * @param {*} resolvedResult - Promise 成功解析后的返回值
            * @returns {*} 透传解析结果以维持 Promise 链式调用
            */
-          (resolvedResult) => {
+          (resolvedResult: unknown) => {
             logInfo();
             logInfo(
               `[DEBUG AFTER] called ${func.name} with args: ${inspect(args)} return: ${inspect(resolvedResult)}`,
@@ -52,7 +52,7 @@ export function attachLogToFunc(func) {
            * @param {Error} error - Promise 被拒绝时的错误对象
            * @throws {Error} 透传原始错误以维持 Promise 错误处理链
            */
-          (error) => {
+          (error: unknown) => {
             logInfo();
             logError(
               `[DEBUG ERROR] called ${func.name} with args: ${inspect(args)} error: ${inspect(error)}`,
@@ -72,6 +72,5 @@ export function attachLogToFunc(func) {
     return result;
   };
 
-  // @ts-ignore
-  return /** @type {T} */ (/** @type {unknown} */ wrapperFunc);
+  return wrapperFunc as unknown as T;
 }

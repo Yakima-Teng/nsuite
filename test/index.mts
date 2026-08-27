@@ -6,3 +6,4 @@ import "#test/UtilsString";
 import "#test/UtilsType";
 import "#test/UtilsFile";
 import "#test/UtilsModule";
+import "#test/PackageEntrypoints";

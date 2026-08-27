@@ -6,6 +6,8 @@ import archiver from "archiver";
 import unzipper from "unzipper";
 import { filesize } from "filesize";
 import { ensureDir } from "fs-extra/esm";
+import type { FilesizeOptions } from "filesize";
+import type { WriteFileOptions } from "node:fs";
 
 /**
  * Utility functions for working with files.
@@ -23,7 +25,24 @@ import { ensureDir } from "fs-extra/esm";
  * import { getSafeFileName } from "nsuite";
  * const safeFileName = getSafeFileName("测试有空格 和特殊符号 &.pdf");
  */
-export function getSafeFileName(fileName) {
+export interface ZipFileOptions {
+  pathInputFile: string;
+  pathOutputFile: string;
+}
+
+export interface ZipFolderOptions {
+  pathFolder: string;
+  pathOutputFile: string;
+}
+
+export interface UnzipFileOptions {
+  pathFile: string;
+  pathOutput: string;
+}
+
+export type CustomFilesizeOptions = FilesizeOptions & { output?: "string" };
+
+export function getSafeFileName(fileName: string): string {
   return fileName
     .replace(/[+\s?？！@#￥%…&*（）=·~!$^()/<>,;':"[\]{}]/g, "_")
     .replace(/__/g, "_");
@@ -44,7 +63,7 @@ export function getSafeFileName(fileName) {
  *   pathOutputFile: "./package.json.zip",
  * });
  */
-export async function zipFile(options) {
+export async function zipFile(options: ZipFileOptions): Promise<number> {
   const { pathInputFile, pathOutputFile } = options;
   const outputDir = dirname(pathOutputFile);
   await ensureDir(outputDir);
@@ -85,7 +104,7 @@ export async function zipFile(options) {
  *   pathOutputFile: "./dist.zip",
  * });
  */
-export async function zipFolder(options) {
+export async function zipFolder(options: ZipFolderOptions): Promise<number> {
   const { pathFolder, pathOutputFile } = options;
   const outputDir = dirname(pathOutputFile);
   await ensureDir(outputDir);
@@ -102,7 +121,7 @@ export async function zipFolder(options) {
     outputStream.on("error", (err) => {
       reject(err);
     });
-    archive.on("error", (/** @type {any} */ err) => {
+    archive.on("error", (err: Error) => {
       reject(err);
     });
     archive.finalize();
@@ -125,7 +144,10 @@ export async function zipFolder(options) {
  *   pathOutput: pathOutputDirectory,
  * });
  */
-export async function unzipFile({ pathFile, pathOutput }) {
+export async function unzipFile({
+  pathFile,
+  pathOutput,
+}: UnzipFileOptions): Promise<void> {
   const directory = await unzipper.Open.file(pathFile);
   await directory.extract({ path: pathOutput });
 }
@@ -163,7 +185,10 @@ export async function unzipFile({ pathFile, pathOutput }) {
  * // 1024 * 1024 * 1024 = 1073741824
  * getReadableFileSize(1024 * 1024 * 1024); // "1.07 GB"
  */
-export function getReadableFileSize(size, options) {
+export function getReadableFileSize(
+  size: number | string,
+  options?: CustomFilesizeOptions,
+): string {
   return filesize(size, options);
 }
 
@@ -178,7 +203,9 @@ export function getReadableFileSize(size, options) {
  * import { getFileMd5 } from "nsuite";
  * const md5 = await getFileMd5({ pathFile: "./package.json" });
  */
-export async function getFileMd5({ pathFile }) {
+export async function getFileMd5({
+  pathFile,
+}: Pick<UnzipFileOptions, "pathFile">): Promise<string> {
   const zipBuffer = await readFile(pathFile);
   const hash = crypto.createHash("md5");
   hash.update(zipBuffer);
@@ -201,7 +228,11 @@ export async function getFileMd5({ pathFile }) {
  * import { writeFileSafely } from "nsuite";
  * await writeFileSafely("./logs/error.log", "Error message", { encoding: "utf8" });
  */
-export async function writeFileSafely(filePath, content, options) {
+export async function writeFileSafely(
+  filePath: string,
+  content: string | Buffer | DataView | Uint8Array,
+  options?: WriteFileOptions,
+): Promise<void> {
   // 先获取父目录路径
   const dir = dirname(filePath);
   // 递归创建父目录（不存在则创建，已存在则忽略）

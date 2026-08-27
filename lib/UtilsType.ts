@@ -9,6 +9,8 @@
  * @typedef {string & { __brand: "JSONString", __type: T }} JSONString
  */
 
+export type JSONString<T> = string & { __brand: "JSONString"; __type: T };
+
 /**
  * Get Error instance
  * @param {unknown} err
@@ -18,7 +20,7 @@
  * import { getError } from 'nsuite
  * console.log(getError(err).message)
  */
-export function getError(err) {
+export function getError(err: unknown): Error {
   if (err instanceof Error) {
     return err;
   }
@@ -51,8 +53,8 @@ export function getError(err) {
  * import { getObjectKeys } from 'nsuite'
  * console.log(getObjectKeys({ foo: 1 }))
  */
-export function getObjectKeys(obj) {
-  return /** @type {Array<keyof T>} */ (Object.keys(obj));
+export function getObjectKeys<T extends object>(obj: T): Array<keyof T> {
+  return Object.keys(obj) as Array<keyof T>;
 }
 
 /**
@@ -65,8 +67,8 @@ export function getObjectKeys(obj) {
  * import { parseJsonString, stringifyToJsonString } from 'nsuite'
  * console.log(parseJsonString(stringifyToJsonString({ foo: 1 })))
  */
-export function parseJsonString(jsonString) {
-  return /** @type {T} */ (JSON.parse(jsonString));
+export function parseJsonString<T>(jsonString: JSONString<T>): T {
+  return JSON.parse(jsonString) as T;
 }
 
 /**
@@ -79,6 +81,6 @@ export function parseJsonString(jsonString) {
  * import { stringifyToJsonString } from 'nsuite'
  * console.log(stringifyToJsonString({ foo: 1 }))
  */
-export function stringifyToJsonString(obj) {
-  return /** @type {JSONString<T>} */ (JSON.stringify(obj));
+export function stringifyToJsonString<T>(obj: T): JSONString<T> {
+  return JSON.stringify(obj) as JSONString<T>;
 }

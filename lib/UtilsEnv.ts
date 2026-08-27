@@ -20,7 +20,7 @@ import dotenv from "dotenv";
  *   path.resolve(process.cwd(), ".env"),
  * ]);
  */
-export function parseEnvFiles(pathArr) {
+export function parseEnvFiles(pathArr: string[]): dotenv.DotenvConfigOutput {
   return dotenv.config({
     path: pathArr,
   });

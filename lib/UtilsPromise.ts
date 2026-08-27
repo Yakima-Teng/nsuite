@@ -19,10 +19,13 @@ export const DEFAULT_PROMISE_TIME_OUT = 3000;
  * import { withTimeout } from "nsuite";
  * const newPromise = withTimeout(promise, 3000);
  */
-export function withTimeout(promise, timeoutMs = DEFAULT_PROMISE_TIME_OUT) {
+export function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs = DEFAULT_PROMISE_TIME_OUT,
+): Promise<T> {
   return new Promise((resolve, reject) => {
     // 创建一个超时的 Promise
-    const timeout = new Promise((_, reject) => {
+    const timeout = new Promise<T>((_, reject) => {
       setTimeout(() => {
         reject(new Error(TIMEOUT_ERROR_MESSAGE));
       }, timeoutMs);
