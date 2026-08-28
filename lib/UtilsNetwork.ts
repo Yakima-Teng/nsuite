@@ -2,7 +2,6 @@ import { networkInterfaces } from "node:os";
 
 /**
  * Utility functions for network address discovery.
- * @module Network
  */
 
 /**

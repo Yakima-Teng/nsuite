@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 
 /**
  * Utility functions for environment variables.
- * @module Env
  */
 
 /**

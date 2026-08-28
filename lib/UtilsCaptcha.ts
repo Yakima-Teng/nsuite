@@ -2,7 +2,6 @@ import svgCaptcha from "svg-captcha";
 
 /**
  * Utility functions for captcha generation.
- * @module Captcha
  */
 
 export interface GenerateSvgCaptchaOptions {

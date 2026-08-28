@@ -1,6 +1,5 @@
 /**
  * Utilities functions for type
- * @module Type
  */
 
 export type JSONString<T> = string & { __brand: "JSONString"; __type: T };

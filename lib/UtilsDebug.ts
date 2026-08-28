@@ -3,7 +3,6 @@ import { logInfo, logError } from "./UtilsLog.js";
 
 /**
  * Utility functions for debugging
- * @module Debug
  */
 
 /**

@@ -3,7 +3,6 @@ import { logError, logInfo } from "./UtilsLog.js";
 
 /**
  * Utilities functions for text
- * @module Text
  */
 
 /**

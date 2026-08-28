@@ -11,7 +11,6 @@ import type { WriteFileOptions } from "node:fs";
 
 /**
  * Utility functions for working with files.
- * @module File
  */
 
 /**

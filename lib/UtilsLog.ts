@@ -5,7 +5,6 @@ import objectInspect from "object-inspect";
 
 /**
  * Utility functions for logging.
- * @module Log
  */
 
 /**

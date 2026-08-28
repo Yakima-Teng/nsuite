@@ -8,7 +8,6 @@ import {
 
 /**
  * Utilities functions for string
- * @module String
  */
 
 const lowercaseArr = [

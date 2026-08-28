@@ -2,7 +2,6 @@ import { execFileSync } from "node:child_process";
 
 /**
  * Utility functions for working with Git.
- * @module Git
  */
 
 export interface RefreshGitIndexOptions {

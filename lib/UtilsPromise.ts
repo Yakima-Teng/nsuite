@@ -1,6 +1,5 @@
 /**
  * Utility functions for promise
- * @module Promise
  */
 
 export const TIMEOUT_ERROR_MESSAGE = "TimeoutError";

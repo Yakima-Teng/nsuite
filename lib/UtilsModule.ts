@@ -3,7 +3,6 @@ import { resolve } from "node:path";
 
 /**
  * Utility functions for determining module execution context.
- * @module Module
  */
 
 /**

@@ -9,7 +9,6 @@ import type { SFTPWrapper, TransferOptions } from "ssh2";
 
 /**
  * Utilities functions for SSH
- * @module SSH
  *
  * @example
  * import {

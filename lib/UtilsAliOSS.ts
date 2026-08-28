@@ -4,7 +4,6 @@ import OSS from "ali-oss";
 
 /**
  * Utility functions for ali-oss
- * @module OSS-Ali
  */
 
 /**

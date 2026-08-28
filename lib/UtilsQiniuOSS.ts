@@ -117,7 +117,6 @@ export interface ReturnQiniuOSSUploadDir {
 
 /**
  * Utility functions for qiniu-oss
- * @module OSS-Qiniu
  *
  * @example
  * import {

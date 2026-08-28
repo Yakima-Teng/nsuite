@@ -6,7 +6,6 @@ import { glob } from "glob";
 
 /**
  * Utility functions for working with file paths.
- * @module Path
  */
 
 /**
