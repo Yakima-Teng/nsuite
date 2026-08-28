@@ -25,6 +25,25 @@
 - `npm run typecheck` — TypeScript 类型检查（tsconfig.json）
 - `npm run test` — 运行测试（test/index.mts）
 
+## API 文档发布规则
+
+文档由 TypeDoc（`typedoc.config.mjs`）+ VitePress（`docs-src/`）生成，通过
+`npm run docs:buildAndDeploy` 部署到 gh-pages。新增或重命名导出函数后，必须逐项确认：
+
+1. **导出**：在 `lib/index.ts` 中导出（新工具文件需加 `export * from "./UtilsXxx.js"`）
+2. **分类标签**：函数 JSDoc 中必须加 `@category <分类名>`。TypeDoc 只依据
+   `@category` 标签分组，文件头的 `@module` 不参与分类；未打标签的函数会被归入
+   API 概览页的 Other 分组，侧边栏也无法直达
+3. **分类登记**：新分类名需加入 `typedoc.config.mjs` 的 `categoryOrder` 列表
+4. **侧边栏入口（按需）**：需要侧边栏快捷跳转时，在
+   `docs-src/.vitepress/config.mts` 的 `/api/` sidebar 中加
+   `{ text: "<分类名>", link: "/api/#<锚点>" }`，锚点为分类名小写、空格转连字符
+   （如 "Aliyun OSS" → `#aliyun-oss`）
+5. **构建验证**：`npm run docs:build` 后检查 `docs-src/api/index.md`，确认函数
+   出现在预期的 `### <分类>` 分组下、未落入 Other
+6. **部署与缓存**：`npm run docs:deploy` 为 force-push gh-pages；GitHub Pages
+   重建约需 1 分钟，线上看不到新内容时先硬刷新（Ctrl+F5）再排查构建链路
+
 ## 交付格式
 
 - 先给风险摘要，再给修改点，再给测试结果
