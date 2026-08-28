@@ -24,6 +24,7 @@ const config = {
     "Debug",
     "Module",
     "Network",
+    "Git",
   ],
   includeVersion: true,
   cleanOutputDir: true,

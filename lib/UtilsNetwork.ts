@@ -30,6 +30,7 @@ function compareIpv4Addresses(left: string, right: string): number {
  * Loopback addresses containing `127.0.0.1` are excluded. Returned addresses are
  * sorted by their numeric IPv4 value in ascending order.
  *
+ * @category Network
  * @returns Sorted local IPv4 network addresses.
  *
  * @example

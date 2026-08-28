@@ -48,6 +48,7 @@ export default defineConfig({
                 { text: "SSH", link: "/api/#ssh" },
                 { text: "Aliyun OSS", link: "/api/#aliyun-oss" },
                 { text: "Qiniu OSS", link: "/api/#qiniu-oss" },
+                { text: "Git", link: "/api/#git" },
                 { text: "All API Members", link: "/api/#other" },
               ],
             },

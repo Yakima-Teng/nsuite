@@ -40,6 +40,7 @@ export interface RefreshGitIndexResult {
  * differences exist; that exit code is intentionally ignored because the
  * subsequent `git status --short` reports the details.
  *
+ * @category Git
  * @param options - Options for the refresh operation.
  * @param options.cwd - Working directory in which to run the git commands. Defaults to `process.cwd()`.
  * @returns An object describing whether real differences remain and the raw short status output.
