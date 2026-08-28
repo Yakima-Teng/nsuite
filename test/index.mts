@@ -5,6 +5,7 @@ import "#test/UtilsQiniuOSS";
 import "#test/UtilsString";
 import "#test/UtilsType";
 import "#test/UtilsFile";
+import "#test/UtilsGit";
 import "#test/UtilsModule";
 import "#test/UtilsNetwork";
 import "#test/PackageEntrypoints";

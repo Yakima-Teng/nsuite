@@ -74,6 +74,11 @@ For English and Chinese guides, plus the English API reference, visit
 - `getReadableFileSize` — Converts file size in bytes to a human-readable string.
 - `writeFileSafely` — Writes content to a file, creating parent directories if needed.
 
+## Git
+
+- `refreshGitIndex` — Refreshes the Git index stat cache and reports the
+  remaining real changes.
+
 ## SSH
 
 - `getSSHClient` — Creates a new SSH client instance.

@@ -1,6 +1,7 @@
 export * from "./UtilsCaptcha.js";
 export * from "./UtilsEnv.js";
 export * from "./UtilsFile.js";
+export * from "./UtilsGit.js";
 export * from "./UtilsLog.js";
 export * from "./UtilsPath.js";
 export * from "./UtilsPromise.js";
