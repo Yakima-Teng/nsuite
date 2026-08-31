@@ -122,6 +122,13 @@ For English and Chinese guides, plus the English API reference, visit
 
 - `isMainModule` — Checks if the current module is the Node.js entry point.
 
+## Network
+
+- `getNetworkAddresses` — Returns the local IPv4 addresses that Vite classifies
+  as network addresses.
+- `isLanAddress` — Checks whether a hostname or IP address is a local-area
+  network address.
+
 ## Qiniu OSS
 
 - `getConfigFromQiniuOSS` — Creates a Qiniu configuration object.

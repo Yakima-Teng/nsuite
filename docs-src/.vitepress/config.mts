@@ -49,6 +49,7 @@ export default defineConfig({
                 { text: "Aliyun OSS", link: "/api/#aliyun-oss" },
                 { text: "Qiniu OSS", link: "/api/#qiniu-oss" },
                 { text: "Git", link: "/api/#git" },
+                { text: "Network", link: "/api/#network" },
                 { text: "All API Members", link: "/api/#other" },
               ],
             },
