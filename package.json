@@ -63,7 +63,7 @@
     "lint:markdown": "markdownlint-cli2",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "typecheck:watch": "tsc -p tsconfig.json --noEmit --watch",
-    "test": "npm run build && node test/index.mts",
+    "test": "npm run build && cross-env NSUITE_QINIU_LIVE_TEST=1 node test/index.mts",
     "build:cjs": "esbuild ./dist/esm/index.js --bundle --platform=node --format=cjs --target=node18 --packages=external --outfile=./dist/cjs/index.cjs",
     "build": "npx rimraf dist && npx tsc -p tsconfig.build.json && npm run build:cjs",
     "lintAndBuild": "npm run lint && npm run build",

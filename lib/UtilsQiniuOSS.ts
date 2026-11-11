@@ -2,6 +2,9 @@
  * 七牛云接口文档：https://developer.qiniu.com/kodo/1289/nodejs#rs-delete
  */
 import path from "path";
+import { AsyncLocalStorage } from "node:async_hooks";
+import { createHash } from "node:crypto";
+import { stat, rm, open, readFile } from "node:fs/promises";
 import { glob } from "glob";
 import qiniu from "qiniu";
 import { logError } from "./UtilsLog.js";
@@ -65,6 +68,25 @@ export interface ParamsQiniuOSSUploadLocalFile {
   baseUrl: string;
   bucket: string;
   putPolicyOptions?: QiniuPutPolicyOptions;
+  /** auto uses multipart v2 for files >= multipartThreshold (default 20 MiB). */
+  uploadMode?: "auto" | "form" | "resume";
+  /** File size in bytes at which auto mode selects multipart v2; default 20 MiB. */
+  multipartThreshold?: number;
+  /** Bytes, from 1 MiB through 1 GiB; default 4 MiB. */
+  partSize?: number;
+  /** Only this explicitly supplied directory receives SDK resume records. */
+  resumeRecordDir?: string;
+  /** Whole-file attempts, 1–10 (default 3), in addition to finite SDK endpoint retries. */
+  maxAttempts?: number;
+  /** Per-request connect and response wait limits, milliseconds; not a total deadline. */
+  connectTimeout?: number;
+  /** Per-request response wait in ms; falls back to QINIU_HTTP_CLIENT_TIMEOUT. */
+  requestTimeout?: number;
+  /** Reports multipart byte progress and a final completion event. */
+  onProgress?: (progress: {
+    uploadedBytes: number;
+    totalBytes: number;
+  }) => void;
 }
 
 export interface ReturnQiniuOSSUploadLocalFile {
@@ -461,8 +483,275 @@ export async function deleteRemotePathListFromQiniuOSS(
   };
 }
 
+// Each async upload carries its own connection and response wait limits.
+const timeouts = new AsyncLocalStorage<[number, number]>();
+// Public SDK middleware scopes timeouts to this upload without changing other callers.
+qiniu.rpc.qnHttpClient.middlewares.push({
+  send(request, next) {
+    const timeout = timeouts.getStore();
+    if (timeout) request.urllibOptions.timeout = timeout;
+    return next(request);
+  },
+});
+
+/** Validates numeric upload limits before any network request is sent. */
+function integer(
+  value: number,
+  name: string,
+  min: number,
+  max = Number.MAX_SAFE_INTEGER,
+) {
+  if (!Number.isSafeInteger(value) || value < min || value > max) {
+    throw new RangeError(`Invalid ${name}`);
+  }
+  return value;
+}
+
+/** Resolves upload defaults and validates caller-supplied limits. */
+function uploadSettings(payload: ParamsQiniuOSSUploadLocalFile) {
+  const mode = payload.uploadMode ?? "auto";
+  if (!["auto", "form", "resume"].includes(mode))
+    throw new TypeError("Invalid uploadMode");
+  const threshold = integer(
+    payload.multipartThreshold ?? 20 * 1024 ** 2,
+    "multipartThreshold",
+    1,
+  );
+  const partSize = integer(
+    payload.partSize ?? 4 * 1024 ** 2,
+    "partSize",
+    1024 ** 2,
+    1024 ** 3,
+  );
+  const attempts = integer(payload.maxAttempts ?? 3, "maxAttempts", 1, 10);
+  const wait = integer(
+    payload.requestTimeout ??
+      Number(process.env.QINIU_HTTP_CLIENT_TIMEOUT || 120000),
+    "requestTimeout",
+    1,
+  );
+  const connect = integer(payload.connectTimeout ?? 10000, "connectTimeout", 1);
+  return {
+    mode,
+    threshold,
+    partSize,
+    attempts,
+    timeout: [connect, wait] as [number, number],
+  };
+}
+
+/** Extracts diagnostic fields without logging credentials or request payloads. */
+function diagnostic(error: unknown) {
+  const e = error as {
+    code?: string;
+    statusCode?: number;
+    reqId?: string;
+    resp?: { statusCode?: number; headers?: Record<string, unknown> };
+  };
+  return {
+    code: e?.code,
+    statusCode: e?.statusCode ?? e?.resp?.statusCode,
+    reqId: e?.reqId ?? e?.resp?.headers?.["x-reqid"],
+  };
+}
+
+/** Limits wrapper retries to transient network and service failures. */
+function retryable(error: unknown) {
+  const { code, statusCode } = diagnostic(error);
+  return (
+    statusCode === 429 ||
+    [500, 502, 503, 504, 599].includes(statusCode ?? 0) ||
+    [
+      "ECONNRESET",
+      "ETIMEDOUT",
+      "EAI_AGAIN",
+      "ECONNREFUSED",
+      "EPIPE",
+      "RequestTimeoutError",
+      "ResponseTimeoutError",
+    ].includes(code ?? "")
+  );
+}
+
+/** Retries a whole-file upload with bounded exponential backoff. */
+async function retryUpload<T>(
+  upload: () => Promise<T>,
+  attempts: number,
+): Promise<T> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await upload();
+    } catch (error) {
+      if (attempt >= attempts || !retryable(error)) throw error;
+      await new Promise((resolve) =>
+        setTimeout(resolve, 250 * 2 ** (attempt - 1)),
+      );
+    }
+  }
+}
+
+/** Creates an optional SDK recorder and exclusively locks its record. */
+async function resumeContext(
+  payload: ParamsQiniuOSSUploadLocalFile,
+  identity: string,
+) {
+  // Persistence is opt-in so the library never chooses a caller-owned directory.
+  if (!payload.resumeRecordDir)
+    return { recorder: undefined, key: undefined, release: async () => {} };
+  const recorder = await qiniu.resume_up.createResumeRecorder(
+    payload.resumeRecordDir,
+  );
+  const key = createHash("sha256").update(identity).digest("hex");
+  const lockPath = path.resolve(payload.resumeRecordDir, `${key}.lock`);
+  // Exclusive lock prevents concurrent processes from overwriting the same SDK record.
+  const lock = await acquireLock(lockPath);
+  return {
+    recorder,
+    key,
+    release: async () => {
+      await lock.close();
+      await rm(lockPath, { force: true });
+    },
+  };
+}
+
+/** Acquires a record lock, reclaiming it only when its owner no longer exists. */
+async function acquireLock(lockPath: string) {
+  try {
+    const lock = await open(lockPath, "wx");
+    await lock.writeFile(String(process.pid));
+    return lock;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+    const pid = Number(await readFile(lockPath, "utf8"));
+    if (!Number.isSafeInteger(pid) || pid <= 0) throw error;
+    // Signal zero probes liveness without terminating the process.
+    try {
+      process.kill(pid, 0);
+    } catch (probe) {
+      if ((probe as NodeJS.ErrnoException).code !== "ESRCH") throw error;
+      // Only a confirmed missing process allows a fresh exclusive-lock attempt.
+      await rm(lockPath);
+      return acquireLock(lockPath);
+    }
+    throw Object.assign(new Error("Upload resume record is already in use"), {
+      code: "EBUSY",
+    });
+  }
+}
+
+/** Separates resume records when the target, file metadata, or part size changes. */
+function fileIdentity(
+  payload: ParamsQiniuOSSUploadLocalFile,
+  file: { size: number; mtimeMs: number },
+  partSize: number,
+) {
+  return JSON.stringify([
+    payload.bucket,
+    payload.key,
+    path.resolve(payload.localPath),
+    file.size,
+    file.mtimeMs,
+    partSize,
+  ]);
+}
+
+/** Internal upload implementation; uses only public SDK APIs. */
+async function uploadQiniuFile(
+  payload: ParamsQiniuOSSUploadLocalFile,
+  token: string,
+) {
+  const settings = uploadSettings(payload);
+  const file = await stat(payload.localPath);
+  if (!file.isFile()) throw new TypeError("localPath must be a regular file");
+  const resume =
+    settings.mode === "resume" ||
+    (settings.mode === "auto" && file.size >= settings.threshold);
+  const context = resume
+    ? await resumeContext(
+        payload,
+        fileIdentity(payload, file, settings.partSize),
+      )
+    : undefined;
+  try {
+    const upload = createUpload(
+      payload,
+      token,
+      resume,
+      settings.partSize,
+      context,
+    );
+    const result = await timeouts.run(settings.timeout, () =>
+      retryUpload(upload, settings.attempts),
+    );
+    payload.onProgress?.({ uploadedBytes: file.size, totalBytes: file.size });
+    // Failed uploads keep their SDK record for the next invocation.
+    if (context?.key)
+      await rm(path.resolve(payload.resumeRecordDir!, context.key), {
+        force: true,
+      });
+    return result;
+  } catch (cause) {
+    throw Object.assign(
+      new Error(
+        `Failed to upload ${payload.localPath} to ${payload.bucket}:${payload.key}`,
+      ),
+      { cause },
+      diagnostic(cause),
+    );
+  } finally {
+    await context?.release();
+  }
+}
+
+/** Reuses one multipart context across attempts and validates the stored object key. */
+function createUpload(
+  payload: ParamsQiniuOSSUploadLocalFile,
+  token: string,
+  resume: boolean,
+  partSize: number,
+  context?: Awaited<ReturnType<typeof resumeContext>>,
+) {
+  // SDK-owned part scheduling and record expiry remain shared across retries.
+  const extra = qiniu.resume_up.PutExtra.create();
+  extra.partSize = partSize;
+  extra.resumeRecorder = context?.recorder;
+  extra.resumeKey = context?.key;
+  extra.progressCallback = (uploadedBytes, totalBytes) =>
+    payload.onProgress?.({ uploadedBytes, totalBytes });
+  return async () => {
+    const result = resume
+      ? await new qiniu.resume_up.ResumeUploader(payload.config).putFileV2(
+          token,
+          payload.key,
+          payload.localPath,
+          extra,
+        )
+      : await new qiniu.form_up.FormUploader(payload.config).putFile(
+          token,
+          payload.key,
+          payload.localPath,
+          new qiniu.form_up.PutExtra(),
+        );
+    if (result.resp.statusCode !== 200 || result.data?.key !== payload.key) {
+      throw Object.assign(new Error("Unexpected Qiniu upload response"), {
+        statusCode: result.resp.statusCode,
+        code: result.data?.error_code,
+        reqId: result.resp.headers["x-reqid"],
+        cause: result.data,
+      });
+    }
+    return result;
+  };
+}
+
 /**
  * Uploads one local file to Qiniu OSS.
+ * @remarks Defaults to multipart v2 at 20 MiB with 4 MiB parts. Only an explicit
+ * resumeRecordDir enables persistent records. maxAttempts bounds whole-file
+ * attempts in addition to finite SDK endpoint retries. QINIU_HTTP_CLIENT_TIMEOUT
+ * supplies the response wait in milliseconds (default 120000); connectTimeout
+ * defaults to 10000. These are per-request limits, not a total upload deadline.
  *
  * @category Qiniu OSS
  * @param payload - The upload credentials, local file, object key, and bucket.
@@ -471,10 +760,7 @@ export async function deleteRemotePathListFromQiniuOSS(
 export async function uploadLocalFileToQiniuOSS(
   payload: ParamsQiniuOSSUploadLocalFile,
 ): Promise<ReturnQiniuOSSUploadLocalFile> {
-  const { config, mac, localPath, key, bucket, putPolicyOptions, baseUrl } =
-    payload;
-  const formUploader = new qiniu.form_up.FormUploader(config);
-  const putExtra = new qiniu.form_up.PutExtra();
+  const { mac, key, bucket, putPolicyOptions, baseUrl } = payload;
 
   const options: QiniuPutPolicyOptions = {
     // 指定了key，就可以支持覆盖上传
@@ -488,27 +774,9 @@ export async function uploadLocalFileToQiniuOSS(
   const putPolicy = new qiniu.rs.PutPolicy(options);
   const uploadToken = putPolicy.uploadToken(mac);
 
-  try {
-    // 文件上传
-    const res = await formUploader.putFile(
-      uploadToken,
-      key,
-      localPath,
-      putExtra,
-    );
-    if (!res.data || !res.data.key) {
-      logError("Failed uploadLocalFileToQiniuOSS", res);
-      throw new Error(`Failed to upload ${localPath} to ${bucket}:${key}`);
-    }
-    const returnData = res.data as ReturnQiniuOSSUploadLocalFile;
-    return {
-      ...returnData,
-      url: `${baseUrl}/${returnData.key}`,
-    };
-  } catch (err) {
-    logError(`Failed uploadLocalFileToQiniuOSS: ${getError(err).message}`);
-    throw new Error(`Failed to upload ${localPath} to ${bucket}:${key}`);
-  }
+  const res = await uploadQiniuFile(payload, uploadToken);
+  const returnData = res.data as ReturnQiniuOSSUploadLocalFile;
+  return { ...returnData, url: `${baseUrl}/${returnData.key}` };
 }
 
 /**
