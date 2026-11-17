@@ -4,6 +4,7 @@
 import path from "path";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { createHash } from "node:crypto";
+import { createReadStream } from "node:fs";
 import { stat, rm, open, readFile } from "node:fs/promises";
 import { glob } from "glob";
 import qiniu from "qiniu";
@@ -87,6 +88,10 @@ export interface ParamsQiniuOSSUploadLocalFile {
     uploadedBytes: number;
     totalBytes: number;
   }) => void;
+  /** Skips the upload when the remote object has the same size and MD5; default false. */
+  skipSameFile?: boolean;
+  /** Manager reused for the remote comparison; created from config and mac when omitted. */
+  bucketManager?: QiniuBucketManager;
 }
 
 export interface ReturnQiniuOSSUploadLocalFile {
@@ -96,6 +101,8 @@ export interface ReturnQiniuOSSUploadLocalFile {
   bucket: string;
   name: string;
   url: string;
+  /** True when the remote object matched by size and MD5 and no upload happened. */
+  skipped: boolean;
 }
 
 export interface QiniuOSSLocalPathAndKey {
@@ -129,10 +136,13 @@ export interface ParamsQiniuOSSUploadDir {
   uploadCallback?: FuncQiniuOSSUploadFileCallback;
   maxTryTimes?: number;
   maxConcurrency?: number;
+  /** Skips files whose remote object has the same size and MD5; default false. */
+  skipSameFile?: boolean;
 }
 
 export interface ReturnQiniuOSSUploadDir {
   uploadedList: ReturnQiniuOSSUploadLocalFile[];
+  skippedList: ReturnQiniuOSSUploadLocalFile[];
   refreshedUrlList: string[];
   allPaths: QiniuOSSLocalPathAndKey[];
 }
@@ -555,6 +565,40 @@ function diagnostic(error: unknown) {
   };
 }
 
+/** Remote object fields used by the size and MD5 comparison. */
+type RemoteQiniuObject = { fsize?: number; md5?: string; hash?: string };
+
+/** Streams the local file once and returns its lowercase MD5 digest. */
+async function getLocalFileMd5(localPath: string): Promise<string> {
+  const hash = createHash("md5");
+  for await (const chunk of createReadStream(localPath)) hash.update(chunk);
+  return hash.digest("hex");
+}
+
+/** Returns the remote object when size and MD5 match; null means it must be uploaded. */
+async function findSameRemoteFile(
+  payload: ParamsQiniuOSSUploadLocalFile,
+): Promise<RemoteQiniuObject | null> {
+  const file = await stat(payload.localPath);
+  const bucketManager =
+    payload.bucketManager ??
+    getBucketManagerFromQiniuOSS({ config: payload.config, mac: payload.mac });
+  let remote: RemoteQiniuObject;
+  try {
+    remote = (await bucketManager.stat(payload.bucket, payload.key)).data;
+  } catch (error) {
+    // 612 means the remote object is absent; other errors never block the upload.
+    if (diagnostic(error).statusCode !== 612) {
+      logError("Failed to stat remote file before upload", payload.key, error);
+    }
+    return null;
+  }
+  // Objects uploaded in parts have no md5, so the conservative path re-uploads them.
+  if (remote.fsize !== file.size || !remote.md5) return null;
+  const md5 = await getLocalFileMd5(payload.localPath);
+  return remote.md5.toLowerCase() === md5 ? remote : null;
+}
+
 /** Limits wrapper retries to transient network and service failures. */
 function retryable(error: unknown) {
   const { code, statusCode } = diagnostic(error);
@@ -752,6 +796,9 @@ function createUpload(
  * attempts in addition to finite SDK endpoint retries. QINIU_HTTP_CLIENT_TIMEOUT
  * supplies the response wait in milliseconds (default 120000); connectTimeout
  * defaults to 10000. These are per-request limits, not a total upload deadline.
+ * skipSameFile compares the remote size and MD5 before uploading; objects
+ * uploaded in parts expose no md5 and are therefore uploaded again. Skipped
+ * uploads do not call onProgress.
  *
  * @category Qiniu OSS
  * @param payload - The upload credentials, local file, object key, and bucket.
@@ -761,6 +808,19 @@ export async function uploadLocalFileToQiniuOSS(
   payload: ParamsQiniuOSSUploadLocalFile,
 ): Promise<ReturnQiniuOSSUploadLocalFile> {
   const { mac, key, bucket, putPolicyOptions, baseUrl } = payload;
+
+  const same = payload.skipSameFile ? await findSameRemoteFile(payload) : null;
+  if (same) {
+    return {
+      key,
+      etag: same.hash ?? "",
+      fileSize: same.fsize ?? 0,
+      bucket,
+      name: path.basename(key),
+      url: `${baseUrl}/${key}`,
+      skipped: true,
+    };
+  }
 
   const options: QiniuPutPolicyOptions = {
     // 指定了key，就可以支持覆盖上传
@@ -776,7 +836,7 @@ export async function uploadLocalFileToQiniuOSS(
 
   const res = await uploadQiniuFile(payload, uploadToken);
   const returnData = res.data as ReturnQiniuOSSUploadLocalFile;
-  return { ...returnData, url: `${baseUrl}/${returnData.key}` };
+  return { ...returnData, url: `${baseUrl}/${returnData.key}`, skipped: false };
 }
 
 /**
@@ -793,9 +853,11 @@ const normalizePath = (filePath: string): string => {
  *
  * @category Qiniu OSS
  * @remarks Set `dryRun` to inspect the resolved local and remote paths without
- * uploading files.
+ * uploading files. Set `skipSameFile` to compare each remote size and MD5 and
+ * report unchanged files in `skippedList` instead of uploading them; only
+ * uploaded files are refreshed.
  * @param payload - The upload settings, source directory, and optional callbacks.
- * @returns Uploaded objects, refreshed URLs, and every resolved path.
+ * @returns Uploaded objects, skipped objects, refreshed URLs, and every resolved path.
  */
 export async function uploadDirToQiniuOSS(
   payload: ParamsQiniuOSSUploadDir,
@@ -815,6 +877,7 @@ export async function uploadDirToQiniuOSS(
     uploadCallback,
     maxTryTimes = 3,
     maxConcurrency = 500,
+    skipSameFile = false,
   } = payload;
   const globPath = recursive
     ? path.resolve(localPath, "**/*")
@@ -844,9 +907,16 @@ export async function uploadDirToQiniuOSS(
     return {
       allPaths,
       uploadedList: [],
+      skippedList: [],
       refreshedUrlList: [],
     };
   }
+
+  // 目录上传复用同一个 bucket manager，用于上传前比对与 CDN 刷新
+  const bucketManager =
+    skipSameFile || refresh
+      ? getBucketManagerFromQiniuOSS({ config, mac })
+      : undefined;
 
   // 未避免并发数量过大，这里限制并发数量
   const groups = [];
@@ -855,6 +925,7 @@ export async function uploadDirToQiniuOSS(
     groups.push(allPaths.slice(i, i + maxGroupSize));
   }
   const uploadedList: ReturnQiniuOSSUploadLocalFile[] = [];
+  const skippedList: ReturnQiniuOSSUploadLocalFile[] = [];
   const totalCount = allPaths.length;
   let curIdx = 0;
   for (const group of groups) {
@@ -875,6 +946,8 @@ export async function uploadDirToQiniuOSS(
                   baseUrl,
                   bucket,
                   putPolicyOptions,
+                  skipSameFile,
+                  bucketManager,
                 });
                 tempErr = null;
                 if (typeof uploadCallback === "function") {
@@ -909,16 +982,15 @@ export async function uploadDirToQiniuOSS(
         return funcPromise();
       }),
     );
-    const successList = list.filter((item) => item !== undefined);
-    uploadedList.push(...successList);
+    for (const item of list) {
+      if (!item) continue;
+      if (item.skipped) skippedList.push(item);
+      else uploadedList.push(item);
+    }
   }
 
   let refreshedUrlList: string[] = [];
-  if (refresh) {
-    const bucketManager = getBucketManagerFromQiniuOSS({
-      config,
-      mac,
-    });
+  if (refresh && bucketManager) {
     const downloadUrlList = uploadedList.map((item) => {
       return getPublicDownloadUrlFromQiniuOSS({
         bucketManager,
@@ -934,6 +1006,7 @@ export async function uploadDirToQiniuOSS(
   return {
     allPaths,
     uploadedList,
+    skippedList,
     refreshedUrlList,
   };
 }

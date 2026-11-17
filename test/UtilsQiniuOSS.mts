@@ -1,4 +1,5 @@
 import qiniu from "qiniu";
+import { createHash } from "node:crypto";
 import { mkdtemp, writeFile, rm, readdir, truncate } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename } from "node:path";
@@ -381,6 +382,144 @@ test("offline upload modes, retry, records and diagnostics", async (t) => {
       resumeRecordDir: joinPath(dir, "records"),
     });
     assert.notEqual(lastKey, firstKey);
+  } finally {
+    t.mock.restoreAll();
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test("skipSameFile compares remote size and md5 before uploading", async (t) => {
+  const dir = await mkdtemp(joinPath(tmpdir(), "nsuite-skip-"));
+  const file = joinPath(dir, "file.txt");
+  await writeFile(file, "fixture");
+  const md5 = createHash("md5").update("fixture").digest("hex");
+  let uploads = 0;
+  let remote: unknown = { fsize: 7, md5, hash: "remote-hash" };
+  const response = {
+    data: {
+      key: "file.txt",
+      etag: "uploaded-hash",
+      fileSize: 7,
+      bucket: "offline",
+      name: "file.txt",
+    },
+    resp: { statusCode: 200, headers: {} },
+  };
+  t.mock.method(qiniu.form_up.FormUploader.prototype, "putFile", async () => {
+    uploads++;
+    return response;
+  });
+  const stat = t.mock.method(
+    qiniu.rs.BucketManager.prototype,
+    "stat",
+    async () => {
+      if (remote instanceof Error) throw remote;
+      return { data: remote };
+    },
+  );
+  // The 403 case logs a warning; keep the test output clean.
+  t.mock.method(console, "error", () => {});
+  const payload = {
+    config,
+    mac,
+    bucket: "offline",
+    key: "file.txt",
+    localPath: file,
+    baseUrl: "https://example.invalid",
+    skipSameFile: true,
+  };
+  try {
+    const skipped = await uploadLocalFileToQiniuOSS(payload);
+    assert.equal(skipped.skipped, true);
+    assert.equal(skipped.etag, "remote-hash");
+    assert.equal(skipped.fileSize, 7);
+    assert.equal(skipped.name, "file.txt");
+    assert.equal(skipped.url, "https://example.invalid/file.txt");
+    assert.equal(uploads, 0);
+
+    remote = { fsize: 8, md5, hash: "remote-hash" };
+    assert.equal((await uploadLocalFileToQiniuOSS(payload)).skipped, false);
+    assert.equal(uploads, 1);
+
+    // Multipart objects expose no md5, so they are uploaded again.
+    remote = { fsize: 7, hash: "remote-hash" };
+    assert.equal((await uploadLocalFileToQiniuOSS(payload)).skipped, false);
+    assert.equal(uploads, 2);
+
+    remote = Object.assign(new Error("no such file"), { statusCode: 612 });
+    assert.equal((await uploadLocalFileToQiniuOSS(payload)).skipped, false);
+    assert.equal(uploads, 3);
+
+    remote = Object.assign(new Error("forbidden"), { statusCode: 403 });
+    assert.equal((await uploadLocalFileToQiniuOSS(payload)).skipped, false);
+    assert.equal(uploads, 4);
+
+    const checks = stat.mock.calls.length;
+    const result = await uploadLocalFileToQiniuOSS({
+      ...payload,
+      skipSameFile: false,
+    });
+    assert.equal(result.skipped, false);
+    assert.equal(uploads, 5);
+    assert.equal(stat.mock.calls.length, checks);
+  } finally {
+    t.mock.restoreAll();
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test("uploadDirToQiniuOSS reports skipped files separately", async (t) => {
+  const dir = await mkdtemp(joinPath(tmpdir(), "nsuite-skip-dir-"));
+  await writeFile(joinPath(dir, "same.txt"), "same");
+  await writeFile(joinPath(dir, "changed.txt"), "new");
+  const md5 = createHash("md5").update("same").digest("hex");
+  let uploads = 0;
+  t.mock.method(
+    qiniu.form_up.FormUploader.prototype,
+    "putFile",
+    async (_token: string, key: string) => {
+      uploads++;
+      return {
+        data: {
+          key,
+          etag: "uploaded-hash",
+          fileSize: 3,
+          bucket: "offline",
+          name: basename(key),
+        },
+        resp: { statusCode: 200, headers: {} },
+      };
+    },
+  );
+  t.mock.method(
+    qiniu.rs.BucketManager.prototype,
+    "stat",
+    async (_bucket: string, key: string) => ({
+      data: key.endsWith("same.txt")
+        ? { fsize: 4, md5, hash: "remote-same" }
+        : { fsize: 999, md5, hash: "remote-changed" },
+    }),
+  );
+  try {
+    const result = await uploadDirToQiniuOSS({
+      config,
+      mac,
+      bucket: "offline",
+      baseUrl: "https://example.invalid",
+      keyPrefix: "skip",
+      localPath: dir,
+      skipSameFile: true,
+      maxConcurrency: 2,
+    });
+    assert.equal(result.allPaths.length, 2);
+    assert.equal(result.skippedList.length, 1);
+    assert.equal(result.skippedList[0].key, "skip/same.txt");
+    assert.equal(result.skippedList[0].skipped, true);
+    assert.equal(result.uploadedList.length, 1);
+    assert.equal(result.uploadedList[0].key, "skip/changed.txt");
+    assert.equal(result.uploadedList[0].skipped, false);
+    assert.equal(result.refreshedUrlList.length, 0);
+    assert.equal(uploads, 1);
   } finally {
     t.mock.restoreAll();
     await rm(dir, { recursive: true, force: true });
